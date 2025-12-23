@@ -1,5 +1,5 @@
 // Nom du cache
-const CACHE_NAME = 'sira-coraniques-v1';
+const CACHE_NAME = 'sira-coraniques-v2';
 
 // Fichiers de base à mettre en cache
 const ASSETS_TO_CACHE = [
@@ -65,3 +65,4 @@ self.addEventListener('fetch', event => {
     })
   );
 });
+
