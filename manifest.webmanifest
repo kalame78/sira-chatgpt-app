@@ -1,0 +1,23 @@
+{
+  "name": "SIRA CORANIQUE",
+  "short_name": "SIRA",
+  "description": "Un parcours immersif de Sira coranique pour les jeunes, avec profils, épisodes, Hassanates et accès direct au Coran.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0e17",
+  "theme_color": "#0a0e17",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
