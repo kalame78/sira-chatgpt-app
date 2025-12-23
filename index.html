@@ -72,6 +72,40 @@
         /* ========== TON LIEN OCH ========== */
         const OCH_URL = "https://ihaveadeen.onlinecoursehost.com/courses/KQJcx3Zru1y5GE3K5ZSh/3/lessons/1";
 
+        /* ========== DÉFINITION DES PROGRAMMES POUR LA FICHE ==========
+           Chaque entrée représente ce qui s'affichera dans la fiche "programme"
+           quand on clique sur le HERO, une saison, un épisode, etc.
+        */
+        const PROGRAMS = {
+            hero: {
+                id: 'hero',
+                title: "Programme SIRA CORANIQUE",
+                subtitle: "Un voyage immersif à la rencontre de la Sira",
+                tag: "Parcours complet",
+                image: "https://i.postimg.cc/25Jybx2z/1764964492743.png",
+                description: "Entre dans un univers où chaque épisode relie ton cœur à la vie du Prophète ﷺ. Vidéos, défis, quiz, réflexion personnelle : tout est conçu pour que tu vives la Sira, pas juste que tu l'écoutes.",
+                details: "Public : 11–17 ans • Accès sécurisé via ton espace Deenvertissement • Accompagnement par ton enseignant."
+            },
+            saison1: {
+                id: 'saison1',
+                title: "Saison 1 — La Mecque : Les débuts de la Révélation",
+                subtitle: "Avant Médine, il y a eu l’épreuve, la patience et la lumière à La Mecque.",
+                tag: "Saison 1",
+                image: "https://i.postimg.cc/7hb7rc2p/pexels-ahmed-aqtai-1804912-3332857.jpg",
+                description: "Retrouve les premiers instants de la Révélation, les difficultés des premiers compagnons, la pression de Quraysh et la force intérieure du Prophète ﷺ. Un parcours pour comprendre que la foi grandit souvent dans les moments difficiles.",
+                details: "Épisodes guidés + quiz + défis pratiques à vivre dans ta vie quotidienne."
+            },
+            saison2: {
+                id: 'saison2',
+                title: "Saison 2 — Médine : Construire une communauté",
+                subtitle: "De l’exil à la fraternité, de la peur à la stabilité.",
+                tag: "Saison 2",
+                image: "https://i.postimg.cc/4xBFp9bB/pexels-shymar-salas-12263070.jpg",
+                description: "Découvre comment le Prophète ﷺ a construit une communauté soudée, juste et lumière pour le monde. Pactes, liens fraternels, mosquée, éducation : une saison pour comprendre comment l’islam transforme une société.",
+                details: "Idéal pour réfléchir à ta place dans ta famille, ton groupe, ta communauté."
+            }
+        };
+
         const THEMES = [
             { name: 'blue', color: '#3b82f6', shadow: 'rgba(59,130,246,0.6)' },
             { name: 'green', color: '#10b981', shadow: 'rgba(16,185,129,0.6)' },
@@ -84,7 +118,8 @@
             screen: 'GATE',
             profiles: [],
             currentProfile: null,
-            modal: null,
+            modal: null,          // 'CREATE_PROFILE' | 'PROGRAM_CARD' | 'OCH'
+            program: null,        // données de la fiche programme sélectionnée
             isMuted: false,
         };
 
@@ -141,6 +176,7 @@
             state.currentProfile = null;
             state.screen = 'GATE';
             state.modal = null;
+            state.program = null;
             render();
         }
 
@@ -151,6 +187,22 @@
 
         function closeModal() {
             state.modal = null;
+            state.program = null;
+            render();
+        }
+
+        // 👉 Nouvelle fonction : ouvrir une FICHE PROGRAMME dynamique
+        function openProgramCard(key) {
+            const program = PROGRAMS[key];
+            if (!program) return;
+            state.program = program;
+            state.modal = 'PROGRAM_CARD';
+            render();
+        }
+
+        // 👉 Quand on est dans la fiche programme et qu'on clique "Accéder aux cours"
+        function openOchFromProgram() {
+            state.modal = 'OCH';
             render();
         }
 
@@ -199,7 +251,7 @@
             <div class="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
                 <div class="bg-gray-900 p-8 rounded-xl text-center w-full max-w-md border border-gray-800">
                     <h3 class="text-2xl mb-6 font-bold text-white">Nouveau Profil</h3>
-                    <input id="new-profile-name" type="text" placeholder="Ton Prénom" 
+                    <input id="new-profile-name" type="text" placeholder="Ton prénom" 
                         class="w-full bg-gray-800 text-white p-4 rounded mb-6 border border-gray-700 focus:border-sira-gold outline-none">
                     <div class="flex gap-4">
                         <button onclick="closeModal()" class="flex-1 py-3 text-gray-300">Annuler</button>
@@ -211,10 +263,12 @@
 
         function renderApp() {
             return `
-            <div class="min-h-screen pb-20">
+            <div class="min-h-screen pb-24">
                 ${renderNavbar()}
                 ${renderHero()}
-                ${state.modal==='OCH'?renderOchModal():''}
+                ${renderSeasonsRail()}
+                ${state.modal==='PROGRAM_CARD' ? renderProgramCardModal() : ''}
+                ${state.modal==='OCH' ? renderOchModal() : ''}
             </div>`;
         }
 
@@ -238,22 +292,138 @@
         function renderHero() {
             const name = state.currentProfile?state.currentProfile.name:'';
             return `
-            <div class="min-h-[60vh] flex flex-col justify-end pb-16 pt-20 relative">
+            <div class="min-h-[60vh] flex flex-col justify-end pb-16 pt-24 relative">
                 <div class="absolute inset-0 bg-cover bg-center opacity-60" 
                     style="background-image: linear-gradient(to top, #0a0e17 5%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.2) 80%), url('https://i.postimg.cc/25Jybx2z/1764964492743.png');">
                 </div>
-                <div class="relative z-10 px-6 text-center">
-                    <h1 class="text-4xl font-black text-white mb-3">Bienvenue ${name}</h1>
-                    <button onclick="openModal('OCH')" class="bg-sira-gold text-black px-6 py-3 rounded-full font-bold shadow">Accéder aux cours</button>
+                <div class="relative z-10 px-6">
+                    <p class="text-sm text-sira-gold mb-1">Bienvenue ${name}</p>
+                    <h1 class="text-3xl font-black text-white mb-2">Un parcours SIRA pensé pour toi</h1>
+                    <p class="text-sm text-gray-200 max-w-md mb-6">
+                        Découvre la vie du Prophète ﷺ comme une série : épisodes, saisons, défis, réflexions… tout en restant fidèle au Coran et à la Sunna.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <button
+                            onclick="openProgramCard('hero')"
+                            class="bg-sira-gold text-black px-6 py-3 rounded-full font-bold shadow">
+                            Voir la fiche du programme
+                        </button>
+                        <button
+                            onclick="document.getElementById('sira-seasons')?.scrollIntoView({behavior:'smooth'})"
+                            class="bg-white/10 text-white px-5 py-3 rounded-full text-sm border border-white/20">
+                            Parcourir les saisons
+                        </button>
+                    </div>
                 </div>
             </div>`;
         }
 
+        // Un rail simple avec deux saisons cliquables
+        function renderSeasonsRail() {
+            return `
+            <section id="sira-seasons" class="px-6 pt-4">
+                <h2 class="text-xl font-bold mb-3">Saisons SIRA</h2>
+                <p class="text-xs text-gray-400 mb-4">Clique sur une saison pour voir la fiche détaillée avant d’entrer dans les cours.</p>
+                <div class="flex gap-4 overflow-x-auto pb-3 hide-scrollbar">
+                    <!-- Saison 1 -->
+                    <div
+                        class="min-w-[230px] bg-white/5 rounded-2xl overflow-hidden cursor-pointer hover:bg-white/10 transition"
+                        onclick="openProgramCard('saison1')">
+                        <div class="h-32 bg-cover bg-center"
+                             style="background-image:url('https://i.postimg.cc/7hb7rc2p/pexels-ahmed-aqtai-1804912-3332857.jpg');">
+                        </div>
+                        <div class="p-3">
+                            <p class="text-[10px] uppercase tracking-wide text-sira-gold font-semibold mb-1">Saison 1</p>
+                            <h3 class="text-sm font-bold">La Mecque – Les débuts de la Révélation</h3>
+                            <p class="text-[11px] text-gray-300 mt-1">
+                                La foi au milieu de la pression, des moqueries et des premières persécutions.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Saison 2 -->
+                    <div
+                        class="min-w-[230px] bg-white/5 rounded-2xl overflow-hidden cursor-pointer hover:bg-white/10 transition"
+                        onclick="openProgramCard('saison2')">
+                        <div class="h-32 bg-cover bg-center"
+                             style="background-image:url('https://i.postimg.cc/4xBFp9bB/pexels-shymar-salas-12263070.jpg');">
+                        </div>
+                        <div class="p-3">
+                            <p class="text-[10px] uppercase tracking-wide text-sira-gold font-semibold mb-1">Saison 2</p>
+                            <h3 class="text-sm font-bold">Médine – Construire une communauté</h3>
+                            <p class="text-[11px] text-gray-300 mt-1">
+                                Fraternité, justice, solidarité : comment la Sira construit une société lumière.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>`;
+        }
+
+        // 👉 Nouvelle modale FICHE PROGRAMME
+        function renderProgramCardModal() {
+            const p = state.program;
+            if (!p) return '';
+
+            const bg = p.image || 'https://i.postimg.cc/25Jybx2z/1764964492743.png';
+
+            return `
+            <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 animate-fade-in">
+                <div class="bg-sira-dark border border-gray-800 rounded-2xl w-full max-w-lg overflow-hidden animate-slide-up">
+                    <!-- Image -->
+                    <div class="h-40 bg-cover bg-center" style="background-image:url('${bg}');">
+                        <div class="w-full h-full bg-gradient-to-t from-black/70 via-black/10 to-transparent flex items-start justify-between px-4 py-3">
+                            <span class="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-full bg-black/40 text-sira-gold font-semibold uppercase tracking-wide">
+                                <i data-lucide="sparkles" class="w-3 h-3"></i>
+                                ${p.tag || 'Programme'}
+                            </span>
+                            <button onclick="closeModal()" class="p-1 rounded-full bg-black/50 hover:bg-black/70">
+                                <i data-lucide="x" class="w-4 h-4 text-gray-200"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Contenu -->
+                    <div class="p-5 space-y-3">
+                        <div>
+                            <h2 class="text-lg font-bold mb-1">${p.title}</h2>
+                            ${p.subtitle ? `<p class="text-xs text-gray-300">${p.subtitle}</p>` : ''}
+                        </div>
+                        <p class="text-sm text-gray-200 leading-relaxed">
+                            ${p.description}
+                        </p>
+                        ${p.details ? `<p class="text-[11px] text-gray-400">${p.details}</p>` : ''}
+
+                        <div class="flex flex-wrap gap-3 pt-3">
+                            <button
+                                onclick="openOchFromProgram()"
+                                class="flex-1 bg-sira-gold text-black font-semibold py-2.5 rounded-full text-sm shadow">
+                                Accéder aux cours
+                            </button>
+                            <button
+                                onclick="closeModal()"
+                                class="px-4 py-2 text-xs text-gray-300 border border-gray-700 rounded-full">
+                                Fermer
+                            </button>
+                        </div>
+
+                        <p class="text-[10px] text-gray-500 pt-1">
+                            L’accès se fait via ton espace sécurisé OCH (OnlineCourseHost). Tes identifiants restent confidentiels.
+                        </p>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        // Modale OCH inchangée, mais désormais appelée depuis la fiche programme
         function renderOchModal() {
             return `
             <div class="fixed inset-0 z-50 flex flex-col bg-black/90 animate-fade-in">
                 <div class="flex items-center justify-between px-4 py-3 bg-sira-dark border-b border-gray-800">
-                    <h2 class="text-sm font-bold text-white">Cours en ligne (OCH)</h2>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="tv-minimal" class="w-4 h-4 text-sira-gold"></i>
+                        <h2 class="text-sm font-bold text-white">Espace de cours — Deenvertissement / OCH</h2>
+                    </div>
                     <button onclick="closeModal()" class="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
                         <i data-lucide="x" class="w-5 h-5 text-gray-300"></i>
                     </button>
