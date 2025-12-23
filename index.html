@@ -13,10 +13,13 @@
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
 
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
@@ -34,54 +37,31 @@
     </script>
 
     <style>
-        body { background-color: #0a0e17; color: white; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
+        body {
+            background-color: #0a0e17;
+            color: white;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Animations */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .animate-fade-in { animation: fadeIn 0.3s ease-out; }
         .animate-slide-up { animation: slideUp 0.4s ease-out; }
 
-        /* Variables dynamiques pour les thèmes */
-        :root {
-            --user-color: #3b82f6;
-            --user-shadow: rgba(59, 130, 246, 0.5);
-        }
+        :root { --user-color: #3b82f6; --user-shadow: rgba(59,130,246,0.5); }
 
         .theme-border { border-color: var(--user-color); }
         .theme-text { color: var(--user-color); }
         .theme-bg { background-color: var(--user-color); }
-        .theme-border-hover:hover { border-color: var(--user-color); }
-
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 20px var(--user-shadow);
-            z-index: 10;
-            border-color: var(--user-color);
-        }
-
-        /* Select personnalisé pour le Coran */
-        select.quran-select {
-            background-color: transparent;
-            color: white;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            appearance: none;
-            -webkit-appearance: none;
-            font-weight: 600;
-        }
-        select.quran-select option {
-            background-color: #0a0e17;
-            color: white;
-        }
     </style>
 </head>
 <body>
 
+    <!-- Audio de fond (optionnel) -->
     <audio id="bg-audio" loop>
         <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_07647d6928.mp3?filename=desert-wind-19366.mp3" type="audio/mpeg">
     </audio>
@@ -89,90 +69,39 @@
     <div id="app"></div>
 
     <script>
-        // --- DONNÉES ---
+        /* ========== TON LIEN OCH ========== */
+        const OCH_URL = "https://ihaveadeen.onlinecoursehost.com/courses/KQJcx3Zru1y5GE3K5ZSh/3/lessons/1";
+
         const THEMES = [
-            { name: 'blue', color: '#3b82f6', shadow: 'rgba(59, 130, 246, 0.6)' },
-            { name: 'green', color: '#10b981', shadow: 'rgba(16, 185, 129, 0.6)' },
-            { name: 'pink', color: '#ec4899', shadow: 'rgba(236, 72, 153, 0.6)' },
-            { name: 'orange', color: '#f97316', shadow: 'rgba(249, 115, 22, 0.6)' },
-            { name: 'purple', color: '#a855f7', shadow: 'rgba(168, 85, 247, 0.6)' },
+            { name: 'blue', color: '#3b82f6', shadow: 'rgba(59,130,246,0.6)' },
+            { name: 'green', color: '#10b981', shadow: 'rgba(16,185,129,0.6)' },
+            { name: 'pink', color: '#ec4899', shadow: 'rgba(236,72,153,0.6)' },
+            { name: 'orange', color: '#f97316', shadow: 'rgba(249,115,22,0.6)' },
+            { name: 'purple', color: '#a855f7', shadow: 'rgba(168,85,247,0.6)' },
         ];
 
-        // Liste complète des 114 Sourates
-        const SURAHS = [
-            {id:1,name:"Al-Fatiha",verses:7},{id:2,name:"Al-Baqara",verses:286},{id:3,name:"Ali 'Imran",verses:200},{id:4,name:"An-Nisa",verses:176},{id:5,name:"Al-Ma'idah",verses:120},
-            {id:6,name:"Al-An'am",verses:165},{id:7,name:"Al-A'raf",verses:206},{id:8,name:"Al-Anfal",verses:75},{id:9,name:"At-Tawbah",verses:129},{id:10,name:"Yunus",verses:109},
-            {id:11,name:"Hud",verses:123},{id:12,name:"Yusuf",verses:111},{id:13,name:"Ar-Ra'd",verses:43},{id:14,name:"Ibrahim",verses:52},{id:15,name:"Al-Hijr",verses:99},
-            {id:16,name:"An-Nahl",verses:128},{id:17,name:"Al-Isra",verses:111},{id:18,name:"Al-Kahf",verses:110},{id:19,name:"Maryam",verses:98},{id:20,name:"Ta-Ha",verses:135},
-            {id:21,name:"Al-Anbiya",verses:112},{id:22,name:"Al-Hajj",verses:78},{id:23,name:"Al-Mu'minun",verses:118},{id:24,name:"An-Nur",verses:64},{id:25,name:"Al-Furqan",verses:77},
-            {id:26,name:"Ash-Shu'ara",verses:227},{id:27,name:"An-Naml",verses:93},{id:28,name:"Al-Qasas",verses:88},{id:29,name:"Al-Ankabut",verses:69},{id:30,name:"Ar-Rum",verses:60},
-            {id:31,name:"Luqman",verses:34},{id:32,name:"As-Sajdah",verses:30},{id:33,name:"Al-Ahzab",verses:73},{id:34,name:"Saba",verses:54},{id:35,name:"Fatir",verses:45},
-            {id:36,name:"Ya-Sin",verses:83},{id:37,name:"As-Saffat",verses:182},{id:38,name:"Sad",verses:88},{id:39,name:"Az-Zumar",verses:75},{id:40,name:"Ghafir",verses:85},
-            {id:41,name:"Fussilat",verses:54},{id:42,name:"Ash-Shura",verses:53},{id:43,name:"Az-Zukhruf",verses:89},{id:44,name:"Ad-Dukhan",verses:59},{id:45,name:"Al-Jathiyah",verses:37},
-            {id:46,name:"Al-Ahqaf",verses:35},{id:47,name:"Muhammad",verses:38},{id:48,name:"Al-Fath",verses:29},{id:49,name:"Al-Hujurat",verses:18},{id:50,name:"Qaf",verses:45},
-            {id:51,name:"Ad-Dhariyat",verses:60},{id:52,name:"At-Tur",verses:49},{id:53,name:"An-Najm",verses:62},{id:54,name:"Al-Qamar",verses:55},{id:55,name:"Ar-Rahman",verses:78},
-            {id:56,name:"Al-Waqi'ah",verses:96},{id:57,name:"Al-Hadid",verses:29},{id:58,name:"Al-Mujadila",verses:22},{id:59,name:"Al-Hashr",verses:24},{id:60,name:"Al-Mumtahanah",verses:13},
-            {id:61,name:"As-Saff",verses:14},{id:62,name:"Al-Jumu'ah",verses:11},{id:63,name:"Al-Munafiqun",verses:11},{id:64,name:"At-Taghabun",verses:18},{id:65,name:"At-Talaq",verses:12},
-            {id:66,name:"At-Tahrim",verses:12},{id:67,name:"Al-Mulk",verses:30},{id:68,name:"Al-Qalam",verses:52},{id:69,name:"Al-Haqqah",verses:52},{id:70,name:"Al-Ma'arij",verses:44},
-            {id:71,name:"Nuh",verses:28},{id:72,name:"Al-Jinn",verses:28},{id:73,name:"Al-Muzzammil",verses:20},{id:74,name:"Al-Muddaththir",verses:56},{id:75,name:"Al-Qiyamah",verses:40},
-            {id:76,name:"Al-Insan",verses:31},{id:77,name:"Al-Mursalat",verses:50},{id:78,name:"An-Naba",verses:40},{id:79,name:"An-Nazi'at",verses:46},{id:80,name:"Abasa",verses:42},
-            {id:81,name:"At-Takwir",verses:29},{id:82,name:"Al-Infitar",verses:19},{id:83,name:"Al-Mutaffifin",verses:36},{id:84,name:"Al-Inshiqaq",verses:25},{id:85,name:"Al-Buruj",verses:22},
-            {id:86,name:"At-Tariq",verses:17},{id:87,name:"Al-A'la",verses:19},{id:88,name:"Al-Ghashiyah",verses:26},{id:89,name:"Al-Fajr",verses:30},{id:90,name:"Al-Balad",verses:20},
-            {id:91,name:"Ash-Shams",verses:15},{id:92,name:"Al-Layl",verses:21},{id:93,name:"Ad-Duhaa",verses:11},{id:94,name:"Ash-Sharh",verses:8},{id:95,name:"At-Tin",verses:8},
-            {id:96,name:"Al-'Alaq",verses:19},{id:97,name:"Al-Qadr",verses:5},{id:98,name:"Al-Bayyinah",verses:8},{id:99,name:"Az-Zalzalah",verses:8},{id:100,name:"Al-Adiyat",verses:11},
-            {id:101,name:"Al-Qari'ah",verses:11},{id:102,name:"At-Takathur",verses:8},{id:103,name:"Al-Asr",verses:3},{id:104,name:"Al-Humazah",verses:9},{id:105,name:"Al-Fil",verses:5},
-            {id:106,name:"Quraysh",verses:4},{id:107,name:"Al-Ma'un",verses:7},{id:108,name:"Al-Kawthar",verses:3},{id:109,name:"Al-Kafirun",verses:6},{id:110,name:"An-Nasr",verses:3},
-            {id:111,name:"Al-Masad",verses:5},{id:112,name:"Al-Ikhlas",verses:4},{id:113,name:"Al-Falaq",verses:5},{id:114,name:"An-Nas",verses:6}
-        ];
-
-        const SEASONS = [
-            { id: 1, title: 'SAISON 1', subtitle: "L'AUBE", img: 'https://i.postimg.cc/XYSTJBwx/1764965704152.png', locked: false, position: 'object-top' },
-            { id: 2, title: 'SAISON 2', subtitle: "L'EXIL", img: 'https://i.postimg.cc/5yn9qqbz/1764967048662.png', locked: false, position: 'object-center' },
-            { id: 3, title: 'SAISON 3', subtitle: "LE TRIOMPHE", img: 'https://i.postimg.cc/44SpgzzX/1764968413487.png', locked: false, position: 'object-center' }
-        ];
-
-        const EPISODES = [
-            { id: 1, title: "Le programme de l'année", time: "24 min", img: "https://picsum.photos/600/400?random=1", locked: false, desc: "Introduction au programme et contexte historique." },
-            { id: 2, title: "BYZANTINS VS SASSANIDES", time: "22 min", img: "https://picsum.photos/600/400?random=2", locked: true, desc: "Le choc des empires avant l'Islam." },
-            { id: 3, title: "Les bédouins et les sédentaires", time: "26 min", img: "https://picsum.photos/600/400?random=3", locked: false, desc: "Clan, tribus & familles : La structure sociale de l'Arabie." },
-            { id: 4, title: "Mon nom, ma oumma", time: "23 min", img: "https://picsum.photos/600/400?random=4", locked: true, desc: "L'importance de l'appartenance." },
-            { id: 5, title: "L'Appel Public", time: "25 min", img: "https://picsum.photos/600/400?random=5", locked: true, desc: "Le début de la prédication ouverte." },
-        ];
-
-        // --- GESTION DE L'ÉTAT (STATE) ---
         let state = {
-            screen: 'GATE', // GATE, APP
+            screen: 'GATE',
             profiles: [],
             currentProfile: null,
             modal: null,
-            selectedEpisode: null,
-            activeGameUrl: null,
             isMuted: false,
-            quranNav: { surah: 1, ayah: 1 }
         };
 
-        // --- INITIALISATION ---
         function init() {
-            const savedProfiles = localStorage.getItem('sira_profiles');
-            if (savedProfiles) {
-                state.profiles = JSON.parse(savedProfiles);
-            }
+            const saved = localStorage.getItem('sira_profiles');
+            if (saved) state.profiles = JSON.parse(saved);
 
-            // Initialisation Audio
             const audio = document.getElementById('bg-audio');
             if(audio) audio.volume = 0.3;
 
             render();
-
-            // Écouteur de scroll
             window.addEventListener('scroll', handleScroll);
         }
 
-        // --- LOGIQUE ---
         function handleScroll() {
             const navbar = document.getElementById('navbar');
             if (!navbar) return;
-
             if (window.scrollY > 20) {
                 navbar.classList.add('bg-sira-dark/95', 'backdrop-blur-md', 'shadow-lg');
                 navbar.classList.remove('bg-gradient-to-b', 'from-black/80', 'to-transparent');
@@ -185,49 +114,26 @@
         function toggleSound() {
             const audio = document.getElementById('bg-audio');
             state.isMuted = !state.isMuted;
-
-            if (state.isMuted) {
-                audio.pause();
-            } else {
-                audio.play().catch(e => console.log("Clic requis pour l'audio"));
-            }
+            if (state.isMuted) audio.pause();
+            else audio.play().catch(()=>{});
             render();
         }
 
         function createProfile(name) {
-            if(!name) return alert("Veuillez entrer un nom");
-            const theme = THEMES[Math.floor(Math.random() * THEMES.length)];
-            const newProfile = {
-                id: Date.now(),
-                name: name,
-                theme: theme,
-                score: 0,
-                seen: []
-            };
+            if (!name) return alert("Entrez un prénom");
+            const theme = THEMES[Math.floor(Math.random()*THEMES.length)];
+            const newProfile = { id: Date.now(), name, theme, score: 0 };
             state.profiles.push(newProfile);
-            saveProfiles();
+            localStorage.setItem('sira_profiles', JSON.stringify(state.profiles));
             login(newProfile.id);
         }
 
-        function login(profileId) {
-            state.currentProfile = state.profiles.find(p => p.id === profileId);
+        function login(id) {
+            state.currentProfile = state.profiles.find(p => p.id === id);
             state.screen = 'APP';
-            state.modal = null;
-            state.isMuted = false;
-
-            const theme = state.currentProfile.theme;
-            document.documentElement.style.setProperty('--user-color', theme.color);
-            document.documentElement.style.setProperty('--user-shadow', theme.shadow);
-
-            const audio = document.getElementById('bg-audio');
-            const playPromise = audio.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log("Autoplay bloqué par le navigateur");
-                    state.isMuted = true;
-                });
-            }
-
+            const t = state.currentProfile.theme;
+            document.documentElement.style.setProperty('--user-color', t.color);
+            document.documentElement.style.setProperty('--user-shadow', t.shadow);
             render();
         }
 
@@ -238,144 +144,33 @@
             render();
         }
 
-        function saveProfiles() {
-            localStorage.setItem('sira_profiles', JSON.stringify(state.profiles));
-        }
-
-        function openModal(type, data = null) {
+        function openModal(type) {
             state.modal = type;
-            if (data && type === 'EPISODE') state.selectedEpisode = EPISODES.find(e => e.id === data);
-
             render();
-
-            if (type === 'QURAN') {
-                // Petit délai pour laisser le DOM se construire avant de remplir le select
-                setTimeout(populateQuranSearch, 50);
-            }
         }
 
         function closeModal() {
             state.modal = null;
-            state.selectedEpisode = null;
-            state.activeGameUrl = null;
             render();
         }
-
-        // --- LOGIQUE CORAN ---
-        function populateQuranSearch() {
-            const surahSelect = document.getElementById('quran-surah');
-            if(!surahSelect) return;
-
-            surahSelect.innerHTML = SURAHS.map(s =>
-                `<option value="${s.id}" ${s.id === state.quranNav.surah ? 'selected' : ''}>${s.id}. ${s.name}</option>`
-            ).join('');
-
-            updateVerses();
-        }
-
-        function updateVerses() {
-            const surahSelect = document.getElementById('quran-surah');
-            const ayahSelect = document.getElementById('quran-ayah');
-            const surahId = parseInt(surahSelect.value);
-            const surahData = SURAHS.find(s => s.id === surahId);
-
-            state.quranNav.surah = surahId;
-
-            if (surahData && ayahSelect) {
-                let options = '';
-                for (let i = 1; i <= surahData.verses; i++) {
-                    options += `<option value="${i}" ${i === 1 ? 'selected' : ''}>${i}</option>`;
-                }
-                ayahSelect.innerHTML = options;
-                state.quranNav.ayah = 1;
-            }
-        }
-
-        function updateSelectedAyah() {
-            const ayahSelect = document.getElementById('quran-ayah');
-            state.quranNav.ayah = parseInt(ayahSelect.value);
-        }
-
-        function goToQuranLocation() {
-            const iframe = document.getElementById('quran-iframe');
-            if (iframe) {
-                // Utilisation de quran.com en mode embed
-                iframe.src = `https://quran.com/${state.quranNav.surah}/${state.quranNav.ayah}?translations=31`;
-            }
-        }
-
-        // --- LOGIQUE JEUX ---
-        function launchGame(episodeId) {
-            // Simulation d'un fichier de jeu via Data URI pour éviter les 404
-            const userColor = state.currentProfile ? state.currentProfile.theme.color : '#ffd700';
-
-            const demoGameContent = `
-                data:text/html;charset=utf-8,
-                <html>
-                <head>
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <style>
-                        body{background:#111;color:white;font-family:sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;padding:20px;text-align:center;}
-                        button{padding:15px 30px;background:${encodeURIComponent(userColor)};border:none;border-radius:10px;font-size:18px;font-weight:bold;cursor:pointer;margin-top:20px;box-shadow:0 0 15px ${encodeURIComponent(userColor)}80;}
-                        h1{font-size:24px;margin-bottom:10px;}
-                    </style>
-                </head>
-                <body>
-                    <h1>QUIZ: ÉPISODE ${episodeId}</h1>
-                    <p>Répondez correctement pour gagner des Hassanates.</p>
-                    <div style="margin: 30px 0; font-size: 40px;">🎮</div>
-                    <button onclick="alert('Bravo ! Tu as gagné 10 Hassanates !');">JOUER MAINTENANT</button>
-                </body>
-                </html>
-            `;
-
-            state.activeGameUrl = demoGameContent;
-            openModal('GAME_PLAYER');
-        }
-
-        function addHassanates(amount) {
-            if(state.currentProfile) {
-                state.currentProfile.score += amount;
-                saveProfiles();
-                const scoreDisplay = document.querySelector('#nav-score');
-                if(scoreDisplay) scoreDisplay.innerText = state.currentProfile.score;
-            }
-        }
-
-        function toggleSeen(episodeId) {
-            if (!state.currentProfile) return;
-            const idx = state.currentProfile.seen.indexOf(episodeId);
-            if (idx === -1) {
-                state.currentProfile.seen.push(episodeId);
-                addHassanates(10);
-            } else {
-                state.currentProfile.seen.splice(idx, 1);
-                saveProfiles();
-            }
-            render();
-        }
-
-        // --- AFFICHAGE (RENDERING) ---
 
         function render() {
             const app = document.getElementById('app');
 
-            if (state.screen === 'GATE') {
-                app.innerHTML = renderGate();
-            } else {
-                app.innerHTML = renderApp();
-            }
+            app.innerHTML = (state.screen === 'GATE') ? renderGate() : renderApp();
 
-            // Générer les icônes Lucide
-            lucide.createIcons();
+            if (window.lucide && typeof lucide.createIcons === 'function') {
+                lucide.createIcons();
+            }
 
             if(state.screen === 'APP') handleScroll();
         }
 
         function renderGate() {
-            let profilesHtml = state.profiles.map(p => `
+            let profs = state.profiles.map(p => `
                 <div onclick="login(${p.id})" class="flex flex-col items-center gap-3 cursor-pointer group">
-                    <div class="w-24 h-24 rounded-md flex items-center justify-center text-3xl font-bold text-white transition-transform transform group-hover:scale-110 border-2 border-transparent hover:border-[${p.theme.color}]" style="background-color: ${p.theme.color}; box-shadow: 0 0 20px ${p.theme.shadow};">
+                    <div class="w-24 h-24 rounded-md flex items-center justify-center text-3xl font-bold text-white border-2 group-hover:border-white transition" 
+                        style="background-color:${p.theme.color};box-shadow:0 0 20px ${p.theme.shadow};">
                         ${p.name.charAt(0)}
                     </div>
                     <span class="text-gray-400 group-hover:text-white">${p.name}</span>
@@ -383,369 +178,103 @@
             `).join('');
 
             return `
-                <div class="min-h-screen flex flex-col items-center justify-center bg-sira-dark text-center p-4">
-                    <h1 class="text-4xl md:text-5xl font-black text-sira-gold mb-12 tracking-widest drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]">SIRA CORANIQUE</h1>
-                    
-                    <h2 class="text-2xl text-white mb-8">Qui veut apprendre ?</h2>
-                    
-                    <div class="flex flex-wrap justify-center gap-8 mb-12">
-                        ${profilesHtml}
-                        <div onclick="openModal('CREATE_PROFILE')" class="flex flex-col items-center gap-3 cursor-pointer group">
-                            <div class="w-24 h-24 rounded-full border-2 border-gray-600 flex items-center justify-center text-gray-500 group-hover:border-white group-hover:text-white transition-all hover:bg-gray-800">
-                                <i data-lucide="plus" class="w-10 h-10"></i>
-                            </div>
-                            <span class="text-gray-500 group-hover:text-white">Ajouter</span>
+            <div class="min-h-screen flex flex-col items-center justify-center text-center px-4">
+                <h1 class="text-4xl font-black text-sira-gold mb-10">SIRA CORANIQUE</h1>
+                <h2 class="text-xl mb-6 text-gray-200">Qui veut apprendre ?</h2>
+                <div class="flex flex-wrap justify-center gap-8 mb-12">
+                    ${profs}
+                    <div onclick="openModal('CREATE_PROFILE')" class="flex flex-col items-center gap-3 cursor-pointer group">
+                        <div class="w-24 h-24 rounded-full border-2 border-gray-600 flex items-center justify-center text-gray-500 group-hover:border-white group-hover:text-white transition">
+                            <i data-lucide="plus" class="w-10 h-10"></i>
                         </div>
+                        <span class="text-gray-500 group-hover:text-white">Ajouter</span>
                     </div>
-
-                    ${state.modal === 'CREATE_PROFILE' ? renderCreateProfileModal() : ''}
                 </div>
-            `;
+                ${state.modal==='CREATE_PROFILE'?renderCreateProfileModal():''}
+            </div>`;
         }
 
         function renderCreateProfileModal() {
             return `
-                <div class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4">
-                    <div class="bg-gray-900 p-8 rounded-xl w-full max-w-md border border-gray-700 text-center animate-slide-up">
-                        <h3 class="text-2xl font-bold text-white mb-6">Nouveau Profil</h3>
-                        <input id="new-profile-name" type="text" placeholder="Ton Prénom" class="w-full bg-gray-800 text-white p-4 rounded-lg mb-6 text-center text-xl border border-gray-700 focus:border-sira-gold outline-none">
-                        <div class="flex gap-4">
-                            <button onclick="closeModal()" class="flex-1 py-3 text-gray-400 hover:text-white">Annuler</button>
-                            <button onclick="createProfile(document.getElementById('new-profile-name').value)" class="flex-1 bg-sira-gold text-black font-bold py-3 rounded-lg hover:bg-yellow-400">Créer</button>
-                        </div>
+            <div class="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+                <div class="bg-gray-900 p-8 rounded-xl text-center w-full max-w-md border border-gray-800">
+                    <h3 class="text-2xl mb-6 font-bold text-white">Nouveau Profil</h3>
+                    <input id="new-profile-name" type="text" placeholder="Ton Prénom" 
+                        class="w-full bg-gray-800 text-white p-4 rounded mb-6 border border-gray-700 focus:border-sira-gold outline-none">
+                    <div class="flex gap-4">
+                        <button onclick="closeModal()" class="flex-1 py-3 text-gray-300">Annuler</button>
+                        <button onclick="createProfile(document.getElementById('new-profile-name').value)" class="flex-1 bg-sira-gold text-black font-bold py-3 rounded">Créer</button>
                     </div>
                 </div>
-            `;
+            </div>`;
         }
 
         function renderApp() {
             return `
-                <div class="min-h-screen pb-20">
-                    ${renderNavbar()}
-                    ${renderHero()}
-                    
-                    <div class="relative z-10 px-4 md:px-12 -mt-20 space-y-12">
-                        ${renderSeasons()}
-                        ${renderEpisodes()}
-                    </div>
-
-                    <footer class="mt-20 py-8 text-center text-gray-600 text-xs border-t border-gray-800">
-                        DeenVertissement. 2025. Tous droits réservés.
-                    </footer>
-
-                    ${state.modal === 'PASSPORT' ? renderPassportModal() : ''}
-                    ${state.modal === 'EPISODE' ? renderEpisodeModal() : ''}
-                    ${state.modal === 'QURAN' ? renderQuranModal() : ''}
-                    ${state.modal === 'GAME_PLAYER' ? renderGameModal() : ''}
-                </div>
-            `;
+            <div class="min-h-screen pb-20">
+                ${renderNavbar()}
+                ${renderHero()}
+                ${state.modal==='OCH'?renderOchModal():''}
+            </div>`;
         }
 
         function renderNavbar() {
+            const initial = state.currentProfile?state.currentProfile.name.charAt(0):'?';
             return `
-                <nav id="navbar" class="fixed top-0 w-full z-40 transition-all duration-300 bg-gradient-to-b from-black/80 to-transparent">
-                    <div class="px-4 md:px-12 py-4 flex items-center justify-between">
-                        <div class="flex items-center gap-4 md:gap-6">
-                            <h1 class="text-lg md:text-2xl font-black text-sira-gold tracking-widest drop-shadow-md cursor-pointer" onclick="window.scrollTo(0,0)">SIRA</h1>
-                            <button onclick="openModal('QURAN')" class="hidden md:flex items-center gap-2 text-sm font-semibold text-gray-300 hover:text-white border border-gray-600 px-3 py-1 rounded-full hover:border-white transition-all">
-                                📖 Le Coran
-                            </button>
-                        </div>
-
-                        <div class="flex items-center gap-3 md:gap-4">
-                            <button onclick="openModal('QURAN')" class="md:hidden text-2xl p-2">📖</button>
-
-                            <button onclick="toggleSound()" class="text-gray-300 hover:text-sira-gold transition-colors p-1">
-                                <i data-lucide="${state.isMuted ? 'volume-x' : 'volume-2'}" class="w-6 h-6"></i>
-                            </button>
-
-                            <button onclick="logout()" class="hidden md:flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-white uppercase tracking-wider">
-                                <i data-lucide="users" class="w-4 h-4"></i> Changer
-                            </button>
-
-                            <div onclick="openModal('PASSPORT')" class="flex items-center gap-2 md:gap-3 bg-gray-800/80 backdrop-blur pl-3 pr-1 py-1 rounded-full border theme-border cursor-pointer hover:bg-gray-700 transition-all">
-                                <div class="flex items-center gap-1">
-                                    <i data-lucide="star" class="w-3 h-3 text-sira-gold fill-sira-gold"></i>
-                                    <span id="nav-score" class="text-sira-gold font-bold text-sm">${state.currentProfile.score}</span>
-                                </div>
-                                <div class="w-8 h-8 rounded-full theme-bg flex items-center justify-center text-white font-bold text-sm shadow-lg">
-                                    ${state.currentProfile.name.charAt(0)}
-                                </div>
-                            </div>
-                        </div>
+            <nav id="navbar" class="fixed top-0 w-full bg-gradient-to-b from-black/80 to-transparent z-40 px-4 py-4 flex justify-between items-center">
+                <h1 class="text-xl font-black text-sira-gold">SIRA</h1>
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSound()" class="text-gray-400 hover:text-sira-gold">
+                        <i data-lucide="${state.isMuted?'volume-x':'volume-2'}" class="w-5 h-5"></i>
+                    </button>
+                    <div class="flex items-center gap-2 bg-gray-900/80 px-3 py-1 rounded-full border border-gray-700">  
+                        <div class="w-8 h-8 rounded-full theme-bg flex items-center justify-center text-white font-bold text-sm">${initial}</div>
+                        <button onclick="logout()" class="text-xs text-gray-400 hover:text-white">Changer</button>
                     </div>
-                </nav>
-            `;
+                </div>
+            </nav>`;
         }
 
         function renderHero() {
+            const name = state.currentProfile?state.currentProfile.name:'';
             return `
-                <div class="relative min-h-[50vh] md:min-h-[70vh] w-full flex flex-col justify-end pb-12 md:pb-24 overflow-hidden">
-                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-105" style="background-image: linear-gradient(to top, #0a0e17 10%, rgba(0,0,0,0.2) 80%), url('https://i.postimg.cc/25Jybx2z/1764964492743.png');"></div>
-                    
-                    <div class="relative z-10 px-4 md:px-12 w-full max-w-4xl mt-20 md:mt-0 pb-[60px] md:pb-0">
-                        <div class="flex items-center gap-2 mb-2 animate-fade-in">
-                            <span class="bg-sira-gold text-black text-[10px] font-bold px-2 py-0.5 rounded uppercase">Nouveau</span>
-                            <span class="text-gray-300 text-xs font-bold tracking-wide">Saison 1 Disponible</span>
-                        </div>
-                        <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mb-4 drop-shadow-lg animate-slide-up">
-                            La Naissance <br/> <span class="text-3xl md:text-5xl font-light opacity-90">D'une Légende</span>
-                        </h1>
-                        <p class="text-gray-300 text-sm md:text-lg mb-6 line-clamp-2 md:line-clamp-none max-w-xl drop-shadow-md">
-                            Découvrez l'Arabie pré-islamique et les événements extraordinaires qui ont préparé le monde à la venue du dernier Prophète.
-                        </p>
-                        
-                        <div class="flex gap-4">
-                            <button onclick="window.scrollTo({top: 800, behavior: 'smooth'})" class="bg-white text-black px-6 py-3 rounded font-bold flex items-center gap-2 hover:bg-gray-200 transition-all hover:scale-105">
-                                <i data-lucide="play" class="w-5 h-5 fill-black"></i> Reprendre
-                            </button>
-                            <button class="bg-gray-600/40 backdrop-blur-md text-white px-6 py-3 rounded font-bold flex items-center gap-2 hover:bg-gray-600/60 transition-all">
-                                <i data-lucide="info" class="w-5 h-5"></i> Infos
-                            </button>
-                        </div>
-                    </div>
+            <div class="min-h-[60vh] flex flex-col justify-end pb-16 pt-20 relative">
+                <div class="absolute inset-0 bg-cover bg-center opacity-60" 
+                    style="background-image: linear-gradient(to top, #0a0e17 5%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.2) 80%), url('https://i.postimg.cc/25Jybx2z/1764964492743.png');">
                 </div>
-            `;
+                <div class="relative z-10 px-6 text-center">
+                    <h1 class="text-4xl font-black text-white mb-3">Bienvenue ${name}</h1>
+                    <button onclick="openModal('OCH')" class="bg-sira-gold text-black px-6 py-3 rounded-full font-bold shadow">Accéder aux cours</button>
+                </div>
+            </div>`;
         }
 
-        function renderSeasons() {
+        function renderOchModal() {
             return `
-                <div class="mt-8 md:-mt-20">
-                    <h2 class="text-xl font-bold text-white mb-4 border-l-4 theme-border pl-3">Choisis ta Saison</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        ${SEASONS.map(s => `
-                            <div class="relative h-48 md:h-64 rounded-xl overflow-hidden group cursor-pointer border border-gray-800 theme-border-hover card-hover ${s.locked ? 'grayscale' : ''}">
-                                <img src="${s.img}" class="w-full h-full object-cover ${s.position} transition-transform duration-700 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-                                
-                                <div class="absolute bottom-4 left-4">
-                                    <h3 class="text-2xl font-black text-white italic leading-none drop-shadow-lg">${s.title}</h3>
-                                    <div class="inline-block px-3 py-1 rounded-md glass-badge mt-2">
-                                        <p class="text-white font-bold text-xs uppercase tracking-widest">${s.subtitle}</p>
-                                    </div>
-                                </div>
-                                
-                                ${s.locked ? `
-                                    <div class="absolute top-4 right-4 bg-black/50 p-2 rounded-full backdrop-blur-sm">
-                                        <i data-lucide="lock" class="w-5 h-5 text-gray-400"></i>
-                                    </div>
-                                ` : ''}
-                            </div>
-                        `).join('')}
-                    </div>
+            <div class="fixed inset-0 z-50 flex flex-col bg-black/90 animate-fade-in">
+                <div class="flex items-center justify-between px-4 py-3 bg-sira-dark border-b border-gray-800">
+                    <h2 class="text-sm font-bold text-white">Cours en ligne (OCH)</h2>
+                    <button onclick="closeModal()" class="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
+                        <i data-lucide="x" class="w-5 h-5 text-gray-300"></i>
+                    </button>
                 </div>
-            `;
+                <iframe src="${OCH_URL}" class="w-full h-full border-none"></iframe>
+            </div>`;
         }
 
-        function renderEpisodes() {
-            return `
-                <div>
-                    <h2 class="text-xl font-bold text-white mb-4">Épisodes</h2>
-                    <div class="flex overflow-x-auto gap-4 pb-8 hide-scrollbar md:grid md:grid-cols-4 md:overflow-visible">
-                        ${EPISODES.map((ep, idx) => `
-                            <div onclick="${ep.locked ? '' : `openModal('EPISODE', ${ep.id})`}" 
-                                class="flex-none w-72 md:w-auto relative group cursor-pointer rounded-lg overflow-hidden border border-transparent card-hover ${ep.locked ? 'opacity-60' : ''}">
-                                
-                                <div class="aspect-video bg-gray-800 relative overflow-hidden rounded-lg">
-                                    <img src="${ep.img}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                    
-                                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                        ${ep.locked ? 
-                                            '<i data-lucide="lock" class="w-8 h-8 text-gray-400"></i>' : 
-                                            '<div class="bg-white p-3 rounded-full shadow-lg"><i data-lucide="play" class="w-6 h-6 text-black fill-black ml-1"></i></div>'
-                                        }
-                                    </div>
-                                    
-                                    ${state.currentProfile.seen.includes(ep.id) ? `
-                                        <div class="absolute top-2 right-2 bg-green-500 text-black text-[10px] font-bold px-2 py-0.5 rounded shadow">VU</div>
-                                    ` : ''}
-                                </div>
-                                
-                                <div class="mt-3 px-1">
-                                    <div class="flex justify-between items-start">
-                                        <h4 class="font-bold text-gray-200 group-hover:text-white text-sm leading-tight">${idx + 1}. ${ep.title}</h4>
-                                        <span class="text-xs text-gray-500 font-medium">${ep.time}</span>
-                                    </div>
-                                    <p class="text-xs text-gray-500 mt-1 line-clamp-2">${ep.desc || (ep.locked ? 'Terminez l\'épisode précédent.' : 'Découvrez ce chapitre...')}</p>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        // --- RENDERING MODALES ---
-
-        function renderPassportModal() {
-            const p = state.currentProfile;
-            const progress = Math.round((p.seen.length / EPISODES.length) * 100);
-
-            return `
-                <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-fade-in">
-                    <div class="bg-sira-dark w-[90%] max-w-md m-auto rounded-2xl border border-gray-800 overflow-hidden shadow-2xl relative">
-                        <div class="flex justify-between items-center p-4 border-b border-gray-800 bg-black/40">
-                            <h3 class="text-white font-bold flex items-center gap-2">
-                                <i data-lucide="user" class="w-4 h-4 text-gray-400"></i> PASSEPORT
-                            </h3>
-                            <button onclick="closeModal()" class="p-1 hover:bg-gray-800 rounded-full"><i data-lucide="x" class="w-5 h-5 text-gray-400"></i></button>
-                        </div>
-
-                        <div class="p-8 flex flex-col items-center text-center relative">
-                            <div class="absolute top-0 left-0 w-full h-24 theme-bg opacity-20 blur-xl"></div>
-                            
-                            <div class="w-24 h-24 rounded-full theme-bg p-1 mb-4 relative z-10 shadow-lg">
-                                <div class="w-full h-full rounded-full bg-sira-dark flex items-center justify-center text-4xl font-bold theme-text border-4 border-black">
-                                    ${p.name.charAt(0)}
-                                </div>
-                            </div>
-
-                            <h3 class="text-gray-400 text-sm font-semibold uppercase tracking-widest mb-1">Explorateur</h3>
-                            <h1 class="text-3xl font-black text-white mb-2">${p.name}</h1>
-
-                            <div class="flex items-center gap-2 bg-sira-gold/10 px-4 py-1 rounded-full border border-sira-gold/30 mb-8">
-                                <i data-lucide="star" class="w-4 h-4 text-sira-gold fill-sira-gold"></i>
-                                <span class="text-sira-gold font-bold">${p.score} Hassanates</span>
-                            </div>
-
-                            <div class="w-full text-left mb-6">
-                                <div class="flex justify-between text-xs font-bold text-gray-400 mb-2">
-                                    <span>PROGRESSION</span>
-                                    <span>${progress}%</span>
-                                </div>
-                                <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
-                                    <div class="h-full theme-bg" style="width: ${progress}%"></div>
-                                </div>
-                            </div>
-                            
-                            <button onclick="logout()" class="mt-4 text-xs text-red-500 font-bold hover:text-red-400 border border-red-900/50 px-4 py-2 rounded">SE DÉCONNECTER</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderEpisodeModal() {
-            const ep = state.selectedEpisode;
-            if (!ep) return '';
-            
-            const isSeen = state.currentProfile.seen.includes(ep.id);
-
-            return `
-                <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-md animate-fade-in">
-                    <div class="bg-sira-dark w-full max-w-4xl h-[85vh] rounded-2xl border border-gray-800 overflow-hidden shadow-2xl flex flex-col">
-                        
-                        <div class="flex justify-between items-center p-6 border-b border-gray-800">
-                            <div>
-                                <h2 class="text-2xl font-bold text-white">${ep.title}</h2>
-                                <div class="flex gap-4 text-xs text-gray-400 mt-1">
-                                    <span class="text-sira-gold/80">${ep.desc || 'Sira Coranique'}</span>
-                                    <span>•</span>
-                                    <span>${ep.time}</span>
-                                </div>
-                            </div>
-                            <button onclick="closeModal()" class="p-2 hover:bg-gray-800 rounded-full"><i data-lucide="x" class="w-6 h-6 text-gray-400"></i></button>
-                        </div>
-
-                        <div class="flex-grow p-6 overflow-y-auto">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="grid grid-cols-2 gap-4 content-center order-2 md:order-1">
-                                    <button class="h-32 rounded-xl bg-gray-900 border border-gray-800 hover:border-red-600 hover:bg-red-900/10 transition-all flex flex-col items-center justify-center gap-2 group">
-                                        <i data-lucide="tv" class="w-8 h-8 text-red-600 group-hover:scale-110 transition-transform"></i>
-                                        <span class="font-bold text-gray-300 group-hover:text-white">Vidéo</span>
-                                    </button>
-                                    <button onclick="launchGame(${ep.id})" class="h-32 rounded-xl bg-gray-900 border border-gray-800 hover:border-purple-600 hover:bg-purple-900/10 transition-all flex flex-col items-center justify-center gap-2 group">
-                                        <i data-lucide="gamepad-2" class="w-8 h-8 text-purple-600 group-hover:scale-110 transition-transform"></i>
-                                        <span class="font-bold text-gray-300 group-hover:text-white">Jeu</span>
-                                    </button>
-                                    <button class="h-32 rounded-xl bg-gray-900 border border-gray-800 hover:border-green-600 hover:bg-green-900/10 transition-all flex flex-col items-center justify-center gap-2 group">
-                                        <i data-lucide="headphones" class="w-8 h-8 text-green-600 group-hover:scale-110 transition-transform"></i>
-                                        <span class="font-bold text-gray-300 group-hover:text-white">Audio</span>
-                                    </button>
-                                    <button class="h-32 rounded-xl bg-gray-900 border border-gray-800 hover:border-yellow-600 hover:bg-yellow-900/10 transition-all flex flex-col items-center justify-center gap-2 group">
-                                        <i data-lucide="book-open" class="w-8 h-8 text-yellow-600 group-hover:scale-110 transition-transform"></i>
-                                        <span class="font-bold text-gray-300 group-hover:text-white">Livre</span>
-                                    </button>
-                                </div>
-
-                                <div class="rounded-xl overflow-hidden relative h-64 md:h-auto order-1 md:order-2">
-                                    <img src="${ep.img}" class="w-full h-full object-cover opacity-60">
-                                    <div class="absolute inset-0 flex items-center justify-center">
-                                        <button onclick="toggleSeen(${ep.id})" class="px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all shadow-xl hover:scale-105 ${isSeen ? 'bg-green-600 text-white' : 'bg-white text-black'}">
-                                            <i data-lucide="${isSeen ? 'check-circle' : 'circle'}" class="w-5 h-5"></i>
-                                            ${isSeen ? 'ÉPISODE VU' : 'MARQUER VU'}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderQuranModal() {
-            return `
-                <div class="fixed inset-0 z-[60] bg-black flex flex-col animate-fade-in">
-                    <div class="flex items-center justify-between p-4 bg-sira-dark border-b border-gray-800">
-                        <h2 class="text-xl font-bold text-sira-gold flex items-center gap-2">📖 Le Saint Coran</h2>
-                        <button onclick="closeModal()" class="p-2 bg-gray-800 rounded-full hover:bg-gray-700 text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
-                    </div>
-
-                    <div class="bg-gray-900 p-3 border-b border-gray-800 flex flex-col md:flex-row items-center justify-center gap-3">
-                        <div class="flex items-center justify-center gap-2 bg-gray-800 rounded-full px-4 py-2 border border-gray-700 focus-within:border-sira-gold/50 transition-colors w-full md:w-auto">
-                            <span class="text-xs text-sira-gold font-bold uppercase tracking-wider hidden sm:inline">Sourate</span>
-                            <select id="quran-surah" onchange="updateVerses()" class="quran-select text-sm font-bold w-full md:w-48 text-center md:text-left">
-                                </select>
-                            <div class="h-4 w-px bg-gray-600 mx-2"></div>
-                            <span class="text-xs text-sira-gold font-bold uppercase tracking-wider hidden sm:inline">Verset</span>
-                            <select id="quran-ayah" onchange="updateSelectedAyah()" class="quran-select text-sm font-bold w-16 text-center">
-                                </select>
-                        </div>
-                        <button onclick="goToQuranLocation()" class="p-2 bg-sira-gold rounded-full text-black hover:bg-yellow-400 transition-colors shadow-lg w-full md:w-auto flex justify-center">
-                            <i data-lucide="search" class="w-5 h-5"></i>
-                        </button>
-                    </div>
-
-                    <div class="flex-grow w-full h-full bg-white relative">
-                         <div class="absolute inset-0 flex items-center justify-center text-black z-0">Chargement...</div>
-                        <iframe id="quran-iframe" src="https://quran.com/1?translations=31" class="w-full h-full border-none relative z-10"></iframe>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderGameModal() {
-            return `
-                <div class="fixed inset-0 z-[60] bg-black flex flex-col animate-fade-in">
-                    <div class="flex items-center justify-between p-4 bg-sira-dark border-b border-gray-800">
-                        <h2 class="text-xl font-bold text-purple-500 flex items-center gap-2">🎮 Espace Jeux</h2>
-                        <button onclick="closeModal()" class="p-2 bg-red-900/50 hover:bg-red-800 rounded-full text-white border border-red-800"><i data-lucide="x" class="w-6 h-6"></i></button>
-                    </div>
-                    <div class="flex-grow w-full h-full bg-black relative">
-                        <iframe src="${state.activeGameUrl}" class="w-full h-full border-none" allow="autoplay; fullscreen" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Démarrer l'application
         init();
     </script>
 
-    <!-- Enregistrement du Service Worker PWA -->
+    <!-- Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./service-worker.js')
-                    .then(reg => {
-                        console.log('Service Worker enregistré avec succès :', reg.scope);
-                    })
-                    .catch(err => {
-                        console.log('Erreur lors de l’enregistrement du Service Worker :', err);
-                    });
+                    .then(reg => console.log("SW installé :", reg.scope))
+                    .catch(err => console.log("Erreur SW :", err));
             });
         }
     </script>
+
 </body>
 </html>
