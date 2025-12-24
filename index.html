@@ -48,6 +48,60 @@
     </audio>
 
     <div id="app"></div>
+<!-- Modal OCH : accès aux cours -->
+<div
+  id="och-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70"
+>
+  <div
+    class="bg-slate-900 rounded-3xl shadow-2xl w-[95vw] max-w-5xl h-[80vh] relative flex flex-col overflow-hidden"
+  >
+    <!-- Header de la modal -->
+    <div
+      class="flex items-center justify-between px-6 py-4 border-b border-slate-700 bg-slate-900/80 backdrop-blur-sm"
+    >
+      <div>
+        <p class="text-[10px] uppercase tracking-[0.25em] text-amber-400">
+          Parcours sécurisé
+        </p>
+        <h2 class="text-lg font-semibold text-white">
+          Espace de cours Deenvertissement
+        </h2>
+        <p class="text-xs text-slate-400">
+          Cette fenêtre ouvre ton espace de cours hébergé sur OnlineCourseHost.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="js-och-close text-slate-400 hover:text-white text-2xl leading-none"
+        aria-label="Fermer la fenêtre"
+      >
+        ×
+      </button>
+    </div>
+
+    <!-- Corps : iframe OCH -->
+    <div class="flex-1 bg-slate-950">
+      <iframe
+        id="och-iframe"
+        class="w-full h-full border-0"
+        title="Espace de cours Deenvertissement"
+        loading="lazy"
+        referrerpolicy="no-referrer"
+        allow="clipboard-write; fullscreen"
+      ></iframe>
+    </div>
+
+    <!-- Bas de la modal -->
+    <div
+      class="px-6 py-3 text-[11px] text-slate-400 border-t border-slate-800 bg-slate-900/80"
+    >
+      L’accès aux cours se fait via ton espace sécurisé OCH. Si la page ne
+      charge pas, vérifie ta connexion internet.
+    </div>
+  </div>
+</div>
 
     <script src="app.js"></script>
        
@@ -66,6 +120,7 @@
 
 </body>
 </html>
+
 
 
 
