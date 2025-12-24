@@ -69,13 +69,10 @@
     <div id="app"></div>
 
     <script>
-        /* ========== TON LIEN OCH ========== */
+        /* ========= LIEN GLOBAL OCH (par défaut) ========= */
         const OCH_URL = "https://ihaveadeen.onlinecoursehost.com/courses/KQJcx3Zru1y5GE3K5ZSh/3/lessons/1";
 
-        /* ========== DÉFINITION DES PROGRAMMES POUR LA FICHE ==========
-           Chaque entrée représente ce qui s'affichera dans la fiche "programme"
-           quand on clique sur le HERO, une saison, un épisode, etc.
-        */
+        /* ========= PROGRAMMES (pour la fiche) ========= */
         const PROGRAMS = {
             hero: {
                 id: 'hero',
@@ -84,28 +81,34 @@
                 tag: "Parcours complet",
                 image: "https://i.postimg.cc/25Jybx2z/1764964492743.png",
                 description: "Entre dans un univers où chaque épisode relie ton cœur à la vie du Prophète ﷺ. Vidéos, défis, quiz, réflexion personnelle : tout est conçu pour que tu vives la Sira, pas juste que tu l'écoutes.",
-                details: "Public : 11–17 ans • Accès sécurisé via ton espace Deenvertissement • Accompagnement par ton enseignant."
+                details: "Public : 8–10 ans • Accès sécurisé via ton espace Deenvertissement.",
+                ochUrl: OCH_URL
             },
+
             saison1: {
                 id: 'saison1',
                 title: "Saison 1 — La Mecque : Les débuts de la Révélation",
-                subtitle: "Avant Médine, il y a eu l’épreuve, la patience et la lumière à La Mecque.",
+                subtitle: "Épreuve, patience, premiers croyants… la foi sous pression.",
                 tag: "Saison 1",
                 image: "https://i.postimg.cc/7hb7rc2p/pexels-ahmed-aqtai-1804912-3332857.jpg",
-                description: "Retrouve les premiers instants de la Révélation, les difficultés des premiers compagnons, la pression de Quraysh et la force intérieure du Prophète ﷺ. Un parcours pour comprendre que la foi grandit souvent dans les moments difficiles.",
-                details: "Épisodes guidés + quiz + défis pratiques à vivre dans ta vie quotidienne."
+                description: "Premiers pas de la Révélation, opposition de Quraysh, courage incroyable des premiers compagnons et confiance totale en Allah. Une saison pour comprendre que la foi se renforce face aux tempêtes.",
+                details: "Parcours avec épisodes guidés, quiz et défis spirituels à vivre au quotidien.",
+                ochUrl: OCH_URL // plus tard : URL spécifique du module Mecque
             },
+
             saison2: {
                 id: 'saison2',
                 title: "Saison 2 — Médine : Construire une communauté",
-                subtitle: "De l’exil à la fraternité, de la peur à la stabilité.",
+                subtitle: "Fraternité, justice, lumière pour le monde.",
                 tag: "Saison 2",
                 image: "https://i.postimg.cc/4xBFp9bB/pexels-shymar-salas-12263070.jpg",
-                description: "Découvre comment le Prophète ﷺ a construit une communauté soudée, juste et lumière pour le monde. Pactes, liens fraternels, mosquée, éducation : une saison pour comprendre comment l’islam transforme une société.",
-                details: "Idéal pour réfléchir à ta place dans ta famille, ton groupe, ta communauté."
+                description: "Après l’exil, Allah offre stabilité et fraternité. Médine devient un laboratoire vivant : liens fraternels, justice, organisation, spiritualité vivante.",
+                details: "Idéal pour réfléchir à ta place dans ta famille, ton groupe, ta communauté.",
+                ochUrl: OCH_URL // plus tard : URL spécifique du module Médine
             }
         };
 
+        /* ========= THEMES DE PROFIL ========= */
         const THEMES = [
             { name: 'blue', color: '#3b82f6', shadow: 'rgba(59,130,246,0.6)' },
             { name: 'green', color: '#10b981', shadow: 'rgba(16,185,129,0.6)' },
@@ -114,21 +117,24 @@
             { name: 'purple', color: '#a855f7', shadow: 'rgba(168,85,247,0.6)' },
         ];
 
+        /* ========= STATE GLOBAL ========= */
         let state = {
             screen: 'GATE',
             profiles: [],
             currentProfile: null,
-            modal: null,          // 'CREATE_PROFILE' | 'PROGRAM_CARD' | 'OCH'
-            program: null,        // données de la fiche programme sélectionnée
+            modal: null,       // 'CREATE_PROFILE' | 'PROGRAM_CARD' | 'OCH'
+            program: null,     // données du programme sélectionné
             isMuted: false,
+            ochUrlToOpen: OCH_URL, // lien OCH à utiliser dans la modale
         };
 
+        /* ========= INIT ========= */
         function init() {
             const saved = localStorage.getItem('sira_profiles');
             if (saved) state.profiles = JSON.parse(saved);
 
             const audio = document.getElementById('bg-audio');
-            if(audio) audio.volume = 0.3;
+            if (audio) audio.volume = 0.3;
 
             render();
             window.addEventListener('scroll', handleScroll);
@@ -154,9 +160,10 @@
             render();
         }
 
+        /* ========= PROFILS ========= */
         function createProfile(name) {
             if (!name) return alert("Entrez un prénom");
-            const theme = THEMES[Math.floor(Math.random()*THEMES.length)];
+            const theme = THEMES[Math.floor(Math.random() * THEMES.length)];
             const newProfile = { id: Date.now(), name, theme, score: 0 };
             state.profiles.push(newProfile);
             localStorage.setItem('sira_profiles', JSON.stringify(state.profiles));
@@ -180,6 +187,7 @@
             render();
         }
 
+        /* ========= MODALES ========= */
         function openModal(type) {
             state.modal = type;
             render();
@@ -191,7 +199,7 @@
             render();
         }
 
-        // 👉 Nouvelle fonction : ouvrir une FICHE PROGRAMME dynamique
+        // Ouvrir une fiche programme dynamique
         function openProgramCard(key) {
             const program = PROGRAMS[key];
             if (!program) return;
@@ -200,12 +208,16 @@
             render();
         }
 
-        // 👉 Quand on est dans la fiche programme et qu'on clique "Accéder aux cours"
+        // Depuis la fiche programme → ouvrir OCH avec le bon lien
         function openOchFromProgram() {
+            const fallback = OCH_URL;
+            const url = state.program && state.program.ochUrl ? state.program.ochUrl : fallback;
+            state.ochUrlToOpen = url;
             state.modal = 'OCH';
             render();
         }
 
+        /* ========= RENDER GLOBAL ========= */
         function render() {
             const app = document.getElementById('app');
 
@@ -215,14 +227,15 @@
                 lucide.createIcons();
             }
 
-            if(state.screen === 'APP') handleScroll();
+            if (state.screen === 'APP') handleScroll();
         }
 
+        /* ========= ÉCRAN D’ACCUEIL (PROFILS) ========= */
         function renderGate() {
             let profs = state.profiles.map(p => `
                 <div onclick="login(${p.id})" class="flex flex-col items-center gap-3 cursor-pointer group">
-                    <div class="w-24 h-24 rounded-md flex items-center justify-center text-3xl font-bold text-white border-2 group-hover:border-white transition" 
-                        style="background-color:${p.theme.color};box-shadow:0 0 20px ${p.theme.shadow};">
+                    <div class="w-24 h-24 rounded-md flex items-center justify-center text-3xl font-bold text-white border-2 group-hover:border-white transition"
+                        style="background-color:${p.theme.color}; box-shadow:0 0 20px ${p.theme.shadow};">
                         ${p.name.charAt(0)}
                     </div>
                     <span class="text-gray-400 group-hover:text-white">${p.name}</span>
@@ -232,7 +245,7 @@
             return `
             <div class="min-h-screen flex flex-col items-center justify-center text-center px-4">
                 <h1 class="text-4xl font-black text-sira-gold mb-10">SIRA CORANIQUE</h1>
-                <h2 class="text-xl mb-6 text-gray-200">Qui veut apprendre ?</h2>
+                <h2 class="text-xl mb-6 text-gray-200">Qui se connecte ?</h2>
                 <div class="flex flex-wrap justify-center gap-8 mb-12">
                     ${profs}
                     <div onclick="openModal('CREATE_PROFILE')" class="flex flex-col items-center gap-3 cursor-pointer group">
@@ -242,7 +255,7 @@
                         <span class="text-gray-500 group-hover:text-white">Ajouter</span>
                     </div>
                 </div>
-                ${state.modal==='CREATE_PROFILE'?renderCreateProfileModal():''}
+                ${state.modal === 'CREATE_PROFILE' ? renderCreateProfileModal() : ''}
             </div>`;
         }
 
@@ -251,7 +264,7 @@
             <div class="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
                 <div class="bg-gray-900 p-8 rounded-xl text-center w-full max-w-md border border-gray-800">
                     <h3 class="text-2xl mb-6 font-bold text-white">Nouveau Profil</h3>
-                    <input id="new-profile-name" type="text" placeholder="Ton prénom" 
+                    <input id="new-profile-name" type="text" placeholder="Ton prénom"
                         class="w-full bg-gray-800 text-white p-4 rounded mb-6 border border-gray-700 focus:border-sira-gold outline-none">
                     <div class="flex gap-4">
                         <button onclick="closeModal()" class="flex-1 py-3 text-gray-300">Annuler</button>
@@ -261,27 +274,28 @@
             </div>`;
         }
 
+        /* ========= VUE APP ========= */
         function renderApp() {
             return `
             <div class="min-h-screen pb-24">
                 ${renderNavbar()}
                 ${renderHero()}
                 ${renderSeasonsRail()}
-                ${state.modal==='PROGRAM_CARD' ? renderProgramCardModal() : ''}
-                ${state.modal==='OCH' ? renderOchModal() : ''}
+                ${state.modal === 'PROGRAM_CARD' ? renderProgramCardModal() : ''}
+                ${state.modal === 'OCH' ? renderOchModal() : ''}
             </div>`;
         }
 
         function renderNavbar() {
-            const initial = state.currentProfile?state.currentProfile.name.charAt(0):'?';
+            const initial = state.currentProfile ? state.currentProfile.name.charAt(0) : '?';
             return `
             <nav id="navbar" class="fixed top-0 w-full bg-gradient-to-b from-black/80 to-transparent z-40 px-4 py-4 flex justify-between items-center">
                 <h1 class="text-xl font-black text-sira-gold">SIRA</h1>
                 <div class="flex items-center gap-3">
                     <button onclick="toggleSound()" class="text-gray-400 hover:text-sira-gold">
-                        <i data-lucide="${state.isMuted?'volume-x':'volume-2'}" class="w-5 h-5"></i>
+                        <i data-lucide="${state.isMuted ? 'volume-x' : 'volume-2'}" class="w-5 h-5"></i>
                     </button>
-                    <div class="flex items-center gap-2 bg-gray-900/80 px-3 py-1 rounded-full border border-gray-700">  
+                    <div class="flex items-center gap-2 bg-gray-900/80 px-3 py-1 rounded-full border border-gray-700">
                         <div class="w-8 h-8 rounded-full theme-bg flex items-center justify-center text-white font-bold text-sm">${initial}</div>
                         <button onclick="logout()" class="text-xs text-gray-400 hover:text-white">Changer</button>
                     </div>
@@ -289,11 +303,12 @@
             </nav>`;
         }
 
+        /* ========= HERO ========= */
         function renderHero() {
-            const name = state.currentProfile?state.currentProfile.name:'';
+            const name = state.currentProfile ? state.currentProfile.name : '';
             return `
             <div class="min-h-[60vh] flex flex-col justify-end pb-16 pt-24 relative">
-                <div class="absolute inset-0 bg-cover bg-center opacity-60" 
+                <div class="absolute inset-0 bg-cover bg-center opacity-60"
                     style="background-image: linear-gradient(to top, #0a0e17 5%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.2) 80%), url('https://i.postimg.cc/25Jybx2z/1764964492743.png');">
                 </div>
                 <div class="relative z-10 px-6">
@@ -318,12 +333,14 @@
             </div>`;
         }
 
-        // Un rail simple avec deux saisons cliquables
+        /* ========= RAIL SAISONS ========= */
         function renderSeasonsRail() {
             return `
             <section id="sira-seasons" class="px-6 pt-4">
                 <h2 class="text-xl font-bold mb-3">Saisons SIRA</h2>
-                <p class="text-xs text-gray-400 mb-4">Clique sur une saison pour voir la fiche détaillée avant d’entrer dans les cours.</p>
+                <p class="text-xs text-gray-400 mb-4">
+                    Clique sur une saison pour lire le résumé avant d’entrer dans les cours.
+                </p>
                 <div class="flex gap-4 overflow-x-auto pb-3 hide-scrollbar">
                     <!-- Saison 1 -->
                     <div
@@ -336,7 +353,7 @@
                             <p class="text-[10px] uppercase tracking-wide text-sira-gold font-semibold mb-1">Saison 1</p>
                             <h3 class="text-sm font-bold">La Mecque – Les débuts de la Révélation</h3>
                             <p class="text-[11px] text-gray-300 mt-1">
-                                La foi au milieu de la pression, des moqueries et des premières persécutions.
+                                La foi au milieu des moqueries, de la pression et des premières persécutions.
                             </p>
                         </div>
                     </div>
@@ -360,12 +377,12 @@
             </section>`;
         }
 
-        // 👉 Nouvelle modale FICHE PROGRAMME
+        /* ========= MODALE FICHE PROGRAMME ========= */
         function renderProgramCardModal() {
             const p = state.program;
             if (!p) return '';
 
-            const bg = p.image || 'https://i.postimg.cc/25Jybx2z/1764964492743.png';
+            const bg = p.image || "https://i.postimg.cc/25Jybx2z/1764964492743.png";
 
             return `
             <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 animate-fade-in">
@@ -408,14 +425,14 @@
                         </div>
 
                         <p class="text-[10px] text-gray-500 pt-1">
-                            L’accès se fait via ton espace sécurisé OCH (OnlineCourseHost). Tes identifiants restent confidentiels.
+                            L’accès se fait via ton espace sécurisé OCH (OnlineCourseHost).
                         </p>
                     </div>
                 </div>
             </div>`;
         }
 
-        // Modale OCH inchangée, mais désormais appelée depuis la fiche programme
+        /* ========= MODALE OCH ========= */
         function renderOchModal() {
             return `
             <div class="fixed inset-0 z-50 flex flex-col bg-black/90 animate-fade-in">
@@ -428,14 +445,15 @@
                         <i data-lucide="x" class="w-5 h-5 text-gray-300"></i>
                     </button>
                 </div>
-                <iframe src="${OCH_URL}" class="w-full h-full border-none"></iframe>
+                <iframe src="${state.ochUrlToOpen || OCH_URL}" class="w-full h-full border-none"></iframe>
             </div>`;
         }
 
+        /* ========= LANCEMENT ========= */
         init();
     </script>
 
-    <!-- Service Worker -->
+    <!-- Service Worker PWA -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
