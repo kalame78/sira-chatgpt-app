@@ -6,7 +6,6 @@
 const OCH_BASE_URL = "https://deenvertissement.fr"; // ajuste si besoin
 
 // Si ta page d'accès est différente (ex: /courses, /login, /?via=sira)
-// tu peux modifier uniquement cette ligne :
 const OCH_LOGIN_PATH = "/login";
 
 // URL finale utilisée dans l'iframe
@@ -61,16 +60,22 @@ function setupOchModal() {
     return;
   }
 
-  // Tous les boutons / liens avec l'attribut data-och
-  const ochTriggers = document.querySelectorAll("[data-och]");
-  ochTriggers.forEach((el) => {
-    el.addEventListener("click", openOchModal);
-  });
+  // 🔹 DÉLÉGATION D'ÉVÉNEMENTS
+  // Un seul listener global :
+  // - tout élément avec [data-och] ouvre la modal
+  // - tout élément avec .js-och-close la ferme
+  document.addEventListener("click", (event) => {
+    const trigger = event.target.closest("[data-och]");
+    if (trigger) {
+      openOchModal(event);
+      return;
+    }
 
-  // Boutons de fermeture (croix, bouton "Fermer", etc.)
-  const closeButtons = document.querySelectorAll(".js-och-close");
-  closeButtons.forEach((btn) => {
-    btn.addEventListener("click", closeOchModal);
+    const closeBtn = event.target.closest(".js-och-close");
+    if (closeBtn) {
+      event.preventDefault();
+      closeOchModal();
+    }
   });
 
   // Clic sur le fond noir pour fermer
@@ -86,6 +91,10 @@ function setupOchModal() {
       closeOchModal();
     }
   });
+
+  // (Optionnel) accessible en debug dans la console
+  window.openOchModal = openOchModal;
+  window.closeOchModal = closeOchModal;
 }
 
 // =========================
