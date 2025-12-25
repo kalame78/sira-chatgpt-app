@@ -1,68 +1,80 @@
-// Nom du cache
-const CACHE_NAME = 'sira-coraniques-v2';
+// --- 1. Service Worker Registration (PWA) ---
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        // Assure-toi que service-worker.js est bien à la racine
+        navigator.serviceWorker.register('./service-worker.js')
+            .then(reg => console.log('SW enregistré:', reg.scope))
+            .catch(err => console.error('SW échec:', err));
+    });
+}
 
-// Fichiers de base à mettre en cache
-const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './manifest.webmanifest',
-  './service-worker.js'
-  // Tu peux ajouter ici d'autres fichiers statiques locaux si besoin
-];
+// --- 2. Gestion des Écrans (Profils vs Accueil) ---
+const profileScreen = document.getElementById('profile-screen');
+const homeScreen = document.getElementById('home-screen');
+const currentUserInitial = document.getElementById('current-user-initial');
 
-// Installation : mise en cache du "shell" de l'app
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
-  );
-  self.skipWaiting();
-});
+// Vérifie si un profil est déjà sauvegardé
+const savedUser = localStorage.getItem('siraUser');
+if (savedUser) {
+    showHome(savedUser);
+}
 
-// Activation : nettoyage des anciens caches
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(
-        keys
-          .filter(key => key !== CACHE_NAME)
-          .map(key => caches.delete(key))
-      );
-    })
-  );
-  self.clients.claim();
-});
+function selectProfile(name) {
+    console.log(`Profil choisi : ${name}`);
+    localStorage.setItem('siraUser', name); 
+    showHome(name);
+}
 
-// Fetch : stratégie "cache d'abord, puis réseau"
-self.addEventListener('fetch', event => {
-  const request = event.request;
+function showHome(userName) {
+    // Met à jour l'initiale
+    if(currentUserInitial) {
+        currentUserInitial.innerText = userName.charAt(0);
+        
+        // Couleur dynamique selon le user
+        const parentStyle = currentUserInitial.parentElement.style;
+        if(userName === 'Reda') parentStyle.background = '#e50914';
+        else if(userName === 'Testé') parentStyle.background = '#b81d24';
+        else parentStyle.background = '#0071eb';
+    }
+    
+    // Transition
+    profileScreen.classList.remove('active');
+    profileScreen.classList.add('hidden');
+    
+    homeScreen.classList.remove('hidden');
+    homeScreen.classList.add('active');
+}
 
-  event.respondWith(
-    caches.match(request).then(cachedResponse => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
+function logout() {
+    localStorage.removeItem('siraUser');
+    homeScreen.classList.remove('active');
+    homeScreen.classList.add('hidden');
+    
+    profileScreen.classList.remove('hidden');
+    profileScreen.classList.add('active');
+}
 
-      return fetch(request)
-        .then(networkResponse => {
-          // On ne met en cache que les requêtes GET du même domaine
-          if (
-            request.method === 'GET' &&
-            request.url.startsWith(self.location.origin)
-          ) {
-            const clonedResponse = networkResponse.clone();
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(request, clonedResponse);
-            });
-          }
-          return networkResponse;
-        })
-        .catch(() => {
-          // En cas d'échec réseau total, on renvoie au moins la page principale
-          return caches.match('./index.html');
-        });
-    })
-  );
-});
+// --- 3. Gestion de la Modale ---
+const modal = document.getElementById('info-modal');
 
+function openModal() {
+    modal.classList.remove('hidden');
+}
+
+function closeModal() {
+    modal.classList.add('hidden');
+}
+
+// Fermer au clic extérieur
+window.onclick = function(event) {
+    if (event.target == modal) {
+        closeModal();
+    }
+}
+
+function scrollToSeasons() {
+    const container = document.getElementById('seasons-container');
+    if(container) {
+        container.scrollIntoView({ behavior: 'smooth' });
+    }
+}
