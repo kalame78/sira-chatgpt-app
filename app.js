@@ -1,92 +1,217 @@
 // =========================
-// Config accès OnlineCourseHost (OCH)
+// CONFIG OCH
 // =========================
 
-// IMPORTANT : on pointe vers la racine du site.
-// Si tu es déjà connecté, tu arrives sur le dashboard.
-// Si tu n'es pas connecté, OCH te redirige lui-même vers le login.
-const OCH_BASE_URL = "https://deenvertissement.fr";
-const OCH_LOGIN_PATH = "/"; // ne plus utiliser /login directement
+// URL de base de ton espace OCH
+const OCH_BASE_URL = "https://deenvertissement.fr"; // ajuste si besoin
+const OCH_LOGIN_PATH = "/login"; // ex: "/login", "/courses", etc.
+
 const OCH_LOGIN_URL = `${OCH_BASE_URL}${OCH_LOGIN_PATH}`;
 
 // =========================
-// Données des épisodes (Saison 1 – 8-10 ans)
+// VARIABLES GLOBALES
 // =========================
 
-const EPISODES = {
-  1: {
-    tag: "Saison 1 · Épisode 1",
-    title: "Les Racines : Ibrahim & la Kaaba",
-    summary:
-      "Comment La Mecque est devenue une ville spéciale et pourquoi la Kaaba a été construite. On remonte jusqu’à Ibrahim عليه السلام pour comprendre les origines de cette Maison.",
-    verse:
-      "Verset clé : “Et quand Ibrahim et Ismaël élevaient les fondations de la Maison…” (Sourate Al-Baqara).",
-  },
-  2: {
-    tag: "Saison 1 · Épisode 2",
-    title: "L’Année de l’Éléphant",
-    summary:
-      "Abraha voulait détruire la Kaaba… mais Allah a protégé Sa Maison d’une façon incroyable ! On découvre comment une armée immense a été vaincue par de petits oiseaux.",
-    verse:
-      "Verset clé : Sourate Al-Fil – “N’as-tu pas vu comment ton Seigneur a agi avec les gens de l’Éléphant ?”.",
-  },
-  3: {
-    tag: "Saison 1 · Épisode 3",
-    title: "Les Quraysh",
-    summary:
-      "Qui étaient la tribu du Prophète ﷺ ? Pourquoi ils étaient importants à La Mecque ? On parle de leurs voyages, de leur commerce et de leur responsabilité autour de la Kaaba.",
-    verse:
-      "Verset clé : Sourate Quraysh – “À cause des pactes des Quraysh…”.",
-  },
-  4: {
-    tag: "Saison 1 · Épisode 4",
-    title: "L’Orphelin du Désert : Amina & Halima",
-    summary:
-      "Le Prophète ﷺ a perdu ses parents très jeune, mais Allah l’a protégé et entouré de personnes pleines de miséricorde, comme Halima et son grand-père.",
-    verse:
-      "Verset clé : Sourate Ad-Duha – “Ne t’a-t-Il pas trouvé orphelin, puis Il t’a accordé un refuge ?”.",
-  },
-  5: {
-    tag: "Saison 1 · Épisode 5",
-    title: "L’Ouverture de la Poitrine",
-    summary:
-      "L’épisode où le cœur du Prophète ﷺ est purifié pour recevoir la lumière de la Révélation. On parle de la fitra, du cœur et de ce que signifie être préparé par Allah.",
-    verse:
-      "Verset clé : Sourate Ash-Sharh – “N’avons-nous pas ouvert pour toi ta poitrine ?”.",
-  },
-  6: {
-    tag: "Saison 1 · Épisode 6",
-    title: "Le Moine Bahira",
-    summary:
-      "Lors d’un voyage commercial en Syrie, un moine chrétien reconnaît les signes de la prophétie chez le jeune Muhammad ﷺ. On découvre les signes annoncés dans les anciennes écritures.",
-    verse:
-      "Verset clé : Sourate Al-Qalam – “Tu es, certes, d’une moralité éminente”.",
-  },
-  7: {
-    tag: "Saison 1 · Épisode 7",
-    title: "Al-Amin & Khadija",
-    summary:
-      "Comment le Prophète ﷺ est devenu “Al-Amîn” (le digne de confiance) et comment Khadija رضي الله عنها a cru en lui, soutenu et rassuré dans tous les moments difficiles.",
-    verse:
-      "Verset clé : “Et tu es certes, d’un immense caractère.” (Al-Qalam 68:4).",
-  },
-};
+let profiles = [];
+let currentProfile = null;
+
+let profileScreen, mainScreen;
+let profileList, addProfileBtn;
+let profileModal, profileNameInput, cancelProfileBtn, saveProfileBtn;
+let welcomeName, currentProfileCircle, changeProfileBtn;
+
+let seasonModal, seasonTitleEl, seasonDescEl, seasonBadgeEl, seasonOchBtn;
+let ochModal, ochIframe;
 
 // =========================
-// Modale OCH (plateforme de cours)
+// PROFILS (localStorage)
 // =========================
 
-let ochModal = null;
-let ochIframe = null;
+const STORAGE_KEY_PROFILES = "sira_profiles";
+const STORAGE_KEY_CURRENT = "sira_current_profile";
+
+function loadProfiles() {
+  try {
+    const rawProfiles = localStorage.getItem(STORAGE_KEY_PROFILES);
+    const rawCurrent = localStorage.getItem(STORAGE_KEY_CURRENT);
+
+    profiles = rawProfiles ? JSON.parse(rawProfiles) : [];
+
+    if (!Array.isArray(profiles)) profiles = [];
+
+    currentProfile = rawCurrent || null;
+  } catch (e) {
+    console.warn("[SIRA] Erreur lecture profils :", e);
+    profiles = [];
+    currentProfile = null;
+  }
+}
+
+function saveProfiles() {
+  localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(profiles));
+}
+
+function saveCurrentProfile() {
+  if (currentProfile) {
+    localStorage.setItem(STORAGE_KEY_CURRENT, currentProfile);
+  } else {
+    localStorage.removeItem(STORAGE_KEY_CURRENT);
+  }
+}
+
+function renderProfiles() {
+  profileList.innerHTML = "";
+
+  if (profiles.length === 0) {
+    const p = document.createElement("p");
+    p.className = "text-sm text-slate-400 mt-4";
+    p.textContent =
+      "Ajoute ton prénom pour créer ton profil et garder ta progression.";
+    profileList.appendChild(p);
+    return;
+  }
+
+  profiles.forEach((name) => {
+    const initial = name.trim().charAt(0).toUpperCase() || "?";
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className =
+      "flex flex-col items-center gap-2 animate-fade-in focus:outline-none";
+
+    btn.innerHTML = `
+      <div class="flex items-center justify-center h-24 w-24 sm:h-28 sm:w-28 rounded-3xl bg-blue-500 shadow-sira-soft text-3xl font-extrabold">
+        ${initial}
+      </div>
+      <span class="text-sm text-slate-200">${name}</span>
+    `;
+
+    btn.addEventListener("click", () => {
+      selectProfile(name);
+    });
+
+    profileList.appendChild(btn);
+  });
+}
+
+function selectProfile(name) {
+  currentProfile = name;
+  saveCurrentProfile();
+  updateWelcomeName();
+
+  // passer à l'écran principal
+  showMainScreen();
+}
+
+function updateWelcomeName() {
+  if (!welcomeName || !currentProfileCircle) return;
+  if (!currentProfile) {
+    welcomeName.textContent = "toi";
+    currentProfileCircle.textContent = "?";
+    return;
+  }
+
+  const initial = currentProfile.trim().charAt(0).toUpperCase() || "?";
+  welcomeName.textContent = currentProfile;
+  currentProfileCircle.textContent = initial;
+}
+
+// =========================
+// NAVIGATION ÉCRANS
+// =========================
+
+function showProfileScreen() {
+  profileScreen.classList.remove("hidden");
+  mainScreen.classList.add("hidden");
+}
+
+function showMainScreen() {
+  profileScreen.classList.add("hidden");
+  mainScreen.classList.remove("hidden");
+}
+
+// =========================
+// MODAL PROFIL
+// =========================
+
+function openProfileModal() {
+  profileNameInput.value = "";
+  profileModal.classList.remove("hidden");
+  profileModal.classList.add("flex");
+  profileNameInput.focus();
+}
+
+function closeProfileModal() {
+  profileModal.classList.add("hidden");
+  profileModal.classList.remove("flex");
+}
+
+function handleSaveProfile() {
+  const name = profileNameInput.value.trim();
+  if (!name) return;
+
+  if (!profiles.includes(name)) {
+    profiles.push(name);
+    saveProfiles();
+    renderProfiles();
+  }
+
+  selectProfile(name);
+  closeProfileModal();
+}
+
+// =========================
+// MODAL SAISON
+// =========================
+
+function setupSeasonCards() {
+  const cards = document.querySelectorAll(".season-card");
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const id = card.dataset.seasonId || "";
+      const title = card.dataset.seasonTitle || "Saison";
+      const desc =
+        card.dataset.seasonDescription ||
+        "Retrouve les épisodes de cette saison dans ton espace de cours.";
+
+      openSeasonModal(id, title, desc);
+    });
+  });
+}
+
+function openSeasonModal(id, title, description) {
+  seasonTitleEl.textContent = title;
+  seasonDescEl.textContent = description;
+
+  // petite mise à jour du badge
+  if (id) {
+    seasonBadgeEl.textContent = `Saison ${id}`;
+  } else {
+    seasonBadgeEl.textContent = "Saison";
+  }
+
+  seasonModal.classList.remove("hidden");
+  seasonModal.classList.add("flex");
+}
+
+function closeSeasonModal() {
+  seasonModal.classList.add("hidden");
+  seasonModal.classList.remove("flex");
+}
+
+// =========================
+ // MODAL OCH (IFRAME)
+// =========================
 
 function openOchModal(event) {
   if (event) event.preventDefault();
+
   if (!ochModal || !ochIframe) return;
 
-  // On charge toujours l’URL racine
   ochIframe.src = OCH_LOGIN_URL;
 
   ochModal.classList.remove("hidden");
+  ochModal.classList.add("flex");
   document.body.classList.add("overflow-hidden");
 }
 
@@ -94,6 +219,7 @@ function closeOchModal() {
   if (!ochModal) return;
 
   ochModal.classList.add("hidden");
+  ochModal.classList.remove("flex");
   document.body.classList.remove("overflow-hidden");
 }
 
@@ -102,136 +228,126 @@ function setupOchModal() {
   ochIframe = document.getElementById("och-iframe");
 
   if (!ochModal || !ochIframe) {
-    console.warn("[SIRA] Modal OCH non trouvée (id='och-modal').");
+    console.warn("[SIRA] Modal OCH introuvable.");
     return;
   }
 
-  // Tous les déclencheurs génériques data-och
+  // tous les boutons avec data-och
   const ochTriggers = document.querySelectorAll("[data-och]");
   ochTriggers.forEach((el) => {
-    el.addEventListener("click", openOchModal);
-  });
-
-  // Boutons "Accéder à la leçon" dans la modale épisode
-  const episodeOchButtons = document.querySelectorAll(".js-episode-open-och");
-  episodeOchButtons.forEach((btn) => {
-    btn.addEventListener("click", (event) => {
-      event.preventDefault();
-      openOchModal();
+    el.addEventListener("click", (e) => {
+      // si on clique depuis la modale saison, on la ferme avant
+      if (seasonModal && !seasonModal.classList.contains("hidden")) {
+        closeSeasonModal();
+      }
+      openOchModal(e);
     });
   });
 
-  // Boutons de fermeture OCH
+  // boutons de fermeture
   const closeButtons = document.querySelectorAll(".js-och-close");
-  closeButtons.forEach((btn) => btn.addEventListener("click", closeOchModal));
+  closeButtons.forEach((btn) => {
+    btn.addEventListener("click", closeOchModal);
+  });
 
-  // Echap
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
+  // clic sur le fond noir
+  ochModal.addEventListener("click", (event) => {
+    if (event.target === ochModal) {
       closeOchModal();
     }
   });
-}
 
-// =========================
-// Modale Épisode
-// =========================
-
-let episodeModal = null;
-let episodeModalTag = null;
-let episodeModalTitle = null;
-let episodeModalSummary = null;
-let episodeModalVerse = null;
-let episodeModalExtra = null;
-
-function openEpisodeModal(event) {
-  event.preventDefault();
-  const trigger = event.currentTarget;
-  const id = parseInt(trigger.dataset.episodeId, 10);
-  const data = EPISODES[id];
-
-  if (!data || !episodeModal) {
-    console.warn("[SIRA] Épisode introuvable :", id);
-    return;
-  }
-
-  episodeModalTag.textContent = data.tag;
-  episodeModalTitle.textContent = data.title;
-  episodeModalSummary.textContent = data.summary;
-  episodeModalVerse.textContent = data.verse;
-  episodeModalExtra.textContent =
-    "Durée ~45 min · Niveau 8–10 ans · Le détail complet du cours est disponible dans ton espace sécurisé Deenvertissement.";
-
-  episodeModal.classList.remove("hidden");
-  episodeModal.classList.add("flex");
-  document.body.classList.add("overflow-hidden");
-}
-
-function closeEpisodeModal() {
-  if (!episodeModal) return;
-  episodeModal.classList.add("hidden");
-  episodeModal.classList.remove("flex");
-  document.body.classList.remove("overflow-hidden");
-}
-
-function setupEpisodeModal() {
-  episodeModal = document.getElementById("episode-modal");
-  if (!episodeModal) {
-    console.warn("[SIRA] Modal épisode non trouvée (id='episode-modal').");
-    return;
-  }
-
-  episodeModalTag = document.getElementById("episode-modal-tag");
-  episodeModalTitle = document.getElementById("episode-modal-title");
-  episodeModalSummary = document.getElementById("episode-modal-summary");
-  episodeModalVerse = document.getElementById("episode-modal-verse");
-  episodeModalExtra = document.getElementById("episode-modal-extra");
-
-  // Tous les boutons avec data-episode-id (hero + cartes)
-  const episodeTriggers = document.querySelectorAll("[data-episode-id]");
-  episodeTriggers.forEach((btn) =>
-    btn.addEventListener("click", openEpisodeModal)
-  );
-
-  // Boutons de fermeture
-  const closeButtons = episodeModal.querySelectorAll(".js-episode-close");
-  closeButtons.forEach((btn) =>
-    btn.addEventListener("click", closeEpisodeModal)
-  );
-
-  // Fermeture en cliquant sur le fond
-  episodeModal.addEventListener("click", (event) => {
-    if (event.target === episodeModal) {
-      closeEpisodeModal();
-    }
-  });
-
-  // Echap
+  // touche Echap
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-      closeEpisodeModal();
+      closeOchModal();
+      closeSeasonModal();
+      closeProfileModal();
     }
   });
 }
 
 // =========================
-// Audio de fond
+// AUDIO DE FOND
 // =========================
 
 function setupBackgroundAudio() {
   const audio = document.getElementById("bg-audio");
   if (!audio) return;
+
   audio.volume = 0.25;
 }
 
 // =========================
-// Lancement global
+// INIT
 // =========================
 
 function initApp() {
-  setupBackgroundAudio();
-  setupEpisodeModal();
+  // refs DOM
+  profileScreen = document.getElementById("profile-screen");
+  mainScreen = document.getElementById("main-screen");
+  profileList = document.getElementById("profile-list");
+  addProfileBtn = document.getElementById("add-profile-btn");
+
+  profileModal = document.getElementById("profile-modal");
+  profileNameInput = document.getElementById("profile-name-input");
+  cancelProfileBtn = document.getElementById("cancel-profile-btn");
+  saveProfileBtn = document.getElementById("save-profile-btn");
+
+  welcomeName = document.getElementById("welcome-name");
+  currentProfileCircle = document.getElementById("current-profile-circle");
+  changeProfileBtn = document.getElementById("change-profile-btn");
+
+  seasonModal = document.getElementById("season-modal");
+  seasonTitleEl = document.getElementById("season-title");
+  seasonDescEl = document.getElementById("season-description");
+  seasonBadgeEl = document.getElementById("season-badge");
+  seasonOchBtn = document.getElementById("season-och-btn");
+
+  // charger profils
+  loadProfiles();
+  renderProfiles();
+  updateWelcomeName();
+
+  if (currentProfile) {
+    showMainScreen();
+  } else {
+    showProfileScreen();
+  }
+
+  // listeners profils
+  addProfileBtn.addEventListener("click", openProfileModal);
+  cancelProfileBtn.addEventListener("click", closeProfileModal);
+  saveProfileBtn.addEventListener("click", handleSaveProfile);
+
+  changeProfileBtn.addEventListener("click", () => {
+    showProfileScreen();
+  });
+
+  // bouton "Voir la fiche du programme" : ouvrir la modale Saison 1
+  const heroProgrammeBtn = document.getElementById("hero-programme-btn");
+  if (heroProgrammeBtn) {
+    heroProgrammeBtn.addEventListener("click", () => {
+      openSeasonModal(
+        "1",
+        "Saison 1 — La Mecque : Les débuts de la Révélation",
+        "Retrouve les premiers instants de la Révélation, les difficultés des premiers compagnons, la pression de Quraysh et la force intérieure du Prophète ﷺ. Un parcours pour comprendre que la foi grandit souvent dans les moments difficiles."
+      );
+    });
+  }
+
+  // modales
+  setupSeasonCards();
+
+  const closeSeasonButtons =
+    document.querySelectorAll(".js-close-season");
+  closeSeasonButtons.forEach((btn) => {
+    btn.addEventListener("click", closeSeasonModal);
+  });
+
   setupOchModal();
+  setupBackgroundAudio();
 }
 
+// Lancement
 document.addEventListener("DOMContentLoaded", initApp);
