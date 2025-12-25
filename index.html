@@ -1,429 +1,402 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  >
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#040814" />
 
   <title>SIRA CORANIQUE</title>
 
   <!-- PWA -->
-  <meta name="theme-color" content="#0a0e17">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
 
   <!-- Google Font -->
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap"
     rel="stylesheet"
-  >
+  />
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { sans: ['Poppins', 'sans-serif'] },
+          fontFamily: { sans: ["Poppins", "system-ui", "sans-serif"] },
           colors: {
-            'sira-dark': '#0a0e17',
-            'sira-gold': '#FFD700',
-          }
-        }
-      }
-    }
+            "sira-bg": "#040814",
+            "sira-card": "#0b1020",
+            "sira-gold": "#ffd700",
+            "sira-soft": "#111827",
+          },
+          boxShadow: {
+            "sira-soft": "0 18px 40px rgba(0,0,0,0.45)",
+          },
+        },
+      },
+    };
   </script>
 
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
-<body class="bg-sira-dark text-slate-50">
-
+<body class="bg-sira-bg text-white">
   <!-- Audio de fond (optionnel) -->
   <audio id="bg-audio" loop>
     <source
       src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_07647d6928.mp3?filename=desert-wind-19366.mp3"
       type="audio/mpeg"
-    >
+    />
   </audio>
 
-  <!-- CONTENU PRINCIPAL -->
-  <div id="app" class="min-h-screen max-w-6xl mx-auto px-4 pb-10">
+  <!-- ======================= -->
+  <!-- ÉCRAN PROFILS          -->
+  <!-- ======================= -->
+  <div
+    id="profile-screen"
+    class="min-h-screen flex flex-col items-center justify-center px-4 text-center"
+  >
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-wide text-sira-gold">
+      SIRA CORANIQUE
+    </h1>
+    <p class="mt-4 text-lg sm:text-xl text-slate-300">
+      Qui veut apprendre&nbsp;?
+    </p>
 
-    <!-- Header simple -->
-    <header class="py-4 flex items-center justify-between">
-      <div>
-        <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
-          Parcours 8–10 ans
-        </p>
-        <h1 class="text-3xl sm:text-4xl font-extrabold mt-1">
-          SIRA CORANIQUE – <span class="text-sira-gold">Saison 1 : L’Aube</span>
-        </h1>
-      </div>
+    <div
+      id="profile-list"
+      class="mt-10 flex flex-wrap justify-center gap-6"
+    >
+      <!-- Les profils seront injectés en JS -->
+    </div>
 
-      <button
-        type="button"
-        class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-600 px-4 py-2 text-xs font-medium text-slate-100 hover:bg-slate-800 transition"
-        data-och
-      >
-        <span>Ouvrir l’espace de cours</span>
-      </button>
-    </header>
-
-    <!-- HERO -->
-    <section class="mt-4 mb-8 bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-5 sm:p-7 shadow-xl">
-      <p class="text-xs uppercase tracking-[0.25em] text-sira-gold mb-2">
-        Introduction à la Sira
-      </p>
-      <h2 class="text-2xl sm:text-3xl font-bold mb-3">
-        Découvre comment Allah a préparé la vie du Prophète Muhammad ﷺ avant la révélation.
-      </h2>
-      <p class="text-sm text-slate-300 mb-4">
-        La Mecque, la Kaaba, la tribu de Quraysh et l’Année de l’Éléphant.
-        Chaque épisode relie une histoire de la Sira à un verset du Coran.
-      </p>
-
-      <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
-        <button
-          type="button"
-          class="inline-flex justify-center items-center rounded-full bg-sira-gold text-sira-dark font-semibold px-6 py-3 text-sm shadow-lg hover:shadow-xl active:scale-[0.98] transition"
-          data-episode-id="1"
-        >
-          Commencer l’aventure
-        </button>
-
-        <button
-          type="button"
-          class="inline-flex sm:hidden justify-center items-center rounded-full border border-slate-600 px-4 py-2 text-xs font-medium text-slate-100 hover:bg-slate-800 transition"
-          data-och
-        >
-          Ouvrir l’espace de cours
-        </button>
-
-        <p class="text-[11px] text-slate-400 sm:ml-3">
-          Durée conseillée par épisode : ~45 min · Niveau : 8–10 ans
-        </p>
-      </div>
-    </section>
-
-    <!-- SECTION EPISODES -->
-    <section class="mt-4">
-      <h3 class="text-lg sm:text-xl font-semibold mb-1">
-        Commencer par le début
-      </h3>
-      <p class="text-sm text-slate-400 mb-4">
-        Les 7 premiers épisodes pour comprendre les origines de la Sira.
-      </p>
-
-      <!-- RAIL HORIZONTAL -->
-      <div class="overflow-x-auto pb-3">
-        <div class="flex gap-4 min-w-max">
-
-          <!-- EPISODE 1 -->
-          <article class="min-w-[280px] max-w-xs bg-slate-900 rounded-2xl p-4 flex flex-col justify-between">
-            <div>
-              <p class="text-[11px] uppercase tracking-[0.25em] text-sira-gold mb-2">
-                Saison 1 · Épisode 1
-              </p>
-              <h4 class="text-lg font-semibold mb-2">
-                Les Racines : Ibrahim &amp; la Kaaba
-              </h4>
-              <p class="text-sm text-slate-300 mb-3">
-                Comment La Mecque est devenue une ville spéciale et pourquoi la Kaaba a été construite.
-              </p>
-              <p class="text-[12px] text-slate-400 mb-3">
-                Verset clé : “Et quand Ibrahim et Ismaël élevaient les fondations de la Maison…”
-                (Sourate Al-Baqara).
-              </p>
-            </div>
-            <div class="mt-2 text-[11px] text-slate-500 mb-3 flex justify-between">
-              <span>Durée : ~45 min</span>
-              <span>Niveau : 8–10 ans</span>
-            </div>
-            <button
-              type="button"
-              class="w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-medium py-2 mt-auto"
-              data-episode-id="1"
-            >
-              Voir l’épisode
-            </button>
-          </article>
-
-          <!-- EPISODE 2 -->
-          <article class="min-w-[280px] max-w-xs bg-slate-900 rounded-2xl p-4 flex flex-col justify-between">
-            <div>
-              <p class="text-[11px] uppercase tracking-[0.25em] text-sira-gold mb-2">
-                Saison 1 · Épisode 2
-              </p>
-              <h4 class="text-lg font-semibold mb-2">
-                L’Année de l’Éléphant
-              </h4>
-              <p class="text-sm text-slate-300 mb-3">
-                Abraha voulait détruire la Kaaba… mais Allah a protégé Sa Maison d’une façon incroyable !
-              </p>
-              <p class="text-[12px] text-slate-400 mb-3">
-                Verset clé : Sourate Al-Fil – “N’as-tu pas vu comment ton Seigneur a agi avec les gens
-                de l’Éléphant ?”.
-              </p>
-            </div>
-            <div class="mt-2 text-[11px] text-slate-500 mb-3 flex justify-between">
-              <span>Durée : ~45 min</span>
-              <span>Niveau : 8–10 ans</span>
-            </div>
-            <button
-              type="button"
-              class="w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-medium py-2 mt-auto"
-              data-episode-id="2"
-            >
-              Voir l’épisode
-            </button>
-          </article>
-
-          <!-- EPISODE 3 -->
-          <article class="min-w-[280px] max-w-xs bg-slate-900 rounded-2xl p-4 flex flex-col justify-between">
-            <div>
-              <p class="text-[11px] uppercase tracking-[0.25em] text-sira-gold mb-2">
-                Saison 1 · Épisode 3
-              </p>
-              <h4 class="text-lg font-semibold mb-2">
-                Les Quraysh
-              </h4>
-              <p class="text-sm text-slate-300 mb-3">
-                Qui étaient la tribu du Prophète ﷺ ? Pourquoi ils étaient importants à La Mecque ?
-              </p>
-              <p class="text-[12px] text-slate-400 mb-3">
-                Verset clé : Sourate Quraysh – “À cause des pactes des Quraysh…”.
-              </p>
-            </div>
-            <div class="mt-2 text-[11px] text-slate-500 mb-3 flex justify-between">
-              <span>Durée : ~45 min</span>
-              <span>Niveau : 8–10 ans</span>
-            </div>
-            <button
-              type="button"
-              class="w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-medium py-2 mt-auto"
-              data-episode-id="3"
-            >
-              Voir l’épisode
-            </button>
-          </article>
-
-          <!-- EPISODE 4 -->
-          <article class="min-w-[280px] max-w-xs bg-slate-900 rounded-2xl p-4 flex flex-col justify-between">
-            <div>
-              <p class="text-[11px] uppercase tracking-[0.25em] text-sira-gold mb-2">
-                Saison 1 · Épisode 4
-              </p>
-              <h4 class="text-lg font-semibold mb-2">
-                L’Orphelin du Désert
-              </h4>
-              <p class="text-sm text-slate-300 mb-3">
-                Le Prophète ﷺ a grandi orphelin mais toujours protégé par Allah et entouré de miséricorde.
-              </p>
-              <p class="text-[12px] text-slate-400 mb-3">
-                Verset clé : Sourate Ad-Duha – “Ne t’a-t-Il pas trouvé orphelin, puis Il t’a accordé un refuge ?”.
-              </p>
-            </div>
-            <div class="mt-2 text-[11px] text-slate-500 mb-3 flex justify-between">
-              <span>Durée : ~45 min</span>
-              <span>Niveau : 8–10 ans</span>
-            </div>
-            <button
-              type="button"
-              class="w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-medium py-2 mt-auto"
-              data-episode-id="4"
-            >
-              Voir l’épisode
-            </button>
-          </article>
-
-          <!-- EPISODE 5 -->
-          <article class="min-w-[280px] max-w-xs bg-slate-900 rounded-2xl p-4 flex flex-col justify-between">
-            <div>
-              <p class="text-[11px] uppercase tracking-[0.25em] text-sira-gold mb-2">
-                Saison 1 · Épisode 5
-              </p>
-              <h4 class="text-lg font-semibold mb-2">
-                L’Ouverture de la Poitrine
-              </h4>
-              <p class="text-sm text-slate-300 mb-3">
-                L’épisode où le cœur du Prophète ﷺ est purifié pour recevoir la lumière de la Révélation.
-              </p>
-              <p class="text-[12px] text-slate-400 mb-3">
-                Verset clé : Sourate Ash-Sharh – “N’avons-nous pas ouvert pour toi ta poitrine ?”.
-              </p>
-            </div>
-            <div class="mt-2 text-[11px] text-slate-500 mb-3 flex justify-between">
-              <span>Durée : ~45 min</span>
-              <span>Niveau : 8–10 ans</span>
-            </div>
-            <button
-              type="button"
-              class="w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-medium py-2 mt-auto"
-              data-episode-id="5"
-            >
-              Voir l’épisode
-            </button>
-          </article>
-
-          <!-- EPISODE 6 -->
-          <article class="min-w-[280px] max-w-xs bg-slate-900 rounded-2xl p-4 flex flex-col justify-between">
-            <div>
-              <p class="text-[11px] uppercase tracking-[0.25em] text-sira-gold mb-2">
-                Saison 1 · Épisode 6
-              </p>
-              <h4 class="text-lg font-semibold mb-2">
-                Le Moine Bahira
-              </h4>
-              <p class="text-sm text-slate-300 mb-3">
-                Lors d’un voyage, un moine reconnaît les signes de la prophétie chez le jeune Muhammad ﷺ.
-              </p>
-              <p class="text-[12px] text-slate-400 mb-3">
-                Verset clé : “Tu es, certes, d’une moralité éminente.” (Sourate Al-Qalam).
-              </p>
-            </div>
-            <div class="mt-2 text-[11px] text-slate-500 mb-3 flex justify-between">
-              <span>Durée : ~45 min</span>
-              <span>Niveau : 8–10 ans</span>
-            </div>
-            <button
-              type="button"
-              class="w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-medium py-2 mt-auto"
-              data-episode-id="6"
-            >
-              Voir l’épisode
-            </button>
-          </article>
-
-          <!-- EPISODE 7 -->
-          <article class="min-w-[280px] max-w-xs bg-slate-900 rounded-2xl p-4 flex flex-col justify-between">
-            <div>
-              <p class="text-[11px] uppercase tracking-[0.25em] text-sira-gold mb-2">
-                Saison 1 · Épisode 7
-              </p>
-              <h4 class="text-lg font-semibold mb-2">
-                Al-Amin &amp; Khadija
-              </h4>
-              <p class="text-sm text-slate-300 mb-3">
-                Comment le Prophète ﷺ est devenu “Al-Amîn” et comment Khadija رضي الله عنها l’a soutenu.
-              </p>
-              <p class="text-[12px] text-slate-400 mb-3">
-                Verset clé : “Et tu es certes, d’un immense caractère.” (Al-Qalam 68:4).
-              </p>
-            </div>
-            <div class="mt-2 text-[11px] text-slate-500 mb-3 flex justify-between">
-              <span>Durée : ~45 min</span>
-              <span>Niveau : 8–10 ans</span>
-            </div>
-            <button
-              type="button"
-              class="w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-medium py-2 mt-auto"
-              data-episode-id="7"
-            >
-              Voir l’épisode
-            </button>
-          </article>
-
-        </div>
-      </div>
-    </section>
+    <button
+      id="add-profile-btn"
+      class="mt-6 inline-flex items-center gap-2 rounded-full border border-slate-600 px-6 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800/80 hover:border-slate-400 transition"
+    >
+      <span class="text-lg">+</span> Ajouter un profil
+    </button>
   </div>
 
-  <!-- MODAL EPISODE -->
+  <!-- Modal création de profil -->
   <div
-    id="episode-modal"
-    class="fixed inset-0 z-40 hidden items-center justify-center bg-black/70 px-3"
+    id="profile-modal"
+    class="fixed inset-0 z-40 hidden items-center justify-center bg-black/70"
   >
-    <div class="relative max-w-xl w-full bg-slate-900 rounded-3xl shadow-2xl p-5 sm:p-6">
-      <button
-        type="button"
-        class="js-episode-close absolute right-4 top-3 text-slate-400 hover:text-white text-2xl leading-none"
-        aria-label="Fermer"
+    <div
+      class="w-[90vw] max-w-md rounded-2xl bg-sira-card px-6 py-6 shadow-sira-soft"
+    >
+      <h2 class="text-xl font-semibold mb-4">Nouveau profil</h2>
+      <label class="block text-sm text-slate-300 mb-2" for="profile-name-input"
+        >Ton prénom</label
       >
-        ×
-      </button>
+      <input
+        id="profile-name-input"
+        type="text"
+        class="w-full rounded-xl border border-slate-700 bg-sira-soft px-3 py-2 text-sm outline-none focus:border-sira-gold"
+        placeholder="Ex : Nabil"
+      />
 
-      <p
-        id="episode-modal-tag"
-        class="text-[10px] uppercase tracking-[0.25em] text-sira-gold mb-2"
-      >
-        Saison 1 · Épisode
-      </p>
-      <h2 id="episode-modal-title" class="text-xl font-semibold mb-3">
-        Titre de l’épisode
-      </h2>
-
-      <p id="episode-modal-summary" class="text-sm text-slate-200 mb-3">
-        Résumé de l’épisode…
-      </p>
-
-      <p id="episode-modal-verse" class="text-[13px] text-slate-300 mb-3">
-        Verset clé…
-      </p>
-
-      <p id="episode-modal-extra" class="text-[12px] text-slate-400 mb-4">
-        Infos pratiques…
-      </p>
-
-      <div class="flex flex-col sm:flex-row gap-2 sm:justify-end mt-2">
+      <div class="mt-6 flex justify-end gap-3">
         <button
-          type="button"
-          class="js-episode-close rounded-full border border-slate-600 px-4 py-2 text-xs font-medium text-slate-100 hover:bg-slate-800"
+          id="cancel-profile-btn"
+          class="rounded-xl border border-slate-600 px-4 py-2 text-sm hover:bg-slate-800"
         >
-          Fermer
+          Annuler
         </button>
-
         <button
-          type="button"
-          class="js-episode-open-och rounded-full bg-sira-gold text-sira-dark px-4 py-2 text-xs font-semibold hover:brightness-110"
+          id="save-profile-btn"
+          class="rounded-xl bg-sira-gold px-5 py-2 text-sm font-semibold text-slate-900 hover:bg-yellow-400"
         >
-          Accéder à la leçon sur la plateforme
+          Créer
         </button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL OCH (PLEIN ÉCRAN DANS LA PWA) -->
+  <!-- ======================= -->
+  <!-- ÉCRAN PRINCIPAL SIRA   -->
+  <!-- ======================= -->
+  <div id="main-screen" class="hidden min-h-screen flex flex-col">
+    <!-- HERO -->
+    <header class="relative overflow-hidden">
+      <!-- Image de fond -->
+      <div
+        class="absolute inset-0 bg-cover bg-center opacity-60"
+        style="background-image: url('https://i.ibb.co/q5vnxms/kaaba-night.jpg');"
+      ></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/70 to-sira-bg"></div>
+
+      <div
+        class="relative max-w-6xl mx-auto px-4 pt-8 pb-16 sm:pt-10 sm:pb-20 md:pt-16 md:pb-24"
+      >
+        <div class="flex justify-between items-start">
+          <div>
+            <div class="text-xs uppercase tracking-[0.25em] text-sira-gold">
+              Parcours 8–10 ans
+            </div>
+            <h1
+              class="mt-4 text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight"
+            >
+              Un parcours SIRA pensé<br class="hidden sm:block" />
+              pour <span id="welcome-name">toi</span>
+            </h1>
+            <p class="mt-4 max-w-2xl text-sm sm:text-base text-slate-200">
+              Découvre la vie du Prophète ﷺ comme une série&nbsp;:
+              épisodes, saisons, défis et réflexions...
+              tout en restant fidèle au Coran et à la Sunna.
+            </p>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+              <button
+                id="hero-programme-btn"
+                class="rounded-full bg-sira-gold px-6 py-3 text-sm font-semibold text-slate-900 hover:bg-yellow-400 transition"
+              >
+                Voir la fiche du programme
+              </button>
+
+              <a
+                href="#saisons-section"
+                class="rounded-full border border-slate-600 px-6 py-3 text-sm font-semibold text-slate-100 hover:bg-slate-800/70 transition"
+              >
+                Parcourir les saisons
+              </a>
+
+              <button
+                data-och
+                class="rounded-full border border-slate-600 px-6 py-3 text-sm font-semibold text-slate-100 hover:bg-slate-800/70 transition"
+              >
+                Accéder aux cours
+              </button>
+            </div>
+          </div>
+
+          <button
+            id="change-profile-btn"
+            class="hidden sm:inline-flex items-center gap-2 rounded-full bg-black/40 px-4 py-2 text-xs font-medium text-slate-200 border border-slate-700 hover:bg-black/70"
+          >
+            <span
+              id="current-profile-circle"
+              class="flex h-7 w-7 items-center justify-center rounded-full bg-blue-500 text-xs font-bold"
+            >
+              ?
+            </span>
+            <span>Changer</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENU -->
+    <main class="flex-1 bg-sira-bg">
+      <section
+        id="saisons-section"
+        class="max-w-6xl mx-auto px-4 pt-10 pb-20"
+      >
+        <h2 class="text-2xl sm:text-3xl font-bold">Saisons SIRA</h2>
+        <p class="mt-2 text-sm text-slate-300">
+          Clique sur une saison pour voir la fiche détaillée avant
+          d’entrer dans les cours.
+        </p>
+
+        <div
+          class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          <!-- SAISON 1 -->
+          <article
+            class="season-card cursor-pointer overflow-hidden rounded-3xl bg-sira-card shadow-sira-soft hover:-translate-y-1 hover:shadow-2xl transition transform"
+            data-season-id="1"
+            data-season-title="Saison 1 — La Mecque : Les débuts de la Révélation"
+            data-season-description="Retrouve les premiers instants de la Révélation, les difficultés des premiers compagnons, la pression de Quraysh et la force intérieure du Prophète ﷺ. Un parcours pour comprendre que la foi grandit souvent dans les moments difficiles."
+          >
+            <div
+              class="h-32 bg-cover bg-center"
+              style="background-image: url('https://i.ibb.co/0KZH5dg/sira-season1.jpg');"
+            ></div>
+            <div class="p-5">
+              <p class="text-xs uppercase tracking-[0.25em] text-sira-gold">
+                Saison 1
+              </p>
+              <h3 class="mt-3 text-lg font-semibold">
+                La Mecque – Débuts de la Révélation
+              </h3>
+              <p class="mt-2 text-sm text-slate-300">
+                De la grotte de Hira jusqu’aux premières conversions, en
+                passant par la pression de Quraysh.
+              </p>
+            </div>
+          </article>
+
+          <!-- SAISON 2 -->
+          <article
+            class="season-card cursor-pointer overflow-hidden rounded-3xl bg-sira-card shadow-sira-soft hover:-translate-y-1 hover:shadow-2xl transition transform"
+            data-season-id="2"
+            data-season-title="Saison 2 — L'Élu : Patience et persévérance"
+            data-season-description="Les premiers musulmans, le boycott, l’Abyssinie, Ta’if… Une saison pour découvrir comment le Prophète ﷺ répond à la dureté par la miséricorde."
+          >
+            <div
+              class="h-32 bg-cover bg-center"
+              style="background-image: url('https://i.ibb.co/yF3F2nS/sira-season2.jpg');"
+            ></div>
+            <div class="p-5">
+              <p class="text-xs uppercase tracking-[0.25em] text-sira-gold">
+                Saison 2
+              </p>
+              <h3 class="mt-3 text-lg font-semibold">
+                L'Élu – Patience & épreuves
+              </h3>
+              <p class="mt-2 text-sm text-slate-300">
+                Entre boycott, douleurs et miracles, Allah prépare une
+                nouvelle étape : Médine.
+              </p>
+            </div>
+          </article>
+
+          <!-- SAISON 3 -->
+          <article
+            class="season-card cursor-pointer overflow-hidden rounded-3xl bg-sira-card shadow-sira-soft hover:-translate-y-1 hover:shadow-2xl transition transform"
+            data-season-id="3"
+            data-season-title="Saison 3 — L'Exil : Médine et la fraternité"
+            data-season-description="L’Hégire, l’accueil des Ansar, la construction de la mosquée, les premières batailles. Comprendre comment une communauté se construit."
+          >
+            <div
+              class="h-32 bg-cover bg-center"
+              style="background-image: url('https://i.ibb.co/hMWGQnB/sira-season3.jpg');"
+            ></div>
+            <div class="p-5">
+              <p class="text-xs uppercase tracking-[0.25em] text-sira-gold">
+                Saison 3
+              </p>
+              <h3 class="mt-3 text-lg font-semibold">
+                L’Exil – Médine & fraternité
+              </h3>
+              <p class="mt-2 text-sm text-slate-300">
+                Une nouvelle ville, de nouveaux défis, une Umma qui
+                apprend à vivre ensemble.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ======================= -->
+  <!-- MODAL SAISON            -->
+  <!-- ======================= -->
+  <div
+    id="season-modal"
+    class="fixed inset-0 z-40 hidden items-center justify-center bg-black/70"
+  >
+    <div
+      class="w-[95vw] max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl bg-sira-card shadow-sira-soft"
+    >
+      <div class="p-6 sm:p-8">
+        <div class="flex justify-between items-start gap-4">
+          <div>
+            <span
+              id="season-badge"
+              class="inline-flex items-center rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sira-gold"
+            >
+              Saison
+            </span>
+            <h2
+              id="season-title"
+              class="mt-4 text-xl sm:text-2xl font-bold"
+            >
+              Titre saison
+            </h2>
+          </div>
+          <button
+            type="button"
+            class="js-close-season text-slate-400 hover:text-white text-2xl leading-none"
+            aria-label="Fermer"
+          >
+            ×
+          </button>
+        </div>
+
+        <p
+          id="season-description"
+          class="mt-4 text-sm sm:text-base text-slate-200"
+        >
+          Description de la saison…
+        </p>
+
+        <p class="mt-4 text-xs text-slate-400">
+          Épisodes guidés + quiz + défis pratiques à vivre dans ta vie
+          quotidienne.
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <button
+            id="season-och-btn"
+            data-och
+            class="rounded-full bg-sira-gold px-6 py-3 text-sm font-semibold text-slate-900 hover:bg-yellow-400 transition"
+          >
+            Accéder aux cours
+          </button>
+          <button
+            type="button"
+            class="js-close-season rounded-full border border-slate-600 px-6 py-3 text-sm font-semibold text-slate-100 hover:bg-slate-800/70 transition"
+          >
+            Fermer
+          </button>
+        </div>
+
+        <p class="mt-4 text-[11px] text-slate-400">
+          L’accès aux cours se fait via ton espace sécurisé OCH
+          (OnlineCourseHost). Tes identifiants restent confidentiels.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= -->
+  <!-- MODAL OCH (IFRAME)      -->
+  <!-- ======================= -->
   <div
     id="och-modal"
-    class="fixed inset-0 z-50 hidden bg-slate-950"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80"
   >
-    <div class="flex flex-col h-full">
-      <!-- Barre du haut -->
-      <header
-        class="flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800"
+    <div
+      class="bg-sira-card rounded-3xl shadow-sira-soft w-[95vw] max-w-5xl h-[80vh] relative flex flex-col overflow-hidden"
+    >
+      <!-- Header de la modal -->
+      <div
+        class="flex items-center justify-between px-6 py-4 border-b border-slate-700 bg-sira-card/95 backdrop-blur-sm"
       >
         <div>
-          <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
+          <p
+            class="text-[10px] uppercase tracking-[0.25em] text-sira-gold"
+          >
             Parcours sécurisé
           </p>
-          <h2 class="text-sm sm:text-base font-semibold text-slate-50">
+          <h2 class="text-lg font-semibold text-white">
             Espace de cours Deenvertissement
           </h2>
-          <p class="text-[11px] text-slate-400 hidden sm:block">
-            Cette fenêtre ouvre ton espace de cours (OCH).
+          <p class="text-xs text-slate-400">
+            Cette fenêtre ouvre ton espace de cours.
           </p>
         </div>
 
         <button
           type="button"
           class="js-och-close text-slate-400 hover:text-white text-2xl leading-none"
-          aria-label="Fermer l’espace de cours"
+          aria-label="Fermer la fenêtre"
         >
           ×
         </button>
-      </header>
+      </div>
 
-      <!-- Contenu OCH -->
-      <main class="flex-1 bg-slate-950">
+      <!-- Corps : iframe OCH -->
+      <div class="flex-1 bg-slate-100">
         <iframe
           id="och-iframe"
           class="w-full h-full border-0"
@@ -432,29 +405,31 @@
           referrerpolicy="no-referrer"
           allow="clipboard-write; fullscreen"
         ></iframe>
-      </main>
+      </div>
 
-      <!-- Bandeau bas -->
-      <footer class="px-4 py-2 text-[11px] text-slate-400 bg-slate-900 border-t border-slate-800">
-        L’accès aux cours se fait via ton espace sécurisé OCH. Si la page ne charge pas, vérifie ta
-        connexion internet.
-      </footer>
+      <!-- Bas de la modal -->
+      <div
+        class="px-6 py-3 text-[11px] text-slate-400 border-t border-slate-800 bg-sira-card/95"
+      >
+        L’accès aux cours se fait via ton espace sécurisé OCH. Si la page
+        ne charge pas, vérifie ta connexion internet.
+      </div>
     </div>
   </div>
 
-  <!-- JS -->
+  <!-- APP JS -->
   <script src="app.js"></script>
 
   <!-- Service Worker PWA -->
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js')
-          .then(reg => console.log("SW installé :", reg.scope))
-          .catch(err => console.log("Erreur SW :", err));
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("./service-worker.js")
+          .then((reg) => console.log("SW installé :", reg.scope))
+          .catch((err) => console.log("Erreur SW :", err));
       });
     }
   </script>
-
 </body>
 </html>
