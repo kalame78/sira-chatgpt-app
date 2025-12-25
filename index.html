@@ -2,127 +2,129 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIRA CORANIQUE - App</title>
-    
-    <link rel="manifest" href="manifest.webmanifest">
-    
-    <meta name="theme-color" content="#141414">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+    <title>SIRA CORANIQUE</title>
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#0a0e17">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        'sira-dark': '#0a0e17',
+                        'sira-gold': '#FFD700',
+                    }
+                }
+            }
+        }
+    </script>
+
     <link rel="stylesheet" href="styles.css">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
 
-    <section id="profile-screen" class="screen active">
-        <div class="profile-container">
-            <h1>Qui veut apprendre ?</h1>
-            <div class="profiles-grid">
-                <div class="profile-item" onclick="selectProfile('Nabil')">
-                    <div class="avatar color-blue">N</div>
-                    <span>Nabil</span>
-                </div>
-                <div class="profile-item" onclick="selectProfile('Reda')">
-                    <div class="avatar color-red">R</div>
-                    <span>Reda</span>
-                </div>
-                <div class="profile-item" onclick="selectProfile('Testé')">
-                    <div class="avatar color-purple">T</div>
-                    <span>Testé</span>
-                </div>
-                <div class="profile-item add-profile">
-                    <div class="avatar color-grey"><i class="fas fa-plus"></i></div>
-                    <span>Ajouter</span>
-                </div>
-            </div>
-            <button class="manage-btn">Gérer les profils</button>
-        </div>
-    </section>
+    <!-- Audio de fond (optionnel) -->
+    <audio id="bg-audio" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_07647d6928.mp3?filename=desert-wind-19366.mp3" type="audio/mpeg">
+    </audio>
 
-    <section id="home-screen" class="screen hidden">
-        <nav class="navbar">
-            <div class="logo">SIRA CORANIQUE</div>
-            <div class="user-icon" onclick="logout()">
-                <span id="current-user-initial">N</span>
-            </div>
-        </nav>
+    <div id="app"></div>
 
-        <header class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Le Cours SIRA pensé pour toi</h1>
-                <p class="hero-desc">Vis la vie du Prophète ﷺ comme une série : épisodes, réflexions... tout en restant fidèle au Coran.</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="openModal()">
-                        <i class="fas fa-play"></i> Fiche du programme
-                    </button>
-                    <button class="btn btn-secondary" onclick="scrollToSeasons()">
-                        <i class="fas fa-info-circle"></i> Parcourir les saisons
-                    </button>
-                </div>
-            </div>
-        </header>
 
-        <main class="content-rows" id="seasons-container">
-            
-            <h3>Sira Coranique : Les Saisons</h3>
-            <div class="row">
-                <a href="https://deenvertissement.fr" target="_blank" class="card">
-                    <div class="card-image bg-mecque">SAISON 1</div>
-                    <div class="card-info">La Mecque</div>
-                </a>
-                <a href="https://deenvertissement.fr" target="_blank" class="card">
-                    <div class="card-image bg-medine">SAISON 2</div>
-                    <div class="card-info">Médine</div>
-                </a>
-            </div>
+<!-- ========================= -->
+<!-- MODAL OCH -->
+<!-- ========================= -->
+<div
+  id="och-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70"
+>
+  <div
+    class="bg-slate-900 rounded-3xl shadow-2xl w-[95vw] max-w-5xl h-[80vh] relative flex flex-col overflow-hidden"
+  >
+    <!-- Header -->
+    <div
+      class="flex items-center justify-between px-6 py-4 border-b border-slate-700 bg-slate-900/80 backdrop-blur-sm"
+    >
+      <div>
+        <p class="text-[10px] uppercase tracking-[0.25em] text-amber-400">
+          Parcours sécurisé
+        </p>
+        <h2 class="text-lg font-semibold text-white">
+          Espace de cours Deenvertissement
+        </h2>
+        <p class="text-xs text-slate-400">
+          Cette fenêtre ouvre ton espace de cours.
+        </p>
+      </div>
 
-            <h3>Pour les Plus Jeunes</h3>
-            <div class="row">
-                <a href="https://deenvertissement.fr" target="_blank" class="card">
-                    <div class="card-image bg-kids1">6-7 ANS</div>
-                    <div class="card-info">Les Explorateurs</div>
-                </a>
-                <a href="https://deenvertissement.fr" target="_blank" class="card">
-                    <div class="card-image bg-kids2">8-10 ANS</div>
-                    <div class="card-info">Sira 8-10 ans</div>
-                </a>
-            </div>
-
-            <h3>La Caverne</h3>
-            <div class="row">
-                <a href="https://deenvertissement.fr" target="_blank" class="card">
-                    <div class="card-image bg-caverne">LA CAVERNE</div>
-                    <div class="card-info">Immersion Totale</div>
-                </a>
-            </div>
-
-        </main>
-    </section>
-
-    <div id="info-modal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <div class="modal-header">
-                <h2>Programme SIRA CORANIQUE</h2>
-                <p class="match-score">Un voyage immersif à la rencontre de la Sira</p>
-            </div>
-            <div class="modal-body">
-                <p>Entre dans un univers où chaque épisode relie ton cœur à la vie du Prophète ﷺ. Vidéos, défis, quiz, réflexion personnelle : tout est conçu pour que tu vives la Sira, pas juste que tu l'écoutes.</p>
-                <ul class="modal-details">
-                    <li><strong>Public :</strong> Pour tous les âges</li>
-                    <li><strong>Accès :</strong> Sécurisé via ton espace Deenvertissement</li>
-                    <li><strong>Support :</strong> Accompagnement par ton enseignant</li>
-                </ul>
-                <a href="https://deenvertissement.fr/courses" class="btn btn-primary btn-block">
-                    Accéder aux cours
-                </a>
-            </div>
-        </div>
+      <button
+        type="button"
+        class="js-och-close text-slate-400 hover:text-white text-2xl leading-none"
+        aria-label="Fermer la fenêtre"
+      >
+        ×
+      </button>
     </div>
 
-    <script src="app.js"></script>
+    <!-- Corps : iframe OCH -->
+    <div class="flex-1 bg-slate-950">
+      <iframe
+        id="och-iframe"
+        class="w-full h-full border-0"
+        title="Espace de cours Deenvertissement"
+        loading="lazy"
+        allow="autoplay; clipboard-write; fullscreen; picture-in-picture"
+      ></iframe>
+    </div>
+
+    <!-- Bas -->
+    <div
+      class="px-6 py-3 text-[11px] text-slate-400 border-t border-slate-800 bg-slate-900/80"
+    >
+      L’accès aux cours se fait via ton espace sécurisé OCH.
+      Si la page ne charge pas, vérifie ta connexion internet.
+    </div>
+  </div>
+</div>
+
+
+<!-- ========================= -->
+<!-- APP JS -->
+<!-- ========================= -->
+<script src="app.js"></script>
+
+
+<!-- ========================= -->
+<!-- SERVICE WORKER -->
+<!-- ========================= -->
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+            .then(reg => console.log("SW installé :", reg.scope))
+            .catch(err => console.log("Erreur SW :", err));
+    });
+}
+</script>
+
 </body>
 </html>
