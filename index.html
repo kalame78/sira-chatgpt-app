@@ -1,831 +1,502 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  />
 
-    <title>SIRA CORANIQUE</title>
+  <title>SIRA CORANIQUE</title>
 
-    <!-- PWA -->
-    <meta name="theme-color" content="#0a0e17">
-    <link rel="manifest" href="manifest.webmanifest">
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <!-- PWA -->
+  <meta name="theme-color" content="#0a0e17" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <!-- Google Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap"
+    rel="stylesheet"
+  />
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Lucide Icons (si besoin plus tard) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: {
-                        'sira-dark': '#0a0e17',
-                        'sira-gold': '#FFD700',
-                    }
-                }
-            }
-        }
-    </script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Poppins", "sans-serif"] },
+          colors: {
+            "sira-dark": "#0a0e17",
+            "sira-gold": "#FFD700",
+          },
+        },
+      },
+    };
+  </script>
 
-    <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-sira-dark text-white font-sans">
 
-    <!-- Audio de fond (optionnel) -->
-    <audio id="bg-audio" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_07647d6928.mp3?filename=desert-wind-19366.mp3" type="audio/mpeg">
-    </audio>
+<body class="bg-sira-dark text-white">
+  <!-- Audio de fond (optionnel) -->
+  <audio id="bg-audio" loop>
+    <source
+      src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_07647d6928.mp3?filename=desert-wind-19366.mp3"
+      type="audio/mpeg"
+    />
+  </audio>
 
-    <!-- APP PRINCIPALE -->
-    <div id="app" class="min-h-screen">
-      <main class="max-w-5xl mx-auto px-4 py-8 space-y-10">
+  <!-- ===== CONTENU PRINCIPAL : PARCOURS 8–10 ANS ===== -->
+  <main class="min-h-screen">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
+      <!-- HERO -->
+      <section class="space-y-4">
+        <p class="text-xs font-semibold tracking-[0.3em] text-sira-gold uppercase">
+          Parcours 8–10 ans
+        </p>
 
-        <!-- HERO PRINCIPAL 8-10 ANS -->
-        <section class="space-y-3">
-          <p class="text-xs uppercase tracking-[0.3em] text-sira-gold">
-            Parcours 8–10 ans
-          </p>
-          <h1 class="text-3xl sm:text-4xl font-extrabold">
-            SIRA CORANIQUE – Saison 1 : <span class="text-sira-gold">L’Aube</span>
-          </h1>
-          <p class="text-sm sm:text-base text-slate-300 max-w-2xl">
-            Découvre comment Allah a préparé la vie du Prophète Muhammad ﷺ avant la révélation :
-            La Mecque, la Kaaba, la tribu de Quraysh et l’Année de l’Éléphant. Chaque épisode
-            relie une histoire de la Sira à un verset du Coran.
-          </p>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
+          SIRA CORANIQUE – Saison 1 :
+          <span class="text-sira-gold">L’Aube</span>
+        </h1>
 
-          <button
-            type="button"
-            class="inline-flex items-center gap-2 rounded-full bg-sira-gold text-sira-dark px-5 py-2.5 text-sm font-semibold shadow-lg shadow-amber-500/20 hover:brightness-110 active:scale-95 transition"
-          >
-            Commencer l’aventure
-          </button>
-        </section>
+        <p class="text-sm sm:text-base text-slate-300 max-w-3xl">
+          Découvre comment Allah a préparé la vie du Prophète Muhammad ﷺ
+          avant la révélation : La Mecque, la Kaaba, la tribu de Quraysh et
+          l’Année de l’Éléphant. Chaque épisode relie une histoire de la Sira
+          à un verset du Coran.
+        </p>
 
-        <!-- RAIL SAISON 1 : EPISODES -->
-        <section class="space-y-4">
-          <div class="flex items-baseline justify-between gap-2">
-            <div>
-              <h2 class="text-xl font-semibold">Commencer par le début</h2>
-              <p class="text-xs text-slate-400">
-                Les 7 premiers épisodes pour comprendre les origines de la Sira.
-              </p>
-            </div>
-          </div>
+        <button
+          type="button"
+          class="mt-3 inline-flex items-center justify-center px-6 py-3 rounded-full bg-sira-gold text-sira-dark font-semibold text-sm shadow-lg shadow-sira-gold/30 hover:shadow-sira-gold/40 active:scale-95 transition"
+          data-episode-id="1"
+        >
+          Commencer l’aventure
+        </button>
+      </section>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- LISTE EPISODES EN RAIL HORIZONTAL -->
+      <section class="space-y-3">
+        <h2 class="text-xl sm:text-2xl font-semibold">
+          Commencer par le début
+        </h2>
+        <p class="text-sm text-slate-400">
+          Les 7 premiers épisodes pour comprendre les origines de la Sira.
+        </p>
 
+        <!-- Conteneur scroll horizontal -->
+        <div class="-mx-4 sm:-mx-6 lg:-mx-8 overflow-x-auto pb-4 hide-scrollbar">
+          <div class="flex gap-4 px-4 sm:px-6 lg:px-8">
+            <!-- Chaque carte a une largeur fixe pour former un rail -->
             <!-- EPISODE 1 -->
-            <article class="bg-[#111827] border border-white/5 rounded-2xl p-4 flex flex-col justify-between shadow-lg shadow-black/40">
-              <div class="space-y-2">
-                <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
+            <article
+              class="w-[85vw] max-w-sm md:w-80 flex-shrink-0 rounded-3xl bg-slate-900/80 border border-slate-800 px-5 py-5 flex flex-col justify-between"
+            >
+              <div class="space-y-3">
+                <p class="text-[11px] tracking-[0.25em] uppercase text-sira-gold">
                   Saison 1 · Épisode 1
                 </p>
                 <h3 class="text-lg font-semibold">
                   Les Racines : Ibrahim &amp; la Kaaba
                 </h3>
-                <p class="text-xs text-slate-300">
-                  Comment La Mecque est devenue une ville spéciale et pourquoi la Kaaba a été construite.
+                <p class="text-sm text-slate-300">
+                  Comment La Mecque est devenue une ville spéciale et pourquoi la
+                  Kaaba a été construite.
                 </p>
-                <p class="text-[11px] text-slate-400">
-                  Verset clé : “Et quand Ibrahim et Ismaël élevaient les fondations de la Maison…”
-                  (Sourate Al-Baqara)
+                <p class="text-xs text-slate-400">
+                  Verset clé :
+                  <span class="italic">
+                    “Et quand Ibrahim et Ismaël élevaient les fondations de la
+                    Maison…” (Sourate Al-Baqara)
+                  </span>
                 </p>
               </div>
               <div class="mt-4 flex items-center justify-between text-[11px] text-slate-400">
                 <span>Durée : ~45 min</span>
                 <span>Niveau : 8–10 ans</span>
               </div>
-              <div class="mt-4">
-                <button
-                  type="button"
-                  class="js-open-episode inline-flex w-full items-center justify-center rounded-full bg-white/10 hover:bg-white/20 px-4 py-2 text-sm font-semibold"
-                  data-target="#episode-modal-s1e1"
-                >
-                  Voir l’épisode
-                </button>
-              </div>
+              <button
+                type="button"
+                class="mt-4 w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-semibold py-2.5"
+                data-episode-id="1"
+              >
+                Voir l’épisode
+              </button>
             </article>
 
             <!-- EPISODE 2 -->
-            <article class="bg-[#111827] border border-white/5 rounded-2xl p-4 flex flex-col justify-between shadow-lg shadow-black/40">
-              <div class="space-y-2">
-                <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
+            <article
+              class="w-[85vw] max-w-sm md:w-80 flex-shrink-0 rounded-3xl bg-slate-900/80 border border-slate-800 px-5 py-5 flex flex-col justify-between"
+            >
+              <div class="space-y-3">
+                <p class="text-[11px] tracking-[0.25em] uppercase text-sira-gold">
                   Saison 1 · Épisode 2
                 </p>
-                <h3 class="text-lg font-semibold">
-                  L’Année de l’Éléphant
-                </h3>
-                <p class="text-xs text-slate-300">
-                  Abraha voulait détruire la Kaaba… mais Allah a protégé Sa Maison d’une façon incroyable !
+                <h3 class="text-lg font-semibold">L’Année de l’Éléphant</h3>
+                <p class="text-sm text-slate-300">
+                  Abraha voulait détruire la Kaaba… mais Allah a protégé Sa
+                  Maison d’une façon incroyable !
                 </p>
-                <p class="text-[11px] text-slate-400">
-                  Verset clé : Sourate Al-Fil – “N’as-tu pas vu comment ton Seigneur a agi avec les gens de l’Éléphant ?”
+                <p class="text-xs text-slate-400">
+                  Verset clé :
+                  <span class="italic">
+                    Sourate Al-Fil – “N’as-tu pas vu comment ton Seigneur a agi
+                    avec les gens de l’Éléphant ?”
+                  </span>
                 </p>
               </div>
               <div class="mt-4 flex items-center justify-between text-[11px] text-slate-400">
                 <span>Durée : ~45 min</span>
                 <span>Niveau : 8–10 ans</span>
               </div>
-              <div class="mt-4">
-                <button
-                  type="button"
-                  class="js-open-episode inline-flex w-full items-center justify-center rounded-full bg-white/10 hover:bg-white/20 px-4 py-2 text-sm font-semibold"
-                  data-target="#episode-modal-s1e2"
-                >
-                  Voir l’épisode
-                </button>
-              </div>
+              <button
+                type="button"
+                class="mt-4 w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-semibold py-2.5"
+                data-episode-id="2"
+              >
+                Voir l’épisode
+              </button>
             </article>
 
             <!-- EPISODE 3 -->
-            <article class="bg-[#111827] border border-white/5 rounded-2xl p-4 flex flex-col justify-between shadow-lg shadow-black/40">
-              <div class="space-y-2">
-                <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
+            <article
+              class="w-[85vw] max-w-sm md:w-80 flex-shrink-0 rounded-3xl bg-slate-900/80 border border-slate-800 px-5 py-5 flex flex-col justify-between"
+            >
+              <div class="space-y-3">
+                <p class="text-[11px] tracking-[0.25em] uppercase text-sira-gold">
                   Saison 1 · Épisode 3
                 </p>
-                <h3 class="text-lg font-semibold">
-                  Les Quraysh
-                </h3>
-                <p class="text-xs text-slate-300">
-                  Qui étaient la tribu du Prophète ﷺ ? Pourquoi ils étaient importants à La Mecque ?
+                <h3 class="text-lg font-semibold">Les Quraysh</h3>
+                <p class="text-sm text-slate-300">
+                  Qui étaient la tribu du Prophète ﷺ ? Pourquoi ils étaient
+                  importants à La Mecque ?
                 </p>
-                <p class="text-[11px] text-slate-400">
-                  Verset clé : Sourate Quraysh – “À cause des pactes des Quraysh…”
+                <p class="text-xs text-slate-400">
+                  Verset clé :
+                  <span class="italic">
+                    Sourate Quraysh – “À cause des pactes des Quraysh…”
+                  </span>
                 </p>
               </div>
               <div class="mt-4 flex items-center justify-between text-[11px] text-slate-400">
                 <span>Durée : ~45 min</span>
                 <span>Niveau : 8–10 ans</span>
               </div>
-              <div class="mt-4">
-                <button
-                  type="button"
-                  class="js-open-episode inline-flex w-full items-center justify-center rounded-full bg-white/10 hover:bg-white/20 px-4 py-2 text-sm font-semibold"
-                  data-target="#episode-modal-s1e3"
-                >
-                  Voir l’épisode
-                </button>
-              </div>
+              <button
+                type="button"
+                class="mt-4 w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-semibold py-2.5"
+                data-episode-id="3"
+              >
+                Voir l’épisode
+              </button>
             </article>
 
             <!-- EPISODE 4 -->
-            <article class="bg-[#111827] border border-white/5 rounded-2xl p-4 flex flex-col justify-between shadow-lg shadow-black/40">
-              <div class="space-y-2">
-                <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
+            <article
+              class="w-[85vw] max-w-sm md:w-80 flex-shrink-0 rounded-3xl bg-slate-900/80 border border-slate-800 px-5 py-5 flex flex-col justify-between"
+            >
+              <div class="space-y-3">
+                <p class="text-[11px] tracking-[0.25em] uppercase text-sira-gold">
                   Saison 1 · Épisode 4
                 </p>
                 <h3 class="text-lg font-semibold">
-                  L’Orphelin protégé par Allah
+                  L’Orphelin du Désert : Amina &amp; Halima
                 </h3>
-                <p class="text-xs text-slate-300">
-                  Le Prophète ﷺ a perdu ses parents… mais Allah ne l’a jamais laissé seul.
+                <p class="text-sm text-slate-300">
+                  Le Prophète ﷺ a perdu ses parents très jeune… mais Allah ne
+                  l’a jamais laissé seul.
                 </p>
-                <p class="text-[11px] text-slate-400">
-                  Verset clé : “Ne t’a-t-Il pas trouvé orphelin ?” (Sourate Ad-Duha)
+                <p class="text-xs text-slate-400">
+                  Verset clé :
+                  <span class="italic">
+                    Sourate Ad-Duha – “Ne t’a-t-Il pas trouvé orphelin, puis Il
+                    t’a accordé un refuge ?”.
+                  </span>
                 </p>
               </div>
               <div class="mt-4 flex items-center justify-between text-[11px] text-slate-400">
                 <span>Durée : ~45 min</span>
                 <span>Niveau : 8–10 ans</span>
               </div>
-              <div class="mt-4">
-                <button
-                  type="button"
-                  class="js-open-episode inline-flex w-full items-center justify-center rounded-full bg-white/10 hover:bg-white/20 px-4 py-2 text-sm font-semibold"
-                  data-target="#episode-modal-s1e4"
-                >
-                  Voir l’épisode
-                </button>
-              </div>
+              <button
+                type="button"
+                class="mt-4 w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-semibold py-2.5"
+                data-episode-id="4"
+              >
+                Voir l’épisode
+              </button>
             </article>
 
             <!-- EPISODE 5 -->
-            <article class="bg-[#111827] border border-white/5 rounded-2xl p-4 flex flex-col justify-between shadow-lg shadow-black/40">
-              <div class="space-y-2">
-                <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
+            <article
+              class="w-[85vw] max-w-sm md:w-80 flex-shrink-0 rounded-3xl bg-slate-900/80 border border-slate-800 px-5 py-5 flex flex-col justify-between"
+            >
+              <div class="space-y-3">
+                <p class="text-[11px] tracking-[0.25em] uppercase text-sira-gold">
                   Saison 1 · Épisode 5
                 </p>
                 <h3 class="text-lg font-semibold">
-                  Le Cœur purifié
+                  L’Ouverture de la Poitrine
                 </h3>
-                <p class="text-xs text-slate-300">
-                  Qu’est-ce que ça veut dire “Allah a ouvert sa poitrine” ? Et pourquoi c’est important ?
+                <p class="text-sm text-slate-300">
+                  L’épisode où le cœur du Prophète ﷺ est purifié pour recevoir
+                  la lumière de la Révélation.
                 </p>
-                <p class="text-[11px] text-slate-400">
-                  Verset clé : “N’avons-Nous pas ouvert pour toi ta poitrine ?” (Sourate Ash-Sharh)
+                <p class="text-xs text-slate-400">
+                  Verset clé :
+                  <span class="italic">
+                    Sourate Ash-Sharh – “N’avons-nous pas ouvert pour toi ta
+                    poitrine ?”.
+                  </span>
                 </p>
               </div>
               <div class="mt-4 flex items-center justify-between text-[11px] text-slate-400">
                 <span>Durée : ~45 min</span>
                 <span>Niveau : 8–10 ans</span>
               </div>
-              <div class="mt-4">
-                <button
-                  type="button"
-                  class="js-open-episode inline-flex w-full items-center justify-center rounded-full bg-white/10 hover:bg-white/20 px-4 py-2 text-sm font-semibold"
-                  data-target="#episode-modal-s1e5"
-                >
-                  Voir l’épisode
-                </button>
-              </div>
+              <button
+                type="button"
+                class="mt-4 w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-semibold py-2.5"
+                data-episode-id="5"
+              >
+                Voir l’épisode
+              </button>
             </article>
 
             <!-- EPISODE 6 -->
-            <article class="bg-[#111827] border border-white/5 rounded-2xl p-4 flex flex-col justify-between shadow-lg shadow-black/40">
-              <div class="space-y-2">
-                <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
+            <article
+              class="w-[85vw] max-w-sm md:w-80 flex-shrink-0 rounded-3xl bg-slate-900/80 border border-slate-800 px-5 py-5 flex flex-col justify-between"
+            >
+              <div class="space-y-3">
+                <p class="text-[11px] tracking-[0.25em] uppercase text-sira-gold">
                   Saison 1 · Épisode 6
                 </p>
-                <h3 class="text-lg font-semibold">
-                  Le Moine Bahira
-                </h3>
-                <p class="text-xs text-slate-300">
-                  Même des savants d’autres religions savaient qu’un dernier Prophète allait venir.
+                <h3 class="text-lg font-semibold">Le Moine Bahira</h3>
+                <p class="text-sm text-slate-300">
+                  Un moine chrétien reconnaît les signes de la prophétie chez le
+                  jeune Muhammad ﷺ.
                 </p>
-                <p class="text-[11px] text-slate-400">
-                  Verset clé : “Tu es certes d’une moralité éminente.” (Sourate Al-Qalam)
+                <p class="text-xs text-slate-400">
+                  Verset clé :
+                  <span class="italic">
+                    Sourate Al-Qalam – “Tu es, certes, d’une moralité
+                    éminente.”
+                  </span>
                 </p>
               </div>
               <div class="mt-4 flex items-center justify-between text-[11px] text-slate-400">
                 <span>Durée : ~45 min</span>
                 <span>Niveau : 8–10 ans</span>
               </div>
-              <div class="mt-4">
-                <button
-                  type="button"
-                  class="js-open-episode inline-flex w-full items-center justify-center rounded-full bg-white/10 hover:bg-white/20 px-4 py-2 text-sm font-semibold"
-                  data-target="#episode-modal-s1e6"
-                >
-                  Voir l’épisode
-                </button>
-              </div>
+              <button
+                type="button"
+                class="mt-4 w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-semibold py-2.5"
+                data-episode-id="6"
+              >
+                Voir l’épisode
+              </button>
             </article>
 
             <!-- EPISODE 7 -->
-            <article class="bg-[#111827] border border-white/5 rounded-2xl p-4 flex flex-col justify-between shadow-lg shadow-black/40">
-              <div class="space-y-2">
-                <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
+            <article
+              class="w-[85vw] max-w-sm md:w-80 flex-shrink-0 rounded-3xl bg-slate-900/80 border border-slate-800 px-5 py-5 flex flex-col justify-between"
+            >
+              <div class="space-y-3">
+                <p class="text-[11px] tracking-[0.25em] uppercase text-sira-gold">
                   Saison 1 · Épisode 7
                 </p>
-                <h3 class="text-lg font-semibold">
-                  Al-Amîn &amp; Khadija
-                </h3>
-                <p class="text-xs text-slate-300">
-                  Pourquoi tout le monde faisait confiance au Prophète ﷺ ? Et comment il s’est marié avec Khadija.
+                <h3 class="text-lg font-semibold">Al-Amin &amp; Khadija</h3>
+                <p class="text-sm text-slate-300">
+                  Comment le Prophète ﷺ est devenu “Al-Amîn” (le digne de
+                  confiance) et a épousé Khadija رضي الله عنها.
                 </p>
-                <p class="text-[11px] text-slate-400">
-                  Thème : Le commerce honnête, la confiance et le rôle de Khadija comme soutien.
+                <p class="text-xs text-slate-400">
+                  Verset clé :
+                  <span class="italic">
+                    “Et tu es certes, d’un immense caractère.” (Al-Qalam 68:4)
+                  </span>
                 </p>
               </div>
               <div class="mt-4 flex items-center justify-between text-[11px] text-slate-400">
                 <span>Durée : ~45 min</span>
                 <span>Niveau : 8–10 ans</span>
               </div>
-              <div class="mt-4">
-                <button
-                  type="button"
-                  class="js-open-episode inline-flex w-full items-center justify-center rounded-full bg-white/10 hover:bg-white/20 px-4 py-2 text-sm font-semibold"
-                  data-target="#episode-modal-s1e7"
-                >
-                  Voir l’épisode
-                </button>
-              </div>
+              <button
+                type="button"
+                class="mt-4 w-full rounded-full bg-slate-800 hover:bg-slate-700 text-sm font-semibold py-2.5"
+                data-episode-id="7"
+              >
+                Voir l’épisode
+              </button>
             </article>
-
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- PLUS TARD : RAIL “JEUX & MISSIONS” ICI -->
-
-      </main>
-    </div>
-
-    <!-- MODALS EPISODES (x7) -->
-
-    <!-- EPISODE 1 -->
-    <div
-      id="episode-modal-s1e1"
-      class="episode-modal fixed inset-0 z-40 hidden items-center justify-center bg-black/70"
-    >
-      <div class="bg-slate-900 rounded-3xl shadow-2xl w-[95vw] max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
-        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90 backdrop-blur">
+      <!-- ACCES GENERIQUE AUX COURS -->
+      <section class="border-t border-slate-800 pt-6 mt-4">
+        <div
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+        >
           <div>
-            <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
-              Saison 1 · Épisode 1
-            </p>
-            <h2 class="text-lg sm:text-xl font-semibold">
-              Les Racines : Ibrahim &amp; la Kaaba
+            <h2 class="text-base sm:text-lg font-semibold">
+              Accéder à tous tes cours en ligne
             </h2>
+            <p class="text-sm text-slate-400 max-w-xl">
+              Ton espace sécurisé OCH regroupe toutes les vidéos, PDF, jeux et
+              missions Deenvertissement pour ce programme.
+            </p>
           </div>
+
           <button
             type="button"
-            class="js-episode-close text-slate-400 hover:text-white text-2xl leading-none"
-            aria-label="Fermer la fiche"
-          >
-            ×
-          </button>
-        </div>
-        <div class="px-6 py-4 space-y-4 overflow-y-auto text-sm">
-          <p class="text-slate-200">
-            Avant la naissance du Prophète Muhammad ﷺ, Allah a préparé La Mecque.
-            Dans cet épisode, tu découvres comment Ibrahim et son fils Ismaël ont construit la Kaaba
-            et pourquoi cette ville est devenue si importante.
-          </p>
-          <div class="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
-            <p class="text-xs uppercase tracking-[0.25em] text-sira-gold mb-1">
-              Ancrage coranique
-            </p>
-            <p class="text-[13px] text-slate-100">
-              “Et quand Ibrahim et Ismaël élevaient les fondations de la Maison…”
-              <span class="text-slate-300">(Sourate Al-Baqara)</span>
-            </p>
-          </div>
-          <div class="space-y-1">
-            <p class="text-xs uppercase tracking-[0.25em] text-slate-400">
-              Ce que tu vas comprendre
-            </p>
-            <ul class="list-disc list-inside text-slate-200 text-[13px] space-y-1">
-              <li>d’où vient la Kaaba</li>
-              <li>pourquoi La Mecque est une ville spéciale</li>
-              <li>comment Allah prépare les choses longtemps à l’avance</li>
-            </ul>
-          </div>
-        </div>
-        <div class="px-6 py-4 border-t border-slate-800 bg-slate-900/95">
-          <button
-            type="button"
-            class="inline-flex w-full items-center justify-center rounded-full bg-sira-gold text-sira-dark px-4 py-2.5 text-sm font-semibold shadow-lg shadow-amber-500/30 hover:brightness-110 active:scale-95 transition"
+            class="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-slate-100 text-sira-dark text-sm font-semibold hover:bg-white transition"
             data-och
           >
-            Accéder à la leçon sur la plateforme
+            Ouvrir l’espace de cours
           </button>
-          <p class="mt-2 text-[10px] text-slate-400 text-center">
-            Ce bouton ouvre ton espace de cours sécurisé (OCH) dans une fenêtre intégrée à l’application.
-          </p>
         </div>
-      </div>
+      </section>
     </div>
+  </main>
 
-    <!-- EPISODE 2 -->
+  <!-- ===== MODALE EPISODE (info + bouton vers plateforme) ===== -->
+  <div
+    id="episode-modal"
+    class="fixed inset-0 z-40 hidden items-center justify-center bg-black/70 px-4"
+  >
     <div
-      id="episode-modal-s1e2"
-      class="episode-modal fixed inset-0 z-40 hidden items-center justify-center bg-black/70"
+      class="bg-slate-900 rounded-3xl shadow-2xl w-full max-w-lg p-5 sm:p-6 space-y-4 border border-slate-700"
     >
-      <div class="bg-slate-900 rounded-3xl shadow-2xl w-[95vw] max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
-        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90 backdrop-blur">
-          <div>
-            <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
-              Saison 1 · Épisode 2
-            </p>
-            <h2 class="text-lg sm:text-xl font-semibold">
-              L’Année de l’Éléphant
-            </h2>
-          </div>
-          <button
-            type="button"
-            class="js-episode-close text-slate-400 hover:text-white text-2xl leading-none"
-            aria-label="Fermer la fiche"
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p
+            class="text-[10px] uppercase tracking-[0.25em] text-sira-gold mb-1"
+            id="episode-modal-tag"
           >
-            ×
-          </button>
-        </div>
-        <div class="px-6 py-4 space-y-4 overflow-y-auto text-sm">
-          <p class="text-slate-200">
-            Abraha a construit une grande église et voulait que tout le monde y prie.
-            Comme les gens continuaient d’aller à la Kaaba, il a décidé de la détruire avec une armée et des éléphants.
-            Tu vas découvrir comment Allah a protégé Sa Maison d’une façon spectaculaire.
+            Saison 1 · Épisode
           </p>
-          <div class="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
-            <p class="text-xs uppercase tracking-[0.25em] text-sira-gold mb-1">
-              Ancrage coranique
-            </p>
-            <p class="text-[13px] text-slate-100">
-              “N’as-tu pas vu comment ton Seigneur a agi avec les gens de l’Éléphant ?”
-              <span class="text-slate-300">(Sourate Al-Fil)</span>
-            </p>
-          </div>
-          <div class="space-y-1">
-            <p class="text-xs uppercase tracking-[0.25em] text-slate-400">
-              Ce que tu vas comprendre
-            </p>
-            <ul class="list-disc list-inside text-slate-200 text-[13px] space-y-1">
-              <li>qui était Abraha et ce qu’il voulait faire</li>
-              <li>pourquoi la Kaaba est plus importante qu’un bâtiment luxueux</li>
-              <li>comment Allah protège Sa Maison et Ses serviteurs</li>
-            </ul>
-          </div>
+          <h2 id="episode-modal-title" class="text-lg sm:text-xl font-semibold">
+            Titre de l’épisode
+          </h2>
         </div>
-        <div class="px-6 py-4 border-t border-slate-800 bg-slate-900/95">
-          <button
-            type="button"
-            class="inline-flex w-full items-center justify-center rounded-full bg-sira-gold text-sira-dark px-4 py-2.5 text-sm font-semibold shadow-lg shadow-amber-500/30 hover:brightness-110 active:scale-95 transition"
-            data-och
-          >
-            Accéder à la leçon sur la plateforme
-          </button>
-          <p class="mt-2 text-[10px] text-slate-400 text-center">
-            Ce bouton ouvre ton espace de cours sécurisé (OCH) dans une fenêtre intégrée à l’application.
-          </p>
-        </div>
+        <button
+          type="button"
+          class="js-episode-close text-slate-400 hover:text-white text-xl leading-none"
+          aria-label="Fermer"
+        >
+          ×
+        </button>
       </div>
-    </div>
 
-    <!-- EPISODE 3 -->
-    <div
-      id="episode-modal-s1e3"
-      class="episode-modal fixed inset-0 z-40 hidden items-center justify-center bg-black/70"
-    >
-      <div class="bg-slate-900 rounded-3xl shadow-2xl w-[95vw] max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
-        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90 backdrop-blur">
-          <div>
-            <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
-              Saison 1 · Épisode 3
-            </p>
-            <h2 class="text-lg sm:text-xl font-semibold">
-              Les Quraysh
-            </h2>
-          </div>
-          <button
-            type="button"
-            class="js-episode-close text-slate-400 hover:text-white text-2xl leading-none"
-            aria-label="Fermer la fiche"
-          >
-            ×
-          </button>
-        </div>
-        <div class="px-6 py-4 space-y-4 overflow-y-auto text-sm">
-          <p class="text-slate-200">
-            Les Quraysh étaient la tribu du Prophète Muhammad ﷺ. Ils vivaient à La Mecque,
-            géraient la Kaaba et organisaient les grands voyages de commerce.
-            Tu vas voir pourquoi ils avaient un rôle important… et comment ils ont oublié les bienfaits d’Allah.
-          </p>
-          <div class="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
-            <p class="text-xs uppercase tracking-[0.25em] text-sira-gold mb-1">
-              Ancrage coranique
-            </p>
-            <p class="text-[13px] text-slate-100">
-              “À cause du pacte des Quraysh…” 
-              <span class="text-slate-300">(Sourate Quraysh)</span>
-            </p>
-          </div>
-          <div class="space-y-1">
-            <p class="text-xs uppercase tracking-[0.25em] text-slate-400">
-              Ce que tu vas comprendre
-            </p>
-            <ul class="list-disc list-inside text-slate-200 text-[13px] space-y-1">
-              <li>qui étaient les Quraysh</li>
-              <li>pourquoi Allah leur a donné la sécurité et la nourriture</li>
-              <li>ce que signifie ingratitude et reconnaissance envers Allah</li>
-            </ul>
-          </div>
-        </div>
-        <div class="px-6 py-4 border-t border-slate-800 bg-slate-900/95">
-          <button
-            type="button"
-            class="inline-flex w-full items-center justify-center rounded-full bg-sira-gold text-sira-dark px-4 py-2.5 text-sm font-semibold shadow-lg shadow-amber-500/30 hover:brightness-110 active:scale-95 transition"
-            data-och
-          >
-            Accéder à la leçon sur la plateforme
-          </button>
-          <p class="mt-2 text-[10px] text-slate-400 text-center">
-            Ce bouton ouvre ton espace de cours sécurisé (OCH) dans une fenêtre intégrée à l’application.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- EPISODE 4 -->
-    <div
-      id="episode-modal-s1e4"
-      class="episode-modal fixed inset-0 z-40 hidden items-center justify-center bg-black/70"
-    >
-      <div class="bg-slate-900 rounded-3xl shadow-2xl w-[95vw] max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
-        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90 backdrop-blur">
-          <div>
-            <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
-              Saison 1 · Épisode 4
-            </p>
-            <h2 class="text-lg sm:text-xl font-semibold">
-              L’Orphelin protégé par Allah
-            </h2>
-          </div>
-          <button
-            type="button"
-            class="js-episode-close text-slate-400 hover:text-white text-2xl leading-none"
-            aria-label="Fermer la fiche"
-          >
-            ×
-          </button>
-        </div>
-        <div class="px-6 py-4 space-y-4 overflow-y-auto text-sm">
-          <p class="text-slate-200">
-            Le Prophète Muhammad ﷺ a perdu son père avant de naître, puis sa mère quand il était encore enfant.
-            Pourtant, Allah l’a toujours protégé et entouré de personnes bonnes.
-            Tu vas découvrir comment Allah prend soin des cœurs blessés.
-          </p>
-          <div class="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
-            <p class="text-xs uppercase tracking-[0.25em] text-sira-gold mb-1">
-              Ancrage coranique
-            </p>
-            <p class="text-[13px] text-slate-100">
-              “Ne t’a-t-Il pas trouvé orphelin ? Puis Il t’a donné refuge.”
-              <span class="text-slate-300">(Sourate Ad-Duha)</span>
-            </p>
-          </div>
-          <div class="space-y-1">
-            <p class="text-xs uppercase tracking-[0.25em] text-slate-400">
-              Ce que tu vas comprendre
-            </p>
-            <ul class="list-disc list-inside text-slate-200 text-[13px] space-y-1">
-              <li>ce que signifie être orphelin</li>
-              <li>comment Allah protège ceux qui semblent seuls</li>
-              <li>comment nous devons traiter les personnes fragiles autour de nous</li>
-            </ul>
-          </div>
-        </div>
-        <div class="px-6 py-4 border-t border-slate-800 bg-slate-900/95">
-          <button
-            type="button"
-            class="inline-flex w-full items-center justify-center rounded-full bg-sira-gold text-sira-dark px-4 py-2.5 text-sm font-semibold shadow-lg shadow-amber-500/30 hover:brightness-110 active:scale-95 transition"
-            data-och
-          >
-            Accéder à la leçon sur la plateforme
-          </button>
-          <p class="mt-2 text-[10px] text-slate-400 text-center">
-            Ce bouton ouvre ton espace de cours sécurisé (OCH) dans une fenêtre intégrée à l’application.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- EPISODE 5 -->
-    <div
-      id="episode-modal-s1e5"
-      class="episode-modal fixed inset-0 z-40 hidden items-center justify-center bg-black/70"
-    >
-      <div class="bg-slate-900 rounded-3xl shadow-2xl w-[95vw] max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
-        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90 backdrop-blur">
-          <div>
-            <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
-              Saison 1 · Épisode 5
-            </p>
-            <h2 class="text-lg sm:text-xl font-semibold">
-              Le Cœur purifié
-            </h2>
-          </div>
-          <button
-            type="button"
-            class="js-episode-close text-slate-400 hover:text-white text-2xl leading-none"
-            aria-label="Fermer la fiche"
-          >
-            ×
-          </button>
-        </div>
-        <div class="px-6 py-4 space-y-4 overflow-y-auto text-sm">
-          <p class="text-slate-200">
-            Avant de recevoir la révélation, le Prophète ﷺ a vécu un événement spécial :
-            son cœur a été purifié par des anges. Tu vas voir ce que cela signifie et ce que
-            cela nous apprend sur la pureté du cœur et la protection contre le mal.
-          </p>
-          <div class="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
-            <p class="text-xs uppercase tracking-[0.25em] text-sira-gold mb-1">
-              Ancrage coranique
-            </p>
-            <p class="text:[13px] text-slate-100">
-              “N’avons-Nous pas ouvert pour toi ta poitrine ?”
-              <span class="text-slate-300">(Sourate Ash-Sharh)</span>
-            </p>
-          </div>
-          <div class="space-y-1">
-            <p class="text-xs uppercase tracking-[0.25em] text-slate-400">
-              Ce que tu vas comprendre
-            </p>
-            <ul class="list-disc list-inside text-slate-200 text-[13px] space-y-1">
-              <li>ce que signifie “ouvrir la poitrine” dans le Coran</li>
-              <li>pourquoi le cœur est au centre de la foi</li>
-              <li>comment protéger ton propre cœur des mauvaises influences</li>
-            </ul>
-          </div>
-        </div>
-        <div class="px-6 py-4 border-t border-slate-800 bg-slate-900/95">
-          <button
-            type="button"
-            class="inline-flex w-full items-center justify-center rounded-full bg-sira-gold text-sira-dark px-4 py-2.5 text-sm font-semibold shadow-lg shadow-amber-500/30 hover:brightness-110 active:scale-95 transition"
-            data-och
-          >
-            Accéder à la leçon sur la plateforme
-          </button>
-          <p class="mt-2 text-[10px] text-slate-400 text-center">
-            Ce bouton ouvre ton espace de cours sécurisé (OCH) dans une fenêtre intégrée à l’application.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- EPISODE 6 -->
-    <div
-      id="episode-modal-s1e6"
-      class="episode-modal fixed inset-0 z-40 hidden items-center justify-center bg-black/70"
-    >
-      <div class="bg-slate-900 rounded-3xl shadow-2xl w-[95vw] max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
-        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90 backdrop-blur">
-          <div>
-            <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
-              Saison 1 · Épisode 6
-            </p>
-            <h2 class="text-lg sm:text-xl font-semibold">
-              Le Moine Bahira
-            </h2>
-          </div>
-          <button
-            type="button"
-            class="js-episode-close text-slate-400 hover:text-white text-2xl leading-none"
-            aria-label="Fermer la fiche"
-          >
-            ×
-          </button>
-        </div>
-        <div class="px-6 py-4 space-y-4 overflow-y-auto text-sm">
-          <p class="text-slate-200">
-            Quand le Prophète ﷺ était jeune, il a voyagé avec son oncle.
-            Un moine chrétien nommé Bahira a remarqué des signes spéciaux sur lui
-            et a compris qu’il serait un jour le dernier Messager.
-          </p>
-          <div class="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
-            <p class="text-xs uppercase tracking-[0.25em] text-sira-gold mb-1">
-              Ancrage coranique
-            </p>
-            <p class="text-[13px] text-slate-100">
-              “Tu es certes d’une moralité éminente.”
-              <span class="text-slate-300">(Sourate Al-Qalam)</span>
-            </p>
-          </div>
-          <div class="space-y-1">
-            <p class="text-xs uppercase tracking-[0.25em] text-slate-400">
-              Ce que tu vas comprendre
-            </p>
-            <ul class="list-disc list-inside text-slate-200 text-[13px] space-y-1">
-              <li>ce qu’est un “signe” de prophétie</li>
-              <li>comment même les autres religions parlaient du dernier Prophète</li>
-              <li>l’importance de la bonne moralité avant même la mission</li>
-            </ul>
-          </div>
-        </div>
-        <div class="px-6 py-4 border-t border-slate-800 bg-slate-900/95">
-          <button
-            type="button"
-            class="inline-flex w-full items-center justify-center rounded-full bg-sira-gold text-sira-dark px-4 py-2.5 text-sm font-semibold shadow-lg shadow-amber-500/30 hover:brightness-110 active:scale-95 transition"
-            data-och
-          >
-            Accéder à la leçon sur la plateforme
-          </button>
-          <p class="mt-2 text-[10px] text-slate-400 text-center">
-            Ce bouton ouvre ton espace de cours sécurisé (OCH) dans une fenêtre intégrée à l’application.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- EPISODE 7 -->
-    <div
-      id="episode-modal-s1e7"
-      class="episode-modal fixed inset-0 z-40 hidden items-center justify-center bg-black/70"
-    >
-      <div class="bg-slate-900 rounded-3xl shadow-2xl w-[95vw] max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
-        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90 backdrop-blur">
-          <div>
-            <p class="text-[10px] uppercase tracking-[0.25em] text-sira-gold">
-              Saison 1 · Épisode 7
-            </p>
-            <h2 class="text-lg sm:text-xl font-semibold">
-              Al-Amîn &amp; Khadija
-            </h2>
-          </div>
-          <button
-            type="button"
-            class="js-episode-close text-slate-400 hover:text-white text-2xl leading-none"
-            aria-label="Fermer la fiche"
-          >
-            ×
-          </button>
-        </div>
-        <div class="px-6 py-4 space-y-4 overflow-y-auto text-sm">
-          <p class="text-slate-200">
-            Tout le monde appelait le Prophète ﷺ “Al-Amîn” : le digne de confiance.
-            Khadija, une femme commerçante respectée, a vu sa sincérité et sa loyauté.
-            Leur mariage est devenu un exemple de confiance, de soutien et d’amour pour Allah.
-          </p>
-          <div class="bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
-            <p class="text-xs uppercase tracking-[0.25em] text-sira-gold mb-1">
-              Thèmes principaux
-            </p>
-            <p class="text-[13px] text-slate-100">
-              Commerce honnête, confiance, mariage et soutien dans la mission.
-            </p>
-          </div>
-          <div class="space-y-1">
-            <p class="text-xs uppercase tracking-[0.25em] text-slate-400">
-              Ce que tu vas comprendre
-            </p>
-            <ul class="list-disc list-inside text-slate-200 text-[13px] space-y-1">
-              <li>pourquoi tout le monde faisait confiance au Prophète ﷺ</li>
-              <li>le rôle important de Khadija dans sa vie</li>
-              <li>les bases d’un comportement honnête dans le commerce et la famille</li>
-            </ul>
-          </div>
-        </div>
-        <div class="px-6 py-4 border-t border-slate-800 bg-slate-900/95">
-          <button
-            type="button"
-            class="inline-flex w-full items-center justify-center rounded-full bg-sira-gold text-sira-dark px-4 py-2.5 text-sm font-semibold shadow-lg shadow-amber-500/30 hover:brightness-110 active:scale-95 transition"
-            data-och
-          >
-            Accéder à la leçon sur la plateforme
-          </button>
-          <p class="mt-2 text-[10px] text-slate-400 text-center">
-            Ce bouton ouvre ton espace de cours sécurisé (OCH) dans une fenêtre intégrée à l’application.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal OCH : accès aux cours -->
-    <div
-      id="och-modal"
-      class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70"
-    >
-      <div
-        class="bg-slate-900 rounded-3xl shadow-2xl w-[95vw] max-w-5xl h-[80vh] relative flex flex-col overflow-hidden"
+      <p
+        id="episode-modal-summary"
+        class="text-sm text-slate-200 leading-relaxed"
       >
-        <!-- Header de la modal -->
-        <div
-          class="flex items-center justify-between px-6 py-4 border-b border-slate-700 bg-slate-900/80 backdrop-blur-sm"
+        Résumé…
+      </p>
+
+      <div class="space-y-1 text-xs text-slate-400">
+        <p id="episode-modal-verse" class="italic">
+          Verset clé…
+        </p>
+        <p id="episode-modal-extra" class="text-[11px]">
+          Durée ~45 min · Niveau 8–10 ans
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-2 pt-2">
+        <button
+          type="button"
+          class="js-episode-open-och flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-sira-gold text-sira-dark text-sm font-semibold shadow-md shadow-sira-gold/30 hover:shadow-sira-gold/40 active:scale-95 transition"
         >
-          <div>
-            <p class="text-[10px] uppercase tracking-[0.25em] text-amber-400">
-              Parcours sécurisé
-            </p>
-            <h2 class="text-lg font-semibold text-white">
-              Espace de cours Deenvertissement
-            </h2>
-            <p class="text-xs text-slate-400">
-              Cette fenêtre ouvre ton espace de cours.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            class="js-och-close text-slate-400 hover:text-white text-2xl leading-none"
-            aria-label="Fermer la fenêtre"
-          >
-            ×
-          </button>
-        </div>
-
-        <!-- Corps : iframe OCH -->
-        <div class="flex-1 bg-slate-950">
-          <iframe
-            id="och-iframe"
-            class="w-full h-full border-0"
-            title="Espace de cours Deenvertissement"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-            allow="clipboard-write; fullscreen"
-          ></iframe>
-        </div>
-
-        <!-- Bas de la modal -->
-        <div
-          class="px-6 py-3 text-[11px] text-slate-400 border-t border-slate-800 bg-slate-900/80"
+          Accéder à la leçon sur la plateforme
+        </button>
+        <button
+          type="button"
+          class="js-episode-close flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-slate-800 text-sm font-semibold text-slate-100 hover:bg-slate-700"
         >
-          L’accès aux cours se fait via ton espace sécurisé OCH. Si la page ne
-          charge pas, vérifie ta connexion internet.
-        </div>
+          Fermer
+        </button>
       </div>
     </div>
+  </div>
 
-    <script src="app.js"></script>
+  <!-- ===== MODALE OCH PLEIN ÉCRAN ===== -->
+  <div id="och-modal" class="fixed inset-0 z-50 hidden bg-slate-950">
+    <div class="flex flex-col w-full h-full">
+      <!-- Header -->
+      <div
+        class="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-800 bg-slate-900"
+      >
+        <div>
+          <p class="text-[10px] uppercase tracking-[0.25em] text-amber-400">
+            Parcours sécurisé
+          </p>
+          <h2 class="text-sm sm:text-lg font-semibold text-white">
+            Espace de cours Deenvertissement
+          </h2>
+          <p class="text-[11px] sm:text-xs text-slate-400">
+            Cette fenêtre ouvre ton espace de cours.
+          </p>
+        </div>
 
-    <!-- Service Worker PWA -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then(reg => console.log("SW installé :", reg.scope))
-                    .catch(err => console.log("Erreur SW :", err));
-            });
-        }
-    </script>
+        <button
+          type="button"
+          class="js-och-close text-slate-400 hover:text-white text-2xl leading-none px-2"
+          aria-label="Fermer la fenêtre"
+        >
+          ×
+        </button>
+      </div>
 
+      <!-- Corps : iframe -->
+      <div class="flex-1 bg-slate-950">
+        <iframe
+          id="och-iframe"
+          class="w-full h-full border-0"
+          title="Espace de cours Deenvertissement"
+          loading="lazy"
+          referrerpolicy="no-referrer"
+          allow="clipboard-write; fullscreen"
+        ></iframe>
+      </div>
+
+      <!-- Bas -->
+      <div
+        class="px-4 sm:px-6 py-2 sm:py-3 text-[11px] text-slate-400 border-t border-slate-800 bg-slate-900"
+      >
+        L’accès aux cours se fait via ton espace sécurisé OCH.
+        Si la page ne charge pas, vérifie ta connexion internet.
+      </div>
+    </div>
+  </div>
+
+  <!-- JS principal -->
+  <script src="app.js"></script>
+
+  <!-- Service Worker PWA -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("./service-worker.js")
+          .then((reg) => console.log("SW installé :", reg.scope))
+          .catch((err) => console.log("Erreur SW :", err));
+      });
+    }
+  </script>
 </body>
 </html>
