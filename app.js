@@ -2,9 +2,11 @@
 // Config accès OnlineCourseHost (OCH)
 // =========================
 
-// URL de base de ton espace OCH
-const OCH_BASE_URL = "https://deenvertissement.fr"; // adapte si besoin
-const OCH_LOGIN_PATH = "/login";
+// IMPORTANT : on pointe vers la racine du site.
+// Si tu es déjà connecté, tu arrives sur le dashboard.
+// Si tu n'es pas connecté, OCH te redirige lui-même vers le login.
+const OCH_BASE_URL = "https://deenvertissement.fr";
+const OCH_LOGIN_PATH = "/"; // ne plus utiliser /login directement
 const OCH_LOGIN_URL = `${OCH_BASE_URL}${OCH_LOGIN_PATH}`;
 
 // =========================
@@ -77,23 +79,17 @@ const EPISODES = {
 let ochModal = null;
 let ochIframe = null;
 
-/**
- * Ouvre la modale OCH en plein écran et charge l’URL de login
- */
 function openOchModal(event) {
   if (event) event.preventDefault();
   if (!ochModal || !ochIframe) return;
 
-  // On recharge systématiquement l’URL (utile si session expirée)
+  // On charge toujours l’URL racine
   ochIframe.src = OCH_LOGIN_URL;
 
   ochModal.classList.remove("hidden");
   document.body.classList.add("overflow-hidden");
 }
 
-/**
- * Ferme la modale OCH
- */
 function closeOchModal() {
   if (!ochModal) return;
 
@@ -101,27 +97,22 @@ function closeOchModal() {
   document.body.classList.remove("overflow-hidden");
 }
 
-/**
- * Installe les écouteurs pour OCH
- */
 function setupOchModal() {
   ochModal = document.getElementById("och-modal");
   ochIframe = document.getElementById("och-iframe");
 
   if (!ochModal || !ochIframe) {
-    console.warn(
-      "[SIRA] Modal OCH non trouvée (id='och-modal' / 'och-iframe')."
-    );
+    console.warn("[SIRA] Modal OCH non trouvée (id='och-modal').");
     return;
   }
 
-  // Bouton générique "Ouvrir l’espace de cours"
+  // Tous les déclencheurs génériques data-och
   const ochTriggers = document.querySelectorAll("[data-och]");
   ochTriggers.forEach((el) => {
     el.addEventListener("click", openOchModal);
   });
 
-  // Bouton "Accéder à la leçon sur la plateforme" dans la modale épisode
+  // Boutons "Accéder à la leçon" dans la modale épisode
   const episodeOchButtons = document.querySelectorAll(".js-episode-open-och");
   episodeOchButtons.forEach((btn) => {
     btn.addEventListener("click", (event) => {
@@ -134,7 +125,7 @@ function setupOchModal() {
   const closeButtons = document.querySelectorAll(".js-och-close");
   closeButtons.forEach((btn) => btn.addEventListener("click", closeOchModal));
 
-  // Fermeture avec la touche Echap
+  // Echap
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       closeOchModal();
@@ -143,7 +134,7 @@ function setupOchModal() {
 }
 
 // =========================
-// Modale Episode (description + bouton vers OCH)
+// Modale Épisode
 // =========================
 
 let episodeModal = null;
@@ -153,9 +144,6 @@ let episodeModalSummary = null;
 let episodeModalVerse = null;
 let episodeModalExtra = null;
 
-/**
- * Ouvre la modale épisode avec les données de EPISODES
- */
 function openEpisodeModal(event) {
   event.preventDefault();
   const trigger = event.currentTarget;
@@ -172,16 +160,13 @@ function openEpisodeModal(event) {
   episodeModalSummary.textContent = data.summary;
   episodeModalVerse.textContent = data.verse;
   episodeModalExtra.textContent =
-    "Durée ~45 min · Niveau 8–10 ans · Ce cours est accessible dans ton espace sécurisé Deenvertissement.";
+    "Durée ~45 min · Niveau 8–10 ans · Le détail complet du cours est disponible dans ton espace sécurisé Deenvertissement.";
 
   episodeModal.classList.remove("hidden");
   episodeModal.classList.add("flex");
   document.body.classList.add("overflow-hidden");
 }
 
-/**
- * Ferme la modale épisode
- */
 function closeEpisodeModal() {
   if (!episodeModal) return;
   episodeModal.classList.add("hidden");
@@ -189,9 +174,6 @@ function closeEpisodeModal() {
   document.body.classList.remove("overflow-hidden");
 }
 
-/**
- * Installe les écouteurs pour les épisodes
- */
 function setupEpisodeModal() {
   episodeModal = document.getElementById("episode-modal");
   if (!episodeModal) {
@@ -205,7 +187,7 @@ function setupEpisodeModal() {
   episodeModalVerse = document.getElementById("episode-modal-verse");
   episodeModalExtra = document.getElementById("episode-modal-extra");
 
-  // Triggers (boutons "Voir l’épisode" + bouton hero "Commencer l’aventure")
+  // Tous les boutons avec data-episode-id (hero + cartes)
   const episodeTriggers = document.querySelectorAll("[data-episode-id]");
   episodeTriggers.forEach((btn) =>
     btn.addEventListener("click", openEpisodeModal)
@@ -217,16 +199,16 @@ function setupEpisodeModal() {
     btn.addEventListener("click", closeEpisodeModal)
   );
 
-  // Fermeture au clavier
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
+  // Fermeture en cliquant sur le fond
+  episodeModal.addEventListener("click", (event) => {
+    if (event.target === episodeModal) {
       closeEpisodeModal();
     }
   });
 
-  // (Optionnel) fermeture en cliquant sur le fond noir
-  episodeModal.addEventListener("click", (event) => {
-    if (event.target === episodeModal) {
+  // Echap
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
       closeEpisodeModal();
     }
   });
