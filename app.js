@@ -3,9 +3,10 @@
 // =========================
 
 // URL de base de ton espace OCH
-const OCH_BASE_URL = "https://deenvertissement.fr"; // ajuste si besoin
+const OCH_BASE_URL = "https://deenvertissement.fr";
 
 // Si ta page d'accès est différente (ex: /courses, /login, /?via=sira)
+// tu peux modifier uniquement cette ligne :
 const OCH_LOGIN_PATH = "/login";
 
 // URL finale utilisée dans l'iframe
@@ -19,12 +20,19 @@ let ochModal = null;
 let ochIframe = null;
 
 /**
- * Ouvre la modal et charge OCH dans l'iframe
+ * Ouvre la modal OCH et charge OCH dans l'iframe
  */
 function openOchModal(event) {
   if (event) event.preventDefault();
 
   if (!ochModal || !ochIframe) return;
+
+  // Fermer toutes les modals épisode ouvertes
+  const episodeModals = document.querySelectorAll(".episode-modal");
+  episodeModals.forEach((modal) => {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+  });
 
   // On recharge systématiquement l'URL pour être sûr
   ochIframe.src = OCH_LOGIN_URL;
@@ -35,7 +43,7 @@ function openOchModal(event) {
 }
 
 /**
- * Ferme la modal
+ * Ferme la modal OCH
  */
 function closeOchModal() {
   if (!ochModal) return;
@@ -60,22 +68,16 @@ function setupOchModal() {
     return;
   }
 
-  // 🔹 DÉLÉGATION D'ÉVÉNEMENTS
-  // Un seul listener global :
-  // - tout élément avec [data-och] ouvre la modal
-  // - tout élément avec .js-och-close la ferme
-  document.addEventListener("click", (event) => {
-    const trigger = event.target.closest("[data-och]");
-    if (trigger) {
-      openOchModal(event);
-      return;
-    }
+  // Tous les boutons / liens avec l'attribut data-och
+  const ochTriggers = document.querySelectorAll("[data-och]");
+  ochTriggers.forEach((el) => {
+    el.addEventListener("click", openOchModal);
+  });
 
-    const closeBtn = event.target.closest(".js-och-close");
-    if (closeBtn) {
-      event.preventDefault();
-      closeOchModal();
-    }
+  // Boutons de fermeture (croix, bouton "Fermer", etc.)
+  const closeButtons = document.querySelectorAll(".js-och-close");
+  closeButtons.forEach((btn) => {
+    btn.addEventListener("click", closeOchModal);
   });
 
   // Clic sur le fond noir pour fermer
@@ -91,10 +93,72 @@ function setupOchModal() {
       closeOchModal();
     }
   });
+}
 
-  // (Optionnel) accessible en debug dans la console
-  window.openOchModal = openOchModal;
-  window.closeOchModal = closeOchModal;
+// =========================
+// Gestion des fiches épisodes (modals internes SIRA)
+// =========================
+
+function setupEpisodeModals() {
+  const episodeButtons = document.querySelectorAll(".js-open-episode");
+
+  if (!episodeButtons.length) {
+    console.warn("[SIRA] Aucun bouton d'ouverture d'épisode trouvé (.js-open-episode).");
+    return;
+  }
+
+  episodeButtons.forEach((btn) => {
+    const targetSelector = btn.dataset.target;
+    if (!targetSelector) return;
+
+    const modal = document.querySelector(targetSelector);
+    if (!modal) {
+      console.warn("[SIRA] Modal épisode introuvable pour le sélecteur :", targetSelector);
+      return;
+    }
+
+    const closeButtons = modal.querySelectorAll(".js-episode-close");
+
+    const open = () => {
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      document.body.classList.add("overflow-hidden");
+    };
+
+    const close = () => {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      document.body.classList.remove("overflow-hidden");
+    };
+
+    // Ouverture
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      open();
+    });
+
+    // Boutons de fermeture dans la modal
+    closeButtons.forEach((closeBtn) => {
+      closeBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        close();
+      });
+    });
+
+    // Clic sur le fond noir pour fermer
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        close();
+      }
+    });
+
+    // ESC pour fermer
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        close();
+      }
+    });
+  });
 }
 
 // =========================
@@ -115,6 +179,7 @@ function setupBackgroundAudio() {
 
 function initApp() {
   setupOchModal();
+  setupEpisodeModals();
   setupBackgroundAudio();
 }
 
