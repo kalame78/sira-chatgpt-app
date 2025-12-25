@@ -1,130 +1,652 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIRA CORANIQUE</title>
 
-    <title>SIRA CORANIQUE</title>
+  <!-- PWA de base -->
+  <meta name="theme-color" content="#050816" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
 
-    <!-- PWA -->
-    <meta name="theme-color" content="#0a0e17">
-    <link rel="manifest" href="manifest.webmanifest">
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <!-- STYLES SIMPLES ET AUTONOMES -->
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1b2340 0%, #050816 50%, #020617 100%);
+      color: #f9fafb;
+    }
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    .hidden { display: none !important; }
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    #app { min-height: 100vh; }
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    /* PROFILS */
+    #profile-screen {
+      min-height: 100vh;
+      display: flex;
+    }
+    #home-screen {
+      min-height: 100vh;
+      display: none;
+    }
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: {
-                        'sira-dark': '#0a0e17',
-                        'sira-gold': '#FFD700',
-                    }
-                }
-            }
-        }
-    </script>
+    .profile-container {
+      margin: auto;
+      text-align: center;
+      padding: 2rem 1.5rem 3rem;
+      max-width: 480px;
+    }
+    .app-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .app-subtitle {
+      font-size: 0.95rem;
+      color: #cbd5f5;
+      margin-bottom: 2rem;
+    }
+    .profile-list {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .profile-card {
+      border: none;
+      background: #0b1220;
+      border-radius: 1.25rem;
+      padding: 1rem 0.75rem;
+      width: 105px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      color: #e5e7eb;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+    .profile-card:hover {
+      transform: translateY(-4px);
+      background: #111827;
+    }
+    .profile-add { border: 1px dashed #4b5563; }
 
-    <link rel="stylesheet" href="styles.css">
+    .avatar-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f97316, #facc15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #111827;
+    }
+    .avatar-circle.plus {
+      background: transparent;
+      border: 1px dashed #4b5563;
+      color: #9ca3af;
+    }
+
+    /* HEADER */
+    .main-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: linear-gradient(to bottom, rgba(5, 8, 22, 0.95), rgba(5, 8, 22, 0.7));
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    .logo-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #facc15, #f97316);
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.8);
+    }
+    .brand-title {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: #e5e7eb;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .user-initial {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #2563eb, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    .logout-btn {
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      font-size: 0.75rem;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* BOUTONS */
+    .primary-btn,
+    .secondary-btn,
+    .och-btn {
+      border-radius: 999px;
+      border: none;
+      padding: 0.55rem 1.1rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .primary-btn {
+      background: linear-gradient(135deg, #f97316, #facc15);
+      color: #111827;
+      box-shadow: 0 14px 35px rgba(248, 181, 24, 0.4);
+    }
+    .secondary-btn {
+      background: rgba(15, 23, 42, 0.8);
+      color: #e5e7eb;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+    .och-btn {
+      background: transparent;
+      border: 1px solid rgba(248, 181, 24, 0.7);
+      color: #facc15;
+    }
+
+    .main-content { padding-bottom: 3rem; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 230px;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem 1.25rem;
+      background-image: url("https://images.pexels.com/photos/1842623/pexels-photo-1842623.jpeg?auto=compress&cs=tinysrgb&w=1200");
+      background-size: cover;
+      background-position: center;
+      border-radius: 1.5rem;
+      margin: 1rem 1.25rem 0;
+      overflow: hidden;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.85), rgba(3, 7, 18, 0.95));
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+    }
+    .hero-kicker {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #facc15;
+      margin-bottom: 0.5rem;
+    }
+    .hero-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 0.35rem;
+    }
+    .hero-text {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      margin-bottom: 0.9rem;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* SAISON & ÉPISODES */
+    .seasons-section {
+      margin: 1.5rem 1.25rem 0;
+    }
+    .section-header h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .section-header p {
+      font-size: 0.85rem;
+      color: #cbd5f5;
+      margin-top: 0.2rem;
+      margin-bottom: 0.8rem;
+    }
+    .episodes-row {
+      display: flex;
+      overflow-x: auto;
+      gap: 0.75rem;
+      padding-bottom: 0.25rem;
+    }
+    .episode-card {
+      min-width: 220px;
+      max-width: 240px;
+      background: #020617;
+      border-radius: 1rem;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+    }
+    .episode-thumb {
+      height: 110px;
+      background-size: cover;
+      background-position: center;
+    }
+    .thumb-1 { background-image: linear-gradient(135deg, #22c55e, #16a34a); }
+    .thumb-2 { background-image: linear-gradient(135deg, #0ea5e9, #1d4ed8); }
+    .thumb-3 { background-image: linear-gradient(135deg, #f97316, #facc15); }
+
+    .episode-body {
+      padding: 0.7rem 0.75rem 0.85rem;
+    }
+    .episode-body h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .episode-body p {
+      font-size: 0.8rem;
+      color: #cbd5f5;
+    }
+
+    /* MODALES */
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15, 23, 42, 0.88);
+      z-index: 50;
+      padding: 1.25rem;
+    }
+    .modal.show {
+      display: flex;
+    }
+    .modal-content {
+      background: #020617;
+      border-radius: 1.25rem;
+      padding: 1.25rem 1.1rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+    }
+    .modal-text {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .modal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* MODALE OCH PLEIN ÉCRAN */
+    .modal-och {
+      padding: 0;
+      max-width: 960px;
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-och-header {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: #020617;
+    }
+    .och-kicker {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #facc15;
+    }
+    .och-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .och-subtitle {
+      font-size: 0.78rem;
+      color: #9ca3af;
+      margin-top: 0.25rem;
+    }
+    .close-btn {
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+    .och-body {
+      flex: 1;
+      background: #020617;
+      border-radius: 0 0 1.25rem 1.25rem;
+      overflow: hidden;
+    }
+    .och-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        min-height: 280px;
+        margin-top: 1.5rem;
+      }
+      .hero-title { font-size: 2rem; }
+      .episodes-row { gap: 1rem; }
+    }
+  </style>
 </head>
-
 <body>
+  <div id="app">
+    <!-- ÉCRAN PROFILS -->
+    <div id="profile-screen">
+      <div class="profile-container">
+        <h1 class="app-title">SIRA CORANIQUE</h1>
+        <p class="app-subtitle">Choisis ton profil pour entrer dans le monde de la Sîra.</p>
 
-    <!-- Audio de fond (optionnel) -->
-    <audio id="bg-audio" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_07647d6928.mp3?filename=desert-wind-19366.mp3" type="audio/mpeg">
-    </audio>
+        <div class="profile-list">
+          <button class="profile-card" onclick="selectProfile('Nabil')">
+            <div class="avatar-circle">N</div>
+            <span>Nabil</span>
+          </button>
 
-    <div id="app"></div>
+          <button class="profile-card" onclick="selectProfile('Reda')">
+            <div class="avatar-circle">R</div>
+            <span>Reda</span>
+          </button>
 
-
-<!-- ========================= -->
-<!-- MODAL OCH -->
-<!-- ========================= -->
-<div
-  id="och-modal"
-  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70"
->
-  <div
-    class="bg-slate-900 rounded-3xl shadow-2xl w-[95vw] max-w-5xl h-[80vh] relative flex flex-col overflow-hidden"
-  >
-    <!-- Header -->
-    <div
-      class="flex items-center justify-between px-6 py-4 border-b border-slate-700 bg-slate-900/80 backdrop-blur-sm"
-    >
-      <div>
-        <p class="text-[10px] uppercase tracking-[0.25em] text-amber-400">
-          Parcours sécurisé
-        </p>
-        <h2 class="text-lg font-semibold text-white">
-          Espace de cours Deenvertissement
-        </h2>
-        <p class="text-xs text-slate-400">
-          Cette fenêtre ouvre ton espace de cours.
-        </p>
+          <button class="profile-card profile-add" onclick="selectProfile('Invité')">
+            <div class="avatar-circle plus">+</div>
+            <span>Invité</span>
+          </button>
+        </div>
       </div>
-
-      <button
-        type="button"
-        class="js-och-close text-slate-400 hover:text-white text-2xl leading-none"
-        aria-label="Fermer la fenêtre"
-      >
-        ×
-      </button>
     </div>
 
-    <!-- Corps : iframe OCH -->
-    <div class="flex-1 bg-slate-950">
-      <iframe
-        id="och-iframe"
-        class="w-full h-full border-0"
-        title="Espace de cours Deenvertissement"
-        loading="lazy"
-        allow="autoplay; clipboard-write; fullscreen; picture-in-picture"
-      ></iframe>
-    </div>
+    <!-- ÉCRAN ACCUEIL -->
+    <div id="home-screen">
+      <header class="main-header">
+        <div class="brand">
+          <span class="logo-dot"></span>
+          <span class="brand-title">Sira Coranique</span>
+        </div>
 
-    <!-- Bas -->
-    <div
-      class="px-6 py-3 text-[11px] text-slate-400 border-t border-slate-800 bg-slate-900/80"
-    >
-      L’accès aux cours se fait via ton espace sécurisé OCH.
-      Si la page ne charge pas, vérifie ta connexion internet.
+        <div class="header-right">
+          <button class="och-btn" onclick="openOchModal()">
+            Accéder aux cours
+          </button>
+
+          <div class="user-badge">
+            <div id="current-user-initial" class="user-initial">?</div>
+            <button class="logout-btn" onclick="logout()">Changer de profil</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <!-- HERO -->
+        <section class="hero">
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <p class="hero-kicker">Programme enfants 8–10 ans</p>
+            <h1 class="hero-title">Saison 1 : L’Aube</h1>
+            <p class="hero-text">
+              On découvre comment Allah a préparé le cœur du Prophète ﷺ dans une Arabie pleine d’idoles, de commerce et de secrets.
+            </p>
+            <div class="hero-actions">
+              <button class="primary-btn" onclick="scrollToSeasons()">
+                Voir la saison 1
+              </button>
+              <button class="secondary-btn" onclick="openEpisodeModal('episode1')">
+                Voir le 1ᵉʳ épisode
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SAISON 1 -->
+        <section id="seasons-container" class="seasons-section">
+          <div class="section-header">
+            <h2>Saison 1 – L’Aube</h2>
+            <p>Les débuts : Kaaba, Quraysh, éléphant, orphelin, cœur purifié…</p>
+          </div>
+
+          <div class="episodes-row">
+            <article class="episode-card" onclick="openEpisodeModal('episode1')">
+              <div class="episode-thumb thumb-1"></div>
+              <div class="episode-body">
+                <h3>Épisode 1 – Les Racines</h3>
+                <p>Ibrahim, Ismaël, la Kaaba et la naissance d’une ville pas comme les autres.</p>
+              </div>
+            </article>
+
+            <article class="episode-card" onclick="openEpisodeModal('episode2')">
+              <div class="episode-thumb thumb-2"></div>
+              <div class="episode-body">
+                <h3>Épisode 2 – L’Année de l’Éléphant</h3>
+                <p>Abraha, Mahmoud l’éléphant et les oiseaux Ababil.</p>
+              </div>
+            </article>
+
+            <article class="episode-card" onclick="openEpisodeModal('episode3')">
+              <div class="episode-thumb thumb-3"></div>
+              <div class="episode-body">
+                <h3>Épisode 3 – Quraysh & les caravanes</h3>
+                <p>Le commerce, les voyages d’hiver/été, et l’identité de Quraysh.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
     </div>
   </div>
-</div>
 
+  <!-- MODALE FICHE ÉPISODE -->
+  <div id="episode-modal" class="modal">
+    <div class="modal-content">
+      <h2 id="modal-title">Titre de l’épisode</h2>
+      <p id="modal-text" class="modal-text">
+        Description de l’épisode.
+      </p>
 
-<!-- ========================= -->
-<!-- APP JS -->
-<!-- ========================= -->
-<script src="app.js"></script>
+      <div class="modal-actions">
+        <button class="primary-btn" onclick="openOchModal()">
+          Accéder aux cours
+        </button>
+        <button class="secondary-btn" onclick="closeEpisodeModal()">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
 
+  <!-- MODALE OCH -->
+  <div id="och-modal" class="modal">
+    <div class="modal-content modal-och">
+      <div class="modal-och-header">
+        <div>
+          <p class="och-kicker">Espace sécurisé</p>
+          <h2 class="och-title">Plateforme de cours Deenvertissement</h2>
+          <p class="och-subtitle">
+            Cette fenêtre ouvre ton espace de cours (parents / enfants) sans quitter l’application.
+          </p>
+        </div>
+        <button id="och-close" class="close-btn" aria-label="Fermer">&times;</button>
+      </div>
 
-<!-- ========================= -->
-<!-- SERVICE WORKER -->
-<!-- ========================= -->
-<script>
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js')
-            .then(reg => console.log("SW installé :", reg.scope))
-            .catch(err => console.log("Erreur SW :", err));
+      <div class="och-body">
+        <iframe
+          id="och-iframe"
+          title="Espace de cours Deenvertissement"
+          allow="clipboard-write; fullscreen"
+          referrerpolicy="no-referrer"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT JS AUTONOME -->
+  <script>
+    // -------- 1. Service Worker minimal ----------
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("./service-worker.js")
+          .then(reg => console.log("SW ok:", reg.scope))
+          .catch(err => console.log("SW error:", err));
+      });
+    }
+
+    // -------- 2. Gestion profils / écrans ----------
+    const profileScreen = document.getElementById("profile-screen");
+    const homeScreen = document.getElementById("home-screen");
+    const currentUserInitial = document.getElementById("current-user-initial");
+
+    const savedUser = localStorage.getItem("siraUser");
+    if (savedUser) {
+      showHome(savedUser);
+    }
+
+    function selectProfile(name) {
+      localStorage.setItem("siraUser", name);
+      showHome(name);
+    }
+
+    function showHome(userName) {
+      if (currentUserInitial) {
+        currentUserInitial.textContent = userName.charAt(0).toUpperCase();
+      }
+      profileScreen.style.display = "none";
+      homeScreen.style.display = "block";
+    }
+
+    function logout() {
+      localStorage.removeItem("siraUser");
+      homeScreen.style.display = "none";
+      profileScreen.style.display = "flex";
+    }
+
+    // -------- 3. Fiche épisode ----------
+    const episodeModal = document.getElementById("episode-modal");
+    const modalTitle = document.getElementById("modal-title");
+    const modalText = document.getElementById("modal-text");
+
+    function openEpisodeModal(id) {
+      if (id === "episode1") {
+        modalTitle.textContent = "Épisode 1 – Les Racines";
+        modalText.textContent =
+          "On découvre Ibrahim, Ismaël, la construction de la Kaaba et pourquoi cette maison est si importante pour tous les musulmans.";
+      } else if (id === "episode2") {
+        modalTitle.textContent = "Épisode 2 – L’Année de l’Éléphant";
+        modalText.textContent =
+          "Abraha veut détruire la Kaaba, mais Allah la protège avec des oiseaux spéciaux. Les enfants comprennent qu’Allah protège Sa maison.";
+      } else if (id === "episode3") {
+        modalTitle.textContent = "Épisode 3 – Quraysh & les caravanes";
+        modalText.textContent =
+          "On suit les voyages d’hiver et d’été de Quraysh, et on voit comment le commerce est lié à la sécurité autour de la Kaaba (sourate Quraysh).";
+      } else {
+        modalTitle.textContent = "Épisode";
+        modalText.textContent = "Détails de l’épisode.";
+      }
+
+      episodeModal.classList.add("show");
+    }
+
+    function closeEpisodeModal() {
+      episodeModal.classList.remove("show");
+    }
+
+    // fermer la modal épisode si on clique en dehors
+    episodeModal.addEventListener("click", (e) => {
+      if (e.target === episodeModal) {
+        closeEpisodeModal();
+      }
     });
-}
-</script>
 
+    function scrollToSeasons() {
+      const container = document.getElementById("seasons-container");
+      if (container) {
+        container.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    // -------- 4. OCH iframe ----------
+    const OCH_BASE_URL = "https://deenvertissement.fr";
+    const OCH_PATH = ""; // adapte si besoin (ex: "/login")
+    const OCH_URL = `${OCH_BASE_URL}${OCH_PATH}`;
+
+    const ochModal = document.getElementById("och-modal");
+    const ochIframe = document.getElementById("och-iframe");
+    const ochCloseBtn = document.getElementById("och-close");
+
+    function openOchModal() {
+      if (!ochModal || !ochIframe) return;
+      ochIframe.src = OCH_URL;
+      ochModal.classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeOchModal() {
+      if (!ochModal) return;
+      ochModal.classList.remove("show");
+      document.body.style.overflow = "";
+    }
+
+    if (ochCloseBtn) {
+      ochCloseBtn.addEventListener("click", closeOchModal);
+    }
+
+    ochModal.addEventListener("click", (e) => {
+      if (e.target === ochModal) {
+        closeOchModal();
+      }
+    });
+  </script>
 </body>
 </html>
