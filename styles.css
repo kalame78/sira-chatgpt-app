@@ -609,6 +609,11 @@ body.light-mode .hero-overlay {
   );
 }
 
+/* 👉 Garde le titre "Saison ..." bien lisible en blanc en mode jour */
+body.light-mode .section-header h2 {
+  color: #f9fafb;
+}
+
 body.light-mode .hero-text {
   color: #e5e7eb;
 }
