@@ -637,6 +637,10 @@
 
     function openOchModal() {
       if (!ochModal || !ochIframe) return;
+
+      // 🔒 On ferme systématiquement la fiche épisode avant d'ouvrir OCH
+      closeEpisodeModal();
+
       ochIframe.src = OCH_URL;
       ochModal.classList.add("show");
       document.body.style.overflow = "hidden";
@@ -646,6 +650,9 @@
       if (!ochModal) return;
       ochModal.classList.remove("show");
       document.body.style.overflow = "";
+
+      // ✅ Garantie UX : aucune ancienne modale épisode ouverte
+      closeEpisodeModal();
     }
 
     if (ochCloseBtn) {
