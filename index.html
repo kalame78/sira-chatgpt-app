@@ -128,11 +128,11 @@
     </div>
   </div>
 
-  <!-- MODALE AJOUT PROFIL -->
+  <!-- MODALE AJOUT / RENOMMAGE PROFIL -->
   <div id="profile-modal" class="modal">
     <div class="modal-content">
-      <h2 class="profile-modal-title">Nouveau profil</h2>
-      <p class="profile-modal-subtitle">
+      <h2 id="profile-modal-title" class="profile-modal-title">Nouveau profil</h2>
+      <p id="profile-modal-subtitle" class="profile-modal-subtitle">
         Écris ton prénom ou ton pseudo pour que tu retrouves ton espace à chaque connexion.<br><br>
         <strong>Important :</strong> ton profil est gardé seulement sur cet appareil.
         Si tu changes d’ordinateur, de tablette ou de téléphone, il faudra le recréer.
@@ -155,6 +155,22 @@
         <button id="profile-cancel-btn" class="secondary-btn">
           Annuler
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALE ACTIONS PROFIL (renommer / supprimer) -->
+  <div id="profile-actions-modal" class="modal">
+    <div class="modal-content">
+      <h2 id="profile-actions-title" class="profile-modal-title">Profil</h2>
+      <p id="profile-actions-text" class="profile-modal-subtitle">
+        Que veux-tu faire avec ce profil ?<br />
+        Tu peux le renommer ou le supprimer.
+      </p>
+      <div class="modal-actions">
+        <button id="profile-rename-btn" class="primary-btn">Renommer</button>
+        <button id="profile-delete-btn" class="secondary-btn">Supprimer</button>
+        <button id="profile-actions-cancel-btn" class="secondary-btn">Annuler</button>
       </div>
     </div>
   </div>
