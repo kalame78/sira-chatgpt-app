@@ -287,7 +287,7 @@
       color: #cbd5f5;
     }
 
-    /* MODALES */
+    /* MODALES (génériques) */
     .modal {
       position: fixed;
       inset: 0;
@@ -321,14 +321,25 @@
       gap: 0.5rem;
     }
 
-    /* MODALE OCH PLEIN ÉCRAN */
-    .modal-och {
+    /* MODALE OCH PLEIN ÉCRAN (spécifique) */
+    .modal-och-root {
       padding: 0;
-      max-width: 960px;
-      height: 85vh;
+      align-items: stretch;
+      justify-content: stretch;
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .modal-och {
+      border-radius: 0;
+      padding: 0;
+      width: 100%;
+      max-width: 100%;
+      height: 100vh;
       display: flex;
       flex-direction: column;
+      box-shadow: none;
     }
+
     .modal-och-header {
       padding: 0.9rem 1rem;
       border-bottom: 1px solid rgba(148, 163, 184, 0.3);
@@ -363,7 +374,6 @@
     .och-body {
       flex: 1;
       background: #020617;
-      border-radius: 0 0 1.25rem 1.25rem;
       overflow: hidden;
     }
     .och-body iframe {
@@ -506,8 +516,8 @@
     </div>
   </div>
 
-  <!-- MODALE OCH -->
-  <div id="och-modal" class="modal">
+  <!-- MODALE OCH PLEIN ÉCRAN -->
+  <div id="och-modal" class="modal modal-och-root">
     <div class="modal-content modal-och">
       <div class="modal-och-header">
         <div>
@@ -616,7 +626,7 @@
       }
     }
 
-    // -------- 4. OCH iframe ----------
+    // -------- 4. OCH iframe (plein écran intégré) ----------
     const OCH_BASE_URL = "https://deenvertissement.fr";
     const OCH_PATH = ""; // adapte si besoin (ex: "/login")
     const OCH_URL = `${OCH_BASE_URL}${OCH_PATH}`;
@@ -642,11 +652,9 @@
       ochCloseBtn.addEventListener("click", closeOchModal);
     }
 
-    ochModal.addEventListener("click", (e) => {
-      if (e.target === ochModal) {
-        closeOchModal();
-      }
-    });
+    // ⚠️ IMPORTANT : on NE ferme PLUS la modale OCH au clic sur le fond.
+    // On évite les fermetures accidentelles sur mobile.
+    // Donc pas de : ochModal.addEventListener("click", ...);
   </script>
 </body>
 </html>
