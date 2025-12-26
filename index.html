@@ -73,9 +73,9 @@
             </p>
             <div class="hero-actions">
               <button class="primary-btn" onclick="scrollToSeasons()">
-                Voir la saison 1
+                Voir les saisons
               </button>
-              <button class="primary-btn secondary-variant" onclick="openEpisodeModal('episode1')">
+              <button id="hero-first-episode-btn" class="primary-btn secondary-variant">
                 Voir le 1ᵉʳ épisode
               </button>
             </div>
@@ -86,31 +86,401 @@
         <section id="seasons-container" class="seasons-section">
           <div class="section-header">
             <h2>Saison 1 – L’Aube</h2>
-            <p>Les débuts : Kaaba, Quraysh, éléphant, orphelin, cœur purifié…</p>
+            <p>Les débuts : Ibrahim, Ismaël, Kaaba, Quraysh et l’enfance du Prophète ﷺ.</p>
           </div>
 
           <div class="episodes-row">
-            <article class="episode-card" onclick="openEpisodeModal('episode1')">
+            <!-- S1E1 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 1 – Les Racines"
+              data-description="Ibrahim, Ismaël, la construction de la Kaaba et la naissance d’une ville pas comme les autres."
+            >
               <div class="episode-thumb thumb-1"></div>
               <div class="episode-body">
                 <h3>Épisode 1 – Les Racines</h3>
-                <p>Ibrahim, Ismaël, la Kaaba et la naissance d’une ville pas comme les autres.</p>
+                <p>Ibrahim, Ismaël et la Kaaba : d’où vient cette Maison bénie ?</p>
               </div>
             </article>
 
-            <article class="episode-card" onclick="openEpisodeModal('episode2')">
+            <!-- S1E2 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 2 – L’Année de l’Éléphant"
+              data-description="Abraha veut détruire la Kaaba, mais Allah la protège avec des oiseaux spéciaux (Abâbîl)."
+            >
               <div class="episode-thumb thumb-2"></div>
               <div class="episode-body">
                 <h3>Épisode 2 – L’Année de l’Éléphant</h3>
-                <p>Abraha, Mahmoud l’éléphant et les oiseaux Ababil.</p>
+                <p>Abraha, Mahmoud l’éléphant et les oiseaux Abâbîl.</p>
               </div>
             </article>
 
-            <article class="episode-card" onclick="openEpisodeModal('episode3')">
+            <!-- S1E3 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 3 – Quraysh & les caravanes"
+              data-description="On suit les voyages d’hiver et d’été de Quraysh, et on voit comment Allah les nourrit et les sécurise autour de la Kaaba."
+            >
               <div class="episode-thumb thumb-3"></div>
               <div class="episode-body">
                 <h3>Épisode 3 – Quraysh & les caravanes</h3>
-                <p>Le commerce, les voyages d’hiver/été, et l’identité de Quraysh.</p>
+                <p>Les voyages de commerce et la sécurité autour de la Kaaba.</p>
+              </div>
+            </article>
+
+            <!-- S1E4 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 4 – Enfance du Prophète ﷺ"
+              data-description="Orphelin très tôt, confié à Halîma, protégé par Allah dans une société pleine d’idoles."
+            >
+              <div class="episode-thumb thumb-2"></div>
+              <div class="episode-body">
+                <h3>Épisode 4 – Enfance du Prophète ﷺ</h3>
+                <p>Halîma, la campagne, l’orphelin protégé par Allah.</p>
+              </div>
+            </article>
+
+            <!-- S1E5 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 5 – Le voyage en Syrie"
+              data-description="Le jeune Muhammad ﷺ accompagne son oncle Abû Tâlib et rencontre le moine Bahîra."
+            >
+              <div class="episode-thumb thumb-3"></div>
+              <div class="episode-body">
+                <h3>Épisode 5 – Voyage en Syrie</h3>
+                <p>Un voyage lointain et un moine qui reconnaît des signes.</p>
+              </div>
+            </article>
+
+            <!-- S1E6 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 6 – Mariage avec Khadîdja"
+              data-description="Une femme noble, honnête, qui fait confiance à Muhammad ﷺ comme commerçant, puis l’épouse."
+            >
+              <div class="episode-thumb thumb-1"></div>
+              <div class="episode-body">
+                <h3>Épisode 6 – Mariage avec Khadîdja</h3>
+                <p>Une association dans le commerce qui devient un mariage béni.</p>
+              </div>
+            </article>
+
+            <!-- S1E7 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 7 – La grotte de Hirâ"
+              data-description="Le Prophète ﷺ se retire pour réfléchir, loin des idoles, dans une grotte au sommet d’une montagne."
+            >
+              <div class="episode-thumb thumb-2"></div>
+              <div class="episode-body">
+                <h3>Épisode 7 – La grotte de Hirâ</h3>
+                <p>Une grotte, du silence, et un cœur qui se prépare.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- SAISON 2 -->
+        <section class="seasons-section">
+          <div class="section-header">
+            <h2>Saison 2 – La Révélation</h2>
+            <p>La descente du Coran, les premiers croyants et les premières oppositions.</p>
+          </div>
+
+          <div class="episodes-row">
+            <!-- S2E1 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 1 – La Nuit de la Révélation"
+              data-description="Dans la grotte de Hirâ, l’ange Jibrîl vient avec les premiers versets de Sourate Al-‘Alaq."
+            >
+              <div class="episode-thumb thumb-1"></div>
+              <div class="episode-body">
+                <h3>Épisode 1 – Nuit de la Révélation</h3>
+                <p>« Lis ! » : le début de la mission du Prophète ﷺ.</p>
+              </div>
+            </article>
+
+            <!-- S2E2 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 2 – Les premiers croyants"
+              data-description="Khadîdja, Abû Bakr, ‘Alî et quelques autres acceptent la vérité dès le début."
+            >
+              <div class="episode-thumb thumb-2"></div>
+              <div class="episode-body">
+                <h3>Épisode 2 – Premiers croyants</h3>
+                <p>Une petite équipe sincère autour du Prophète ﷺ.</p>
+              </div>
+            </article>
+
+            <!-- S2E3 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 3 – Appel discret"
+              data-description="Pendant plusieurs années, les musulmans apprennent leur religion en secret, maison par maison."
+            >
+              <div class="episode-thumb thumb-3"></div>
+              <div class="episode-body">
+                <h3>Épisode 3 – Appel discret</h3>
+                <p>Apprendre l’Islam à voix basse, mais avec un cœur fort.</p>
+              </div>
+            </article>
+
+            <!-- S2E4 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 4 – Appel public"
+              data-description="Le Prophète ﷺ monte sur la colline de Safâ et appelle toute La Mecque à réfléchir."
+            >
+              <div class="episode-thumb thumb-2"></div>
+              <div class="episode-body">
+                <h3>Épisode 4 – Appel public</h3>
+                <p>Un message prononcé devant toute la tribu de Quraysh.</p>
+              </div>
+            </article>
+
+            <!-- S2E5 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 5 – Persécutions"
+              data-description="Les faibles sont insultés, frappés, torturés, mais restent fermes pour Allah."
+            >
+              <div class="episode-thumb thumb-3"></div>
+              <div class="episode-body">
+                <h3>Épisode 5 – Persécutions</h3>
+                <p>Bilâl, Sumayya et d’autres résistent malgré la douleur.</p>
+              </div>
+            </article>
+
+            <!-- S2E6 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 6 – Boycott"
+              data-description="Quraysh coupe les liens avec la famille du Prophète ﷺ : plus de commerce ni de mariage avec eux."
+            >
+              <div class="episode-thumb thumb-1"></div>
+              <div class="episode-body">
+                <h3>Épisode 6 – Boycott</h3>
+                <p>Faim, isolement… mais beaucoup de patience et de du‘a.</p>
+              </div>
+            </article>
+
+            <!-- S2E7 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 7 – Le voyage à Tâif"
+              data-description="Le Prophète ﷺ va chercher du soutien à Tâif, mais il est rejeté et blessé."
+            >
+              <div class="episode-thumb thumb-2"></div>
+              <div class="episode-body">
+                <h3>Épisode 7 – Voyage à Tâif</h3>
+                <p>Une journée très difficile, mais un cœur tourné vers Allah.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- SAISON 3 -->
+        <section class="seasons-section">
+          <div class="section-header">
+            <h2>Saison 3 – L’Hégire</h2>
+            <p>Les derniers jours à La Mecque et le départ historique vers Médine.</p>
+          </div>
+
+          <div class="episodes-row">
+            <!-- S3E1 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 1 – Les rencontres d’Al-‘Aqaba"
+              data-description="Des habitants de Yathrib (Médine) rencontrent le Prophète ﷺ et acceptent l’Islam."
+            >
+              <div class="episode-thumb thumb-3"></div>
+              <div class="episode-body">
+                <h3>Épisode 1 – Pacte d’Al-‘Aqaba</h3>
+                <p>Un pacte secret pour protéger le Prophète ﷺ.</p>
+              </div>
+            </article>
+
+            <!-- S3E2 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 2 – Préparation de l’Hégire"
+              data-description="Les compagnons partent petit à petit vers Médine, en discrétion."
+            >
+              <div class="episode-thumb thumb-1"></div>
+              <div class="episode-body">
+                <h3>Épisode 2 – Préparer l’Hégire</h3>
+                <p>Quitter sa ville et ses biens pour Allah.</p>
+              </div>
+            </article>
+
+            <!-- S3E3 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 3 – Grotte de Thawr"
+              data-description="Le Prophète ﷺ et Abû Bakr se cachent dans une grotte alors que leurs ennemis sont tout près."
+            >
+              <div class="episode-thumb thumb-2"></div>
+              <div class="episode-body">
+                <h3>Épisode 3 – Grotte de Thawr</h3>
+                <p>« Ne sois pas triste, Allah est avec nous. »</p>
+              </div>
+            </article>
+
+            <!-- S3E4 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 4 – Arrivée à Qubâ’"
+              data-description="Le Prophète ﷺ arrive près de Médine et fonde la première mosquée."
+            >
+              <div class="episode-thumb thumb-3"></div>
+              <div class="episode-body">
+                <h3>Épisode 4 – Arrivée à Qubâ’</h3>
+                <p>La première mosquée, construite avec simplicité.</p>
+              </div>
+            </article>
+
+            <!-- S3E5 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 5 – Entrée à Médine"
+              data-description="Toute la ville chante sa joie à l’arrivée du Prophète ﷺ."
+            >
+              <div class="episode-thumb thumb-1"></div>
+              <div class="episode-body">
+                <h3>Épisode 5 – Entrée à Médine</h3>
+                <p>« Tala‘a al-badru ‘alaynâ » : un accueil historique.</p>
+              </div>
+            </article>
+
+            <!-- S3E6 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 6 – Fraternisation"
+              data-description="Les Ansâr de Médine partagent leurs maisons et leurs biens avec les Muhâjirûn."
+            >
+              <div class="episode-thumb thumb-2"></div>
+              <div class="episode-body">
+                <h3>Épisode 6 – Fraternisation</h3>
+                <p>Deux peuples qui deviennent une seule communauté.</p>
+              </div>
+            </article>
+
+            <!-- S3E7 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 7 – Constitution de Médine"
+              data-description="Une charte pour organiser la vie des musulmans et des autres tribus de la ville."
+            >
+              <div class="episode-thumb thumb-3"></div>
+              <div class="episode-body">
+                <h3>Épisode 7 – Constitution de Médine</h3>
+                <p>Un texte pour vivre ensemble avec justice.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- SAISON 4 -->
+        <section class="seasons-section">
+          <div class="section-header">
+            <h2>Saison 4 – La Mission à Médine</h2>
+            <p>Batailles, pactes, conquête de La Mecque et Pèlerinage d’adieu.</p>
+          </div>
+
+          <div class="episodes-row">
+            <!-- S4E1 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 1 – Badr"
+              data-description="Une petite armée croyante face à une grande armée de Quraysh, aidée par les anges."
+            >
+              <div class="episode-thumb thumb-1"></div>
+              <div class="episode-body">
+                <h3>Épisode 1 – Badr</h3>
+                <p>Une victoire donnée par Allah, malgré la faiblesse matérielle.</p>
+              </div>
+            </article>
+
+            <!-- S4E2 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 2 – Uhud"
+              data-description="Une bataille où la désobéissance de quelques archers change le résultat."
+            >
+              <div class="episode-thumb thumb-2"></div>
+              <div class="episode-body">
+                <h3>Épisode 2 – Uhud</h3>
+                <p>Des erreurs, des blessures et des leçons pour toute la Umma.</p>
+              </div>
+            </article>
+
+            <!-- S4E3 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 3 – La tranchée"
+              data-description="Les musulmans creusent une grande tranchée pour protéger Médine d’une coalition ennemie."
+            >
+              <div class="episode-thumb thumb-3"></div>
+              <div class="episode-body">
+                <h3>Épisode 3 – La tranchée</h3>
+                <p>Fatigue, peur, mais confiance totale en Allah.</p>
+              </div>
+            </article>
+
+            <!-- S4E4 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 4 – Hudaybiya"
+              data-description="Un traité de paix qui semble désavantageux, mais qu’Allah transforme en victoire."
+            >
+              <div class="episode-thumb thumb-1"></div>
+              <div class="episode-body">
+                <h3>Épisode 4 – Hudaybiya</h3>
+                <p>Accepter un compromis pour ouvrir de nouvelles portes.</p>
+              </div>
+            </article>
+
+            <!-- S4E5 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 5 – Conquête de La Mecque"
+              data-description="Le Prophète ﷺ entre à La Mecque presque sans combat, en pardonnant à beaucoup de ses ennemis."
+            >
+              <div class="episode-thumb thumb-2"></div>
+              <div class="episode-body">
+                <h3>Épisode 5 – Conquête de La Mecque</h3>
+                <p>Victoire sans arrogance, miséricorde au lieu de vengeance.</p>
+              </div>
+            </article>
+
+            <!-- S4E6 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 6 – Hunayn"
+              data-description="Une bataille où les musulmans, très nombreux, apprennent à ne pas se fier seulement à leur nombre."
+            >
+              <div class="episode-thumb thumb-3"></div>
+              <div class="episode-body">
+                <h3>Épisode 6 – Hunayn</h3>
+                <p>Quand on se croit trop fort, Allah nous rappelle à Lui.</p>
+              </div>
+            </article>
+
+            <!-- S4E7 -->
+            <article
+              class="episode-card"
+              data-title="Épisode 7 – Pèlerinage d’adieu"
+              data-description="Le Prophète ﷺ fait son dernier Hajj, prononce un grand discours et sent que sa mission touche à sa fin."
+            >
+              <div class="episode-thumb thumb-1"></div>
+              <div class="episode-body">
+                <h3>Épisode 7 – Pèlerinage d’adieu</h3>
+                <p>Un message pour toute l’humanité avant le retour vers Allah.</p>
               </div>
             </article>
           </div>
@@ -189,12 +559,12 @@
   <div id="och-modal" class="modal modal-och-root">
     <div class="modal-content modal-och">
       <div class="modal-och-header">
-        <div>
-          <p class="och-kicker">Espace sécurisé</p>
-          <h2 class="och-title">Plateforme de cours Deenvertissement</h2>
-          <p class="och-subtitle">
-            Cette fenêtre ouvre ton espace de cours (parents / enfants) sans quitter l’application.
-          </p>
+        <div class="och-header-left">
+          <p class="och-kicker">Espace cours</p>
+          <h2 class="och-title">Sira Coranique</h2>
+          <button class="och-return-btn" type="button" onclick="closeOchModal()">
+            🏠 Retour dans Sira Coranique
+          </button>
         </div>
         <button id="och-close" class="close-btn" aria-label="Fermer">&times;</button>
       </div>
