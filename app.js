@@ -31,10 +31,11 @@ const profileRenameBtn = document.getElementById("profile-rename-btn");
 const profileDeleteBtn = document.getElementById("profile-delete-btn");
 const profileActionsCancelBtn = document.getElementById("profile-actions-cancel-btn");
 
-// Nav & thème
+// Nav & thème & DYS
 const navToggle = document.getElementById("nav-toggle");
 const navMenu = document.getElementById("nav-menu");
 const themeToggleBtn = document.getElementById("theme-toggle");
+const dysToggleBtn = document.getElementById("dys-toggle");
 
 let profiles = [];
 let isEditingProfile = false;
@@ -87,7 +88,7 @@ function applyProfileTheme(profile) {
     el.style.color = solid;
   });
 
-  // bouton OCH (bientôt si on l'ajoute ailleurs)
+  // bouton OCH (si un jour on le remet ailleurs)
   document.querySelectorAll(".och-btn").forEach(btn => {
     btn.style.borderColor = solid;
     btn.style.color = solid;
@@ -472,7 +473,7 @@ if (ochCloseBtn) {
   ochCloseBtn.addEventListener("click", closeOchModal);
 }
 
-// -------- 5. Navigation & Thème --------
+// -------- 5. Navigation & Thème & DYS --------
 if (navToggle && navMenu) {
   navToggle.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -487,18 +488,30 @@ if (navToggle && navMenu) {
 }
 
 function applyTheme(theme) {
-  if (!themeToggleBtn) return;
   if (theme === "light") {
     document.body.classList.add("light-mode");
-    themeToggleBtn.textContent = "Passer en mode nuit";
+    if (themeToggleBtn) themeToggleBtn.textContent = "Passer en mode nuit";
   } else {
     document.body.classList.remove("light-mode");
-    themeToggleBtn.textContent = "Passer en mode jour";
+    if (themeToggleBtn) themeToggleBtn.textContent = "Passer en mode jour";
+  }
+}
+
+function applyDysMode(enabled) {
+  if (enabled) {
+    document.body.classList.add("dys-mode");
+    if (dysToggleBtn) dysToggleBtn.textContent = "Désactiver la police DYS";
+  } else {
+    document.body.classList.remove("dys-mode");
+    if (dysToggleBtn) dysToggleBtn.textContent = "Activer la police DYS";
   }
 }
 
 let savedTheme = localStorage.getItem("siraTheme") || "dark";
 applyTheme(savedTheme);
+
+const savedDys = localStorage.getItem("siraDys") === "on";
+applyDysMode(savedDys);
 
 if (themeToggleBtn) {
   themeToggleBtn.addEventListener("click", () => {
@@ -506,5 +519,13 @@ if (themeToggleBtn) {
     const newTheme = isLight ? "dark" : "light";
     localStorage.setItem("siraTheme", newTheme);
     applyTheme(newTheme);
+  });
+}
+
+if (dysToggleBtn) {
+  dysToggleBtn.addEventListener("click", () => {
+    const enabled = !document.body.classList.contains("dys-mode");
+    applyDysMode(enabled);
+    localStorage.setItem("siraDys", enabled ? "on" : "off");
   });
 }
