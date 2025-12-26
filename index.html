@@ -36,20 +36,26 @@
         </div>
 
         <div class="header-right">
-          <button class="och-btn" onclick="openOchModal()">
-            Accéder aux cours
-          </button>
-
           <div class="user-badge">
             <div id="current-user-initial" class="user-initial">?</div>
             <span id="current-user-name" class="user-name">Profil</span>
-            <button class="logout-btn" onclick="logout()">
-              <span class="icon">👤</span>
-              <span>CHANGER</span>
-            </button>
           </div>
+
+          <button id="nav-toggle" class="hamburger-btn" aria-label="Ouvrir le menu principal">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
       </header>
+
+      <!-- MENU HAMBURGER -->
+      <nav id="nav-menu" class="nav-menu">
+        <button class="nav-item" onclick="openOchModal()">Accéder aux cours</button>
+        <button class="nav-item" onclick="scrollToSeasons()">Saisons</button>
+        <button class="nav-item" onclick="logout()">Changer de profil</button>
+        <button id="theme-toggle" class="nav-item">Passer en mode jour</button>
+      </nav>
 
       <main class="main-content">
         <!-- HERO -->
@@ -65,7 +71,7 @@
               <button class="primary-btn" onclick="scrollToSeasons()">
                 Voir la saison 1
               </button>
-              <button class="secondary-btn" onclick="openEpisodeModal('episode1')">
+              <button class="primary-btn secondary-variant" onclick="openEpisodeModal('episode1')">
                 Voir le 1ᵉʳ épisode
               </button>
             </div>
@@ -121,7 +127,7 @@
         <button class="primary-btn" onclick="openOchModal()">
           Accéder aux cours
         </button>
-        <button class="secondary-btn" onclick="closeEpisodeModal()">
+        <button class="primary-btn secondary-variant" onclick="closeEpisodeModal()">
           Fermer
         </button>
       </div>
@@ -152,7 +158,7 @@
         <button id="profile-save-btn" class="primary-btn">
           Enregistrer
         </button>
-        <button id="profile-cancel-btn" class="secondary-btn">
+        <button id="profile-cancel-btn" class="primary-btn secondary-variant">
           Annuler
         </button>
       </div>
@@ -169,8 +175,8 @@
       </p>
       <div class="modal-actions">
         <button id="profile-rename-btn" class="primary-btn">Renommer</button>
-        <button id="profile-delete-btn" class="secondary-btn">Supprimer</button>
-        <button id="profile-actions-cancel-btn" class="secondary-btn">Annuler</button>
+        <button id="profile-delete-btn" class="primary-btn secondary-variant">Supprimer</button>
+        <button id="profile-actions-cancel-btn" class="primary-btn secondary-variant">Annuler</button>
       </div>
     </div>
   </div>
