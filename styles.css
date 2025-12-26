@@ -45,10 +45,11 @@ body {
   flex-wrap: wrap;
 }
 .profile-card {
+  position: relative;
   border: none;
   background: #0b1220;
   border-radius: 1.25rem;
-  padding: 1rem 0.75rem;
+  padding: 1rem 0.75rem 0.9rem;
   width: 105px;
   display: flex;
   flex-direction: column;
@@ -81,6 +82,28 @@ body {
   background: transparent !important;
   border: 1px dashed #4b5563;
   color: #9ca3af;
+}
+
+/* Bouton gear sur le profil */
+.profile-gear {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+.profile-gear:hover {
+  background: #111827;
 }
 
 /* HEADER */
@@ -138,7 +161,7 @@ body {
 .user-name {
   font-size: 0.8rem;
   color: #e5e7eb;
-  max-width: 100px;
+  max-width: 110px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -321,7 +344,7 @@ body {
   gap: 0.5rem;
 }
 
-/* MODALE AJOUT PROFIL */
+/* MODALE AJOUT / ACTION PROFIL */
 .profile-modal-title {
   font-size: 1.1rem;
   font-weight: 700;
