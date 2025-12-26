@@ -277,11 +277,19 @@ body {
   margin: 1rem 1.25rem 0;
   overflow: hidden;
 }
+
+/* 🔆 HERO OVERLAY : plus léger pour mieux voir l'image */
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.85), rgba(3, 7, 18, 0.95));
+  background: radial-gradient(
+    circle at top,
+    rgba(15, 23, 42, 0.25) 0%,
+    rgba(3, 7, 18, 0.70) 65%,
+    rgba(3, 7, 18, 0.85) 100%
+  );
 }
+
 .hero-content {
   position: relative;
   z-index: 1;
@@ -346,8 +354,7 @@ body {
   background-position: center;
 }
 
-/* 👉 Vignettes : on associe 3 images réelles
-   (si tu as nommé différemment, on ajustera les chemins ensuite) */
+/* 👉 Vignettes : on associe 3 images réelles */
 .thumb-1 {
   background-image: url("images/episodes/s1-e1.jpg");
 }
@@ -591,9 +598,17 @@ body.light-mode .episode-card {
   border-color: #cbd5f5;
   box-shadow: 0 12px 30px rgba(148, 163, 184, 0.7);
 }
+
+/* 🔆 Overlay plus léger aussi en mode jour */
 body.light-mode .hero-overlay {
-  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.8));
+  background: radial-gradient(
+    circle at top,
+    rgba(15, 23, 42, 0.18) 0%,
+    rgba(15, 23, 42, 0.55) 65%,
+    rgba(15, 23, 42, 0.7) 100%
+  );
 }
+
 body.light-mode .hero-text {
   color: #e5e7eb;
 }
