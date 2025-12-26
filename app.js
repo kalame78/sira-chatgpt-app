@@ -15,13 +15,26 @@ const currentUserInitial = document.getElementById("current-user-initial");
 const currentUserNameEl = document.getElementById("current-user-name");
 const profileListEl = document.getElementById("profile-list");
 
-// Modale ajout profil
+// Modale ajout / renommage profil
 const profileModal = document.getElementById("profile-modal");
+const profileModalTitle = document.getElementById("profile-modal-title");
+const profileModalSubtitle = document.getElementById("profile-modal-subtitle");
 const profileNameInput = document.getElementById("profile-name-input");
 const profileSaveBtn = document.getElementById("profile-save-btn");
 const profileCancelBtn = document.getElementById("profile-cancel-btn");
 
+// Modale actions profil (renommer / supprimer)
+const profileActionsModal = document.getElementById("profile-actions-modal");
+const profileActionsTitle = document.getElementById("profile-actions-title");
+const profileActionsText = document.getElementById("profile-actions-text");
+const profileRenameBtn = document.getElementById("profile-rename-btn");
+const profileDeleteBtn = document.getElementById("profile-delete-btn");
+const profileActionsCancelBtn = document.getElementById("profile-actions-cancel-btn");
+
 let profiles = [];
+let isEditingProfile = false;
+let editingProfileId = null;
+let activeProfileId = null;
 
 function loadProfiles() {
   const stored = localStorage.getItem("siraProfiles");
@@ -64,9 +77,26 @@ function renderProfiles() {
 
   // Cartes pour chaque profil existant
   profiles.forEach((profile, index) => {
-    const btn = document.createElement("button");
-    btn.className = "profile-card";
-    btn.addEventListener("click", () => selectProfile(profile.name));
+    const card = document.createElement("div");
+    card.className = "profile-card";
+    card.tabIndex = 0;
+    card.addEventListener("click", () => selectProfile(profile.name));
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        selectProfile(profile.name);
+      }
+    });
+
+    // Bouton gear (réglages)
+    const gearBtn = document.createElement("button");
+    gearBtn.type = "button";
+    gearBtn.className = "profile-gear";
+    gearBtn.textContent = "⚙";
+    gearBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openProfileActions(profile.id);
+    });
 
     const avatar = document.createElement("div");
     avatar.className = "avatar-circle";
@@ -76,15 +106,23 @@ function renderProfiles() {
     const span = document.createElement("span");
     span.textContent = profile.name;
 
-    btn.appendChild(avatar);
-    btn.appendChild(span);
-    profileListEl.appendChild(btn);
+    card.appendChild(gearBtn);
+    card.appendChild(avatar);
+    card.appendChild(span);
+    profileListEl.appendChild(card);
   });
 
   // Carte "Ajouter"
-  const addBtn = document.createElement("button");
+  const addBtn = document.createElement("div");
   addBtn.className = "profile-card profile-add";
-  addBtn.addEventListener("click", openProfileModal);
+  addBtn.tabIndex = 0;
+  addBtn.addEventListener("click", openProfileModalForAdd);
+  addBtn.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openProfileModalForAdd();
+    }
+  });
 
   const plusAvatar = document.createElement("div");
   plusAvatar.className = "avatar-circle plus";
@@ -98,12 +136,40 @@ function renderProfiles() {
   profileListEl.appendChild(addBtn);
 }
 
-function openProfileModal() {
+/* ---------- Modale Ajout / Renommage ---------- */
+
+function openProfileModalForAdd() {
   if (!profileModal) return;
+  isEditingProfile = false;
+  editingProfileId = null;
+  profileModalTitle.textContent = "Nouveau profil";
+  profileModalSubtitle.innerHTML =
+    'Écris ton prénom ou ton pseudo pour que tu retrouves ton espace à chaque connexion.<br><br>' +
+    '<strong>Important :</strong> ton profil est gardé seulement sur cet appareil. ' +
+    "Si tu changes d’ordinateur, de tablette ou de téléphone, il faudra le recréer.";
   profileNameInput.value = "";
   profileModal.classList.add("show");
   setTimeout(() => {
     profileNameInput.focus();
+  }, 50);
+}
+
+function openProfileModalForEdit(profileId) {
+  if (!profileModal) return;
+  const profile = profiles.find(p => p.id === profileId);
+  if (!profile) return;
+
+  isEditingProfile = true;
+  editingProfileId = profileId;
+  profileModalTitle.textContent = "Renommer le profil";
+  profileModalSubtitle.innerHTML =
+    "Change le nom de ce profil si tu veux corriger une faute ou utiliser un autre prénom.<br><br>" +
+    "<strong>Rappel :</strong> le profil reste enregistré seulement sur cet appareil.";
+  profileNameInput.value = profile.name;
+  profileModal.classList.add("show");
+  setTimeout(() => {
+    profileNameInput.focus();
+    profileNameInput.select();
   }, 50);
 }
 
@@ -119,10 +185,20 @@ function saveProfileFromModal() {
     profileNameInput.focus();
     return;
   }
-  profiles.push({
-    id: Date.now(),
-    name
-  });
+
+  if (isEditingProfile && editingProfileId !== null) {
+    // Renommage
+    profiles = profiles.map(p =>
+      p.id === editingProfileId ? { ...p, name } : p
+    );
+  } else {
+    // Nouveau profil
+    profiles.push({
+      id: Date.now(),
+      name
+    });
+  }
+
   saveProfiles();
   renderProfiles();
   closeProfileModal();
@@ -149,6 +225,69 @@ if (profileNameInput) {
     }
   });
 }
+
+/* ---------- Modale Actions (Renommer / Supprimer) ---------- */
+
+function openProfileActions(profileId) {
+  if (!profileActionsModal) return;
+  const profile = profiles.find(p => p.id === profileId);
+  if (!profile) return;
+
+  activeProfileId = profileId;
+  profileActionsTitle.textContent = profile.name;
+  profileActionsText.innerHTML =
+    "Que veux-tu faire avec ce profil ?<br />" +
+    "Tu peux le renommer ou le supprimer.";
+  profileActionsModal.classList.add("show");
+}
+
+function closeProfileActions() {
+  if (!profileActionsModal) return;
+  profileActionsModal.classList.remove("show");
+  activeProfileId = null;
+}
+
+function handleRenameActiveProfile() {
+  if (activeProfileId === null) return;
+  const id = activeProfileId;
+  closeProfileActions();
+  openProfileModalForEdit(id);
+}
+
+function handleDeleteActiveProfile() {
+  if (activeProfileId === null) return;
+  if (profiles.length <= 1) {
+    // Message simple pour les enfants : impossible de supprimer le dernier profil
+    profileActionsText.innerHTML =
+      "Tu dois garder au moins <strong>un profil</strong> dans l’application.<br />" +
+      "Tu peux juste le renommer si tu veux changer de nom.";
+    return;
+  }
+
+  profiles = profiles.filter(p => p.id !== activeProfileId);
+  saveProfiles();
+  renderProfiles();
+  closeProfileActions();
+}
+
+if (profileRenameBtn) {
+  profileRenameBtn.addEventListener("click", handleRenameActiveProfile);
+}
+if (profileDeleteBtn) {
+  profileDeleteBtn.addEventListener("click", handleDeleteActiveProfile);
+}
+if (profileActionsCancelBtn) {
+  profileActionsCancelBtn.addEventListener("click", closeProfileActions);
+}
+if (profileActionsModal) {
+  profileActionsModal.addEventListener("click", (e) => {
+    if (e.target === profileActionsModal) {
+      closeProfileActions();
+    }
+  });
+}
+
+/* ---------- Sélection & écran d'accueil ---------- */
 
 function selectProfile(name) {
   localStorage.setItem("siraUser", name);
