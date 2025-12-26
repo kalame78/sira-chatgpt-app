@@ -545,15 +545,38 @@ body.light-mode .section-header p,
 body.light-mode .episode-body p {
   color: #4b5563;
 }
-
-/* Pour que les boutons secondaires restent lisibles en mode jour */
 body.light-mode .primary-btn.secondary-variant {
   background: #ffffff;
   color: #111827;
   border-color: #cbd5f5;
 }
 
-/* Fin mode jour */
+/* MODE DYS : police & lisibilité renforcée */
+body.dys-mode {
+  font-family: "Lexend", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.03em;
+}
+
+body.dys-mode .app-title,
+body.dys-mode .hero-title {
+  letter-spacing: 0.06em;
+}
+
+body.dys-mode .hero-text,
+body.dys-mode .modal-text,
+body.dys-mode .profile-modal-subtitle,
+body.dys-mode .episode-body p,
+body.dys-mode .section-header p,
+body.dys-mode .app-subtitle {
+  line-height: 1.6;
+}
+
+body.dys-mode .modal-text,
+body.dys-mode .episode-body p {
+  font-size: 0.95rem;
+}
+
+/* Fin mode DYS */
 
 @media (min-width: 768px) {
   .hero {
