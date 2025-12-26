@@ -83,7 +83,7 @@
       width: 52px;
       height: 52px;
       border-radius: 999px;
-      background: linear-gradient(135deg, #f97316, #facc15);
+      background: linear-gradient(135deg, #f97316, #facc15); /* sera écrasé par le JS */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -92,7 +92,7 @@
       color: #111827;
     }
     .avatar-circle.plus {
-      background: transparent;
+      background: transparent !important;
       border: 1px dashed #4b5563;
       color: #9ca3af;
     }
@@ -149,14 +149,29 @@
       font-size: 0.9rem;
       font-weight: 700;
     }
+    .user-name {
+      font-size: 0.8rem;
+      color: #e5e7eb;
+      max-width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     .logout-btn {
-      border: none;
-      background: transparent;
-      color: #9ca3af;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
       font-size: 0.75rem;
       cursor: pointer;
-      text-decoration: underline;
-      text-underline-offset: 2px;
+      padding: 0.3rem 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .logout-btn span.icon {
+      font-size: 0.85rem;
     }
 
     /* BOUTONS */
@@ -321,6 +336,43 @@
       gap: 0.5rem;
     }
 
+    /* MODALE AJOUT PROFIL */
+    .profile-modal-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .profile-modal-subtitle {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-top: 0.35rem;
+      margin-bottom: 0.9rem;
+      line-height: 1.4;
+    }
+    .profile-input-group {
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+    .profile-input-group label {
+      display: block;
+      font-size: 0.8rem;
+      color: #cbd5f5;
+      margin-bottom: 0.3rem;
+    }
+    .profile-input-group input {
+      width: 100%;
+      padding: 0.55rem 0.7rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: #020617;
+      color: #f9fafb;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .profile-input-group input:focus {
+      border-color: #facc15;
+      box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.6);
+    }
+
     /* MODALE OCH PLEIN ÉCRAN (spécifique) */
     .modal-och-root {
       padding: 0;
@@ -421,7 +473,11 @@
 
           <div class="user-badge">
             <div id="current-user-initial" class="user-initial">?</div>
-            <button class="logout-btn" onclick="logout()">← Retour aux profils</button>
+            <span id="current-user-name" class="user-name">Profil</span>
+            <button class="logout-btn" onclick="logout()">
+              <span class="icon">👤</span>
+              <span>CHANGER</span>
+            </button>
           </div>
         </div>
       </header>
@@ -503,6 +559,37 @@
     </div>
   </div>
 
+  <!-- MODALE AJOUT PROFIL -->
+  <div id="profile-modal" class="modal">
+    <div class="modal-content">
+      <h2 class="profile-modal-title">Nouveau profil</h2>
+      <p class="profile-modal-subtitle">
+        Écris ton prénom ou ton pseudo pour que tu retrouves ton espace à chaque connexion.<br><br>
+        <strong>Important :</strong> ton profil est gardé seulement sur cet appareil.
+        Si tu changes d’ordinateur, de tablette ou de téléphone, il faudra le recréer.
+      </p>
+
+      <div class="profile-input-group">
+        <label for="profile-name-input">Nom du profil</label>
+        <input
+          id="profile-name-input"
+          type="text"
+          maxlength="30"
+          placeholder="Ex : Adam, Maryam, Groupe Sira 1..."
+        />
+      </div>
+
+      <div class="modal-actions">
+        <button id="profile-save-btn" class="primary-btn">
+          Enregistrer
+        </button>
+        <button id="profile-cancel-btn" class="secondary-btn">
+          Annuler
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODALE OCH PLEIN ÉCRAN -->
   <div id="och-modal" class="modal modal-och-root">
     <div class="modal-content modal-och">
@@ -544,7 +631,14 @@
     const profileScreen = document.getElementById("profile-screen");
     const homeScreen = document.getElementById("home-screen");
     const currentUserInitial = document.getElementById("current-user-initial");
+    const currentUserNameEl = document.getElementById("current-user-name");
     const profileListEl = document.getElementById("profile-list");
+
+    // Modale ajout profil
+    const profileModal = document.getElementById("profile-modal");
+    const profileNameInput = document.getElementById("profile-name-input");
+    const profileSaveBtn = document.getElementById("profile-save-btn");
+    const profileCancelBtn = document.getElementById("profile-cancel-btn");
 
     let profiles = [];
 
@@ -576,12 +670,19 @@
       localStorage.setItem("siraProfiles", JSON.stringify(profiles));
     }
 
+    // Génère un dégradé de couleur différent par index
+    function getProfileGradient(index) {
+      const hue = (index * 60) % 360; // 6 couleurs avant de boucler
+      const hue2 = (hue + 40) % 360;
+      return `linear-gradient(135deg, hsl(${hue}, 85%, 60%), hsl(${hue2}, 90%, 50%))`;
+    }
+
     function renderProfiles() {
       if (!profileListEl) return;
       profileListEl.innerHTML = "";
 
       // Cartes pour chaque profil existant
-      profiles.forEach((profile) => {
+      profiles.forEach((profile, index) => {
         const btn = document.createElement("button");
         btn.className = "profile-card";
         btn.addEventListener("click", () => selectProfile(profile.name));
@@ -589,6 +690,7 @@
         const avatar = document.createElement("div");
         avatar.className = "avatar-circle";
         avatar.textContent = profile.name.charAt(0).toUpperCase();
+        avatar.style.background = getProfileGradient(index);
 
         const span = document.createElement("span");
         span.textContent = profile.name;
@@ -601,7 +703,7 @@
       // Carte "Ajouter"
       const addBtn = document.createElement("button");
       addBtn.className = "profile-card profile-add";
-      addBtn.addEventListener("click", addProfilePrompt);
+      addBtn.addEventListener("click", openProfileModal);
 
       const plusAvatar = document.createElement("div");
       plusAvatar.className = "avatar-circle plus";
@@ -615,18 +717,56 @@
       profileListEl.appendChild(addBtn);
     }
 
-    function addProfilePrompt() {
-      const name = window.prompt("Nom du nouveau profil ?");
-      if (!name) return;
-      const trimmed = name.trim();
-      if (!trimmed) return;
+    function openProfileModal() {
+      if (!profileModal) return;
+      profileNameInput.value = "";
+      profileModal.classList.add("show");
+      setTimeout(() => {
+        profileNameInput.focus();
+      }, 50);
+    }
 
+    function closeProfileModal() {
+      if (!profileModal) return;
+      profileModal.classList.remove("show");
+    }
+
+    function saveProfileFromModal() {
+      if (!profileNameInput) return;
+      const name = profileNameInput.value.trim();
+      if (!name) {
+        profileNameInput.focus();
+        return;
+      }
       profiles.push({
         id: Date.now(),
-        name: trimmed
+        name
       });
       saveProfiles();
       renderProfiles();
+      closeProfileModal();
+    }
+
+    if (profileSaveBtn) {
+      profileSaveBtn.addEventListener("click", saveProfileFromModal);
+    }
+    if (profileCancelBtn) {
+      profileCancelBtn.addEventListener("click", closeProfileModal);
+    }
+    if (profileModal) {
+      profileModal.addEventListener("click", (e) => {
+        if (e.target === profileModal) {
+          closeProfileModal();
+        }
+      });
+    }
+    if (profileNameInput) {
+      profileNameInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          saveProfileFromModal();
+        }
+      });
     }
 
     function selectProfile(name) {
@@ -637,6 +777,9 @@
     function showHome(userName) {
       if (currentUserInitial) {
         currentUserInitial.textContent = userName.charAt(0).toUpperCase();
+      }
+      if (currentUserNameEl) {
+        currentUserNameEl.textContent = userName;
       }
       profileScreen.style.display = "none";
       homeScreen.style.display = "block";
