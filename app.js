@@ -31,10 +31,70 @@ const profileRenameBtn = document.getElementById("profile-rename-btn");
 const profileDeleteBtn = document.getElementById("profile-delete-btn");
 const profileActionsCancelBtn = document.getElementById("profile-actions-cancel-btn");
 
+// Nav & thème
+const navToggle = document.getElementById("nav-toggle");
+const navMenu = document.getElementById("nav-menu");
+const themeToggleBtn = document.getElementById("theme-toggle");
+
 let profiles = [];
 let isEditingProfile = false;
 let editingProfileId = null;
 let activeProfileId = null;
+
+/* ---------- Helpers couleur ---------- */
+
+function makeGradientFromHue(hue) {
+  const hue2 = (hue + 40) % 360;
+  return `linear-gradient(135deg, hsl(${hue}, 85%, 60%), hsl(${hue2}, 90%, 50%))`;
+}
+
+function getProfileGradient(profile, index) {
+  const baseHue =
+    typeof profile.hue === "number" ? profile.hue : (index * 60) % 360;
+  return makeGradientFromHue(baseHue);
+}
+
+function applyProfileTheme(profile) {
+  const hue =
+    typeof profile.hue === "number"
+      ? profile.hue
+      : 35;
+  const gradient = makeGradientFromHue(hue);
+  const solid = `hsl(${hue}, 90%, 65%)`;
+  const solid2 = `hsl(${(hue + 25) % 360}, 85%, 55%)`;
+
+  // avatar dans le header
+  if (currentUserInitial) {
+    currentUserInitial.style.background = gradient;
+  }
+
+  // point de logo
+  const logoDot = document.querySelector(".logo-dot");
+  if (logoDot) {
+    logoDot.style.background = `radial-gradient(circle at 30% 30%, ${solid}, ${solid2})`;
+  }
+
+  // boutons principaux
+  document.querySelectorAll(".primary-btn").forEach(btn => {
+    if (!btn.classList.contains("secondary-variant")) {
+      btn.style.background = gradient;
+      btn.style.color = "#111827";
+    }
+  });
+
+  // kicker du hero
+  document.querySelectorAll(".hero-kicker").forEach(el => {
+    el.style.color = solid;
+  });
+
+  // bouton OCH (bientôt si on l'ajoute ailleurs)
+  document.querySelectorAll(".och-btn").forEach(btn => {
+    btn.style.borderColor = solid;
+    btn.style.color = solid;
+  });
+}
+
+/* ---------- Profils : load / save / render ---------- */
 
 function loadProfiles() {
   const stored = localStorage.getItem("siraProfiles");
@@ -52,7 +112,7 @@ function loadProfiles() {
   // S'il n'y a aucun profil, on crée un profil Invité par défaut
   if (profiles.length === 0) {
     profiles = [
-      { id: Date.now(), name: "Invité" }
+      { id: Date.now(), name: "Invité", hue: 40 }
     ];
     saveProfiles();
   }
@@ -64,13 +124,6 @@ function saveProfiles() {
   localStorage.setItem("siraProfiles", JSON.stringify(profiles));
 }
 
-// Génère un dégradé de couleur différent par index
-function getProfileGradient(index) {
-  const hue = (index * 60) % 360; // 6 couleurs avant de boucler
-  const hue2 = (hue + 40) % 360;
-  return `linear-gradient(135deg, hsl(${hue}, 85%, 60%), hsl(${hue2}, 90%, 50%))`;
-}
-
 function renderProfiles() {
   if (!profileListEl) return;
   profileListEl.innerHTML = "";
@@ -80,11 +133,11 @@ function renderProfiles() {
     const card = document.createElement("div");
     card.className = "profile-card";
     card.tabIndex = 0;
-    card.addEventListener("click", () => selectProfile(profile.name));
+    card.addEventListener("click", () => selectProfile(profile.id));
     card.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        selectProfile(profile.name);
+        selectProfile(profile.id);
       }
     });
 
@@ -101,7 +154,7 @@ function renderProfiles() {
     const avatar = document.createElement("div");
     avatar.className = "avatar-circle";
     avatar.textContent = profile.name.charAt(0).toUpperCase();
-    avatar.style.background = getProfileGradient(index);
+    avatar.style.background = getProfileGradient(profile, index);
 
     const span = document.createElement("span");
     span.textContent = profile.name;
@@ -195,7 +248,8 @@ function saveProfileFromModal() {
     // Nouveau profil
     profiles.push({
       id: Date.now(),
-      name
+      name,
+      hue: Math.floor(Math.random() * 360)
     });
   }
 
@@ -256,6 +310,7 @@ function handleRenameActiveProfile() {
 
 function handleDeleteActiveProfile() {
   if (activeProfileId === null) return;
+
   if (profiles.length <= 1) {
     // Message simple pour les enfants : impossible de supprimer le dernier profil
     profileActionsText.innerHTML =
@@ -289,33 +344,53 @@ if (profileActionsModal) {
 
 /* ---------- Sélection & écran d'accueil ---------- */
 
-function selectProfile(name) {
-  localStorage.setItem("siraUser", name);
-  showHome(name);
+function selectProfile(profileId) {
+  const profile = profiles.find(p => p.id === profileId);
+  if (!profile) return;
+
+  localStorage.setItem("siraUserId", String(profileId));
+  localStorage.setItem("siraUser", profile.name); // rétro-compat
+  showHome(profile);
 }
 
-function showHome(userName) {
+function showHome(profileOrName) {
+  const name =
+    typeof profileOrName === "string" ? profileOrName : profileOrName.name;
+
   if (currentUserInitial) {
-    currentUserInitial.textContent = userName.charAt(0).toUpperCase();
+    currentUserInitial.textContent = name.charAt(0).toUpperCase();
   }
   if (currentUserNameEl) {
-    currentUserNameEl.textContent = userName;
+    currentUserNameEl.textContent = name;
   }
+
+  if (typeof profileOrName === "object") {
+    applyProfileTheme(profileOrName);
+  }
+
   profileScreen.style.display = "none";
   homeScreen.style.display = "block";
 }
 
 function logout() {
+  localStorage.removeItem("siraUserId");
   localStorage.removeItem("siraUser");
   homeScreen.style.display = "none";
   profileScreen.style.display = "flex";
+  if (navMenu) navMenu.classList.remove("show");
 }
 
 // Charger les profils et l'utilisateur au démarrage
 loadProfiles();
-const savedUser = localStorage.getItem("siraUser");
-if (savedUser) {
-  showHome(savedUser);
+const savedUserId = localStorage.getItem("siraUserId");
+const savedUserName = localStorage.getItem("siraUser");
+
+if (savedUserId) {
+  const p = profiles.find(p => String(p.id) === savedUserId);
+  if (p) showHome(p);
+} else if (savedUserName) {
+  const pByName = profiles.find(p => p.name === savedUserName);
+  if (pByName) showHome(pByName);
 }
 
 // -------- 3. Fiche épisode ----------
@@ -380,6 +455,8 @@ function openOchModal() {
   ochIframe.src = OCH_URL;
   ochModal.classList.add("show");
   document.body.style.overflow = "hidden";
+
+  if (navMenu) navMenu.classList.remove("show");
 }
 
 function closeOchModal() {
@@ -395,5 +472,39 @@ if (ochCloseBtn) {
   ochCloseBtn.addEventListener("click", closeOchModal);
 }
 
-// ⚠️ IMPORTANT : on NE ferme PLUS la modale OCH au clic sur le fond.
-// On évite les fermetures accidentelles sur mobile.
+// -------- 5. Navigation & Thème --------
+if (navToggle && navMenu) {
+  navToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    navMenu.classList.toggle("show");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!navMenu.contains(e.target) && e.target !== navToggle && !navToggle.contains(e.target)) {
+      navMenu.classList.remove("show");
+    }
+  });
+}
+
+function applyTheme(theme) {
+  if (!themeToggleBtn) return;
+  if (theme === "light") {
+    document.body.classList.add("light-mode");
+    themeToggleBtn.textContent = "Passer en mode nuit";
+  } else {
+    document.body.classList.remove("light-mode");
+    themeToggleBtn.textContent = "Passer en mode jour";
+  }
+}
+
+let savedTheme = localStorage.getItem("siraTheme") || "dark";
+applyTheme(savedTheme);
+
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener("click", () => {
+    const isLight = document.body.classList.contains("light-mode");
+    const newTheme = isLight ? "dark" : "light";
+    localStorage.setItem("siraTheme", newTheme);
+    applyTheme(newTheme);
+  });
+}
