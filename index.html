@@ -10,7 +10,7 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
 
-  <!-- Police très lisible (mode DYS) -->
+  <!-- Police très lisible (UI) -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" />
 
   <!-- STYLES -->
@@ -75,7 +75,12 @@
               <button class="primary-btn" onclick="scrollToSeasons()">
                 Voir les saisons
               </button>
-              <button id="hero-first-episode-btn" class="primary-btn secondary-variant">
+              <!-- 👉 Ouverture directe de la modale de l’Épisode 1 -->
+              <button
+                id="hero-first-episode-btn"
+                class="primary-btn secondary-variant"
+                onclick="openEpisodeModal('episode1')"
+              >
                 Voir le 1ᵉʳ épisode
               </button>
             </div>
@@ -90,11 +95,10 @@
           </div>
 
           <div class="episodes-row">
-            <!-- S1E1 -->
+            <!-- S1E1 : on réutilise l’ID "episode1" déjà géré dans app.js -->
             <article
               class="episode-card"
-              data-title="Épisode 1 – Les Racines"
-              data-description="Ibrahim, Ismaël, la construction de la Kaaba et la naissance d’une ville pas comme les autres."
+              onclick="openEpisodeModal('episode1')"
             >
               <div class="episode-thumb thumb-1"></div>
               <div class="episode-body">
@@ -106,8 +110,7 @@
             <!-- S1E2 -->
             <article
               class="episode-card"
-              data-title="Épisode 2 – L’Année de l’Éléphant"
-              data-description="Abraha veut détruire la Kaaba, mais Allah la protège avec des oiseaux spéciaux (Abâbîl)."
+              onclick="openEpisodeModal('episode2')"
             >
               <div class="episode-thumb thumb-2"></div>
               <div class="episode-body">
@@ -119,8 +122,7 @@
             <!-- S1E3 -->
             <article
               class="episode-card"
-              data-title="Épisode 3 – Quraysh & les caravanes"
-              data-description="On suit les voyages d’hiver et d’été de Quraysh, et on voit comment Allah les nourrit et les sécurise autour de la Kaaba."
+              onclick="openEpisodeModal('episode3')"
             >
               <div class="episode-thumb thumb-3"></div>
               <div class="episode-body">
@@ -132,8 +134,7 @@
             <!-- S1E4 -->
             <article
               class="episode-card"
-              data-title="Épisode 4 – Enfance du Prophète ﷺ"
-              data-description="Orphelin très tôt, confié à Halîma, protégé par Allah dans une société pleine d’idoles."
+              onclick="openEpisodeModal('episode4')"
             >
               <div class="episode-thumb thumb-2"></div>
               <div class="episode-body">
@@ -145,8 +146,7 @@
             <!-- S1E5 -->
             <article
               class="episode-card"
-              data-title="Épisode 5 – Le voyage en Syrie"
-              data-description="Le jeune Muhammad ﷺ accompagne son oncle Abû Tâlib et rencontre le moine Bahîra."
+              onclick="openEpisodeModal('episode5')"
             >
               <div class="episode-thumb thumb-3"></div>
               <div class="episode-body">
@@ -158,8 +158,7 @@
             <!-- S1E6 -->
             <article
               class="episode-card"
-              data-title="Épisode 6 – Mariage avec Khadîdja"
-              data-description="Une femme noble, honnête, qui fait confiance à Muhammad ﷺ comme commerçant, puis l’épouse."
+              onclick="openEpisodeModal('episode6')"
             >
               <div class="episode-thumb thumb-1"></div>
               <div class="episode-body">
@@ -171,8 +170,7 @@
             <!-- S1E7 -->
             <article
               class="episode-card"
-              data-title="Épisode 7 – La grotte de Hirâ"
-              data-description="Le Prophète ﷺ se retire pour réfléchir, loin des idoles, dans une grotte au sommet d’une montagne."
+              onclick="openEpisodeModal('episode7')"
             >
               <div class="episode-thumb thumb-2"></div>
               <div class="episode-body">
@@ -191,11 +189,11 @@
           </div>
 
           <div class="episodes-row">
-            <!-- S2E1 -->
+            <!-- Pour l’instant ces IDs utiliseront le texte par défaut de openEpisodeModal
+                 tant qu’on n’a pas complété tous les cas dans app.js -->
             <article
               class="episode-card"
-              data-title="Épisode 1 – La Nuit de la Révélation"
-              data-description="Dans la grotte de Hirâ, l’ange Jibrîl vient avec les premiers versets de Sourate Al-‘Alaq."
+              onclick="openEpisodeModal('s2e1')"
             >
               <div class="episode-thumb thumb-1"></div>
               <div class="episode-body">
@@ -204,11 +202,9 @@
               </div>
             </article>
 
-            <!-- S2E2 -->
             <article
               class="episode-card"
-              data-title="Épisode 2 – Les premiers croyants"
-              data-description="Khadîdja, Abû Bakr, ‘Alî et quelques autres acceptent la vérité dès le début."
+              onclick="openEpisodeModal('s2e2')"
             >
               <div class="episode-thumb thumb-2"></div>
               <div class="episode-body">
@@ -217,11 +213,9 @@
               </div>
             </article>
 
-            <!-- S2E3 -->
             <article
               class="episode-card"
-              data-title="Épisode 3 – Appel discret"
-              data-description="Pendant plusieurs années, les musulmans apprennent leur religion en secret, maison par maison."
+              onclick="openEpisodeModal('s2e3')"
             >
               <div class="episode-thumb thumb-3"></div>
               <div class="episode-body">
@@ -230,11 +224,9 @@
               </div>
             </article>
 
-            <!-- S2E4 -->
             <article
               class="episode-card"
-              data-title="Épisode 4 – Appel public"
-              data-description="Le Prophète ﷺ monte sur la colline de Safâ et appelle toute La Mecque à réfléchir."
+              onclick="openEpisodeModal('s2e4')"
             >
               <div class="episode-thumb thumb-2"></div>
               <div class="episode-body">
@@ -243,11 +235,9 @@
               </div>
             </article>
 
-            <!-- S2E5 -->
             <article
               class="episode-card"
-              data-title="Épisode 5 – Persécutions"
-              data-description="Les faibles sont insultés, frappés, torturés, mais restent fermes pour Allah."
+              onclick="openEpisodeModal('s2e5')"
             >
               <div class="episode-thumb thumb-3"></div>
               <div class="episode-body">
@@ -256,11 +246,9 @@
               </div>
             </article>
 
-            <!-- S2E6 -->
             <article
               class="episode-card"
-              data-title="Épisode 6 – Boycott"
-              data-description="Quraysh coupe les liens avec la famille du Prophète ﷺ : plus de commerce ni de mariage avec eux."
+              onclick="openEpisodeModal('s2e6')"
             >
               <div class="episode-thumb thumb-1"></div>
               <div class="episode-body">
@@ -269,11 +257,9 @@
               </div>
             </article>
 
-            <!-- S2E7 -->
             <article
               class="episode-card"
-              data-title="Épisode 7 – Le voyage à Tâif"
-              data-description="Le Prophète ﷺ va chercher du soutien à Tâif, mais il est rejeté et blessé."
+              onclick="openEpisodeModal('s2e7')"
             >
               <div class="episode-thumb thumb-2"></div>
               <div class="episode-body">
@@ -292,11 +278,9 @@
           </div>
 
           <div class="episodes-row">
-            <!-- S3E1 -->
             <article
               class="episode-card"
-              data-title="Épisode 1 – Les rencontres d’Al-‘Aqaba"
-              data-description="Des habitants de Yathrib (Médine) rencontrent le Prophète ﷺ et acceptent l’Islam."
+              onclick="openEpisodeModal('s3e1')"
             >
               <div class="episode-thumb thumb-3"></div>
               <div class="episode-body">
@@ -305,11 +289,9 @@
               </div>
             </article>
 
-            <!-- S3E2 -->
             <article
               class="episode-card"
-              data-title="Épisode 2 – Préparation de l’Hégire"
-              data-description="Les compagnons partent petit à petit vers Médine, en discrétion."
+              onclick="openEpisodeModal('s3e2')"
             >
               <div class="episode-thumb thumb-1"></div>
               <div class="episode-body">
@@ -318,11 +300,9 @@
               </div>
             </article>
 
-            <!-- S3E3 -->
             <article
               class="episode-card"
-              data-title="Épisode 3 – Grotte de Thawr"
-              data-description="Le Prophète ﷺ et Abû Bakr se cachent dans une grotte alors que leurs ennemis sont tout près."
+              onclick="openEpisodeModal('s3e3')"
             >
               <div class="episode-thumb thumb-2"></div>
               <div class="episode-body">
@@ -331,11 +311,9 @@
               </div>
             </article>
 
-            <!-- S3E4 -->
             <article
               class="episode-card"
-              data-title="Épisode 4 – Arrivée à Qubâ’"
-              data-description="Le Prophète ﷺ arrive près de Médine et fonde la première mosquée."
+              onclick="openEpisodeModal('s3e4')"
             >
               <div class="episode-thumb thumb-3"></div>
               <div class="episode-body">
@@ -344,11 +322,9 @@
               </div>
             </article>
 
-            <!-- S3E5 -->
             <article
               class="episode-card"
-              data-title="Épisode 5 – Entrée à Médine"
-              data-description="Toute la ville chante sa joie à l’arrivée du Prophète ﷺ."
+              onclick="openEpisodeModal('s3e5')"
             >
               <div class="episode-thumb thumb-1"></div>
               <div class="episode-body">
@@ -357,11 +333,9 @@
               </div>
             </article>
 
-            <!-- S3E6 -->
             <article
               class="episode-card"
-              data-title="Épisode 6 – Fraternisation"
-              data-description="Les Ansâr de Médine partagent leurs maisons et leurs biens avec les Muhâjirûn."
+              onclick="openEpisodeModal('s3e6')"
             >
               <div class="episode-thumb thumb-2"></div>
               <div class="episode-body">
@@ -370,11 +344,9 @@
               </div>
             </article>
 
-            <!-- S3E7 -->
             <article
               class="episode-card"
-              data-title="Épisode 7 – Constitution de Médine"
-              data-description="Une charte pour organiser la vie des musulmans et des autres tribus de la ville."
+              onclick="openEpisodeModal('s3e7')"
             >
               <div class="episode-thumb thumb-3"></div>
               <div class="episode-body">
@@ -393,11 +365,9 @@
           </div>
 
           <div class="episodes-row">
-            <!-- S4E1 -->
             <article
               class="episode-card"
-              data-title="Épisode 1 – Badr"
-              data-description="Une petite armée croyante face à une grande armée de Quraysh, aidée par les anges."
+              onclick="openEpisodeModal('s4e1')"
             >
               <div class="episode-thumb thumb-1"></div>
               <div class="episode-body">
@@ -406,11 +376,9 @@
               </div>
             </article>
 
-            <!-- S4E2 -->
             <article
               class="episode-card"
-              data-title="Épisode 2 – Uhud"
-              data-description="Une bataille où la désobéissance de quelques archers change le résultat."
+              onclick="openEpisodeModal('s4e2')"
             >
               <div class="episode-thumb thumb-2"></div>
               <div class="episode-body">
@@ -419,11 +387,9 @@
               </div>
             </article>
 
-            <!-- S4E3 -->
             <article
               class="episode-card"
-              data-title="Épisode 3 – La tranchée"
-              data-description="Les musulmans creusent une grande tranchée pour protéger Médine d’une coalition ennemie."
+              onclick="openEpisodeModal('s4e3')"
             >
               <div class="episode-thumb thumb-3"></div>
               <div class="episode-body">
@@ -432,11 +398,9 @@
               </div>
             </article>
 
-            <!-- S4E4 -->
             <article
               class="episode-card"
-              data-title="Épisode 4 – Hudaybiya"
-              data-description="Un traité de paix qui semble désavantageux, mais qu’Allah transforme en victoire."
+              onclick="openEpisodeModal('s4e4')"
             >
               <div class="episode-thumb thumb-1"></div>
               <div class="episode-body">
@@ -445,11 +409,9 @@
               </div>
             </article>
 
-            <!-- S4E5 -->
             <article
               class="episode-card"
-              data-title="Épisode 5 – Conquête de La Mecque"
-              data-description="Le Prophète ﷺ entre à La Mecque presque sans combat, en pardonnant à beaucoup de ses ennemis."
+              onclick="openEpisodeModal('s4e5')"
             >
               <div class="episode-thumb thumb-2"></div>
               <div class="episode-body">
@@ -458,11 +420,9 @@
               </div>
             </article>
 
-            <!-- S4E6 -->
             <article
               class="episode-card"
-              data-title="Épisode 6 – Hunayn"
-              data-description="Une bataille où les musulmans, très nombreux, apprennent à ne pas se fier seulement à leur nombre."
+              onclick="openEpisodeModal('s4e6')"
             >
               <div class="episode-thumb thumb-3"></div>
               <div class="episode-body">
@@ -471,11 +431,9 @@
               </div>
             </article>
 
-            <!-- S4E7 -->
             <article
               class="episode-card"
-              data-title="Épisode 7 – Pèlerinage d’adieu"
-              data-description="Le Prophète ﷺ fait son dernier Hajj, prononce un grand discours et sent que sa mission touche à sa fin."
+              onclick="openEpisodeModal('s4e7')"
             >
               <div class="episode-thumb thumb-1"></div>
               <div class="episode-body">
@@ -561,10 +519,13 @@
       <div class="modal-och-header">
         <div class="och-header-left">
           <p class="och-kicker">Espace cours</p>
-          <h2 class="och-title">Sira Coranique</h2>
-          <button class="och-return-btn" type="button" onclick="closeOchModal()">
-            🏠 Retour dans Sira Coranique
-          </button>
+          <!-- 🏠 Bouton déplacé à côté du titre -->
+          <div class="och-title-row">
+            <h2 class="och-title">Sira Coranique</h2>
+            <button class="och-return-btn" type="button" onclick="closeOchModal()">
+              🏠 Retour dans Sira Coranique
+            </button>
+          </div>
         </div>
         <button id="och-close" class="close-btn" aria-label="Fermer">&times;</button>
       </div>
