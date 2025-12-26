@@ -482,6 +482,12 @@ body.light-mode .main-header {
 body.light-mode .brand-title {
   color: #0f172a;
 }
+body.light-mode .user-name {
+  color: #111827;
+}
+body.light-mode .app-subtitle {
+  color: #4b5563;
+}
 body.light-mode .hamburger-btn {
   background: #e5e7eb;
   border-color: #cbd5f5;
@@ -516,9 +522,13 @@ body.light-mode .modal-text,
 body.light-mode .profile-modal-subtitle {
   color: #4b5563;
 }
+body.light-mode .profile-input-group label {
+  color: #4b5563;
+}
 body.light-mode .profile-input-group input {
   background: #f9fafb;
   color: #0f172a;
+  border-color: #cbd5f5;
 }
 body.light-mode .episode-card {
   background: #f9fafb;
@@ -528,6 +538,22 @@ body.light-mode .episode-card {
 body.light-mode .hero-overlay {
   background: radial-gradient(circle at top, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.8));
 }
+body.light-mode .hero-text {
+  color: #e5e7eb;
+}
+body.light-mode .section-header p,
+body.light-mode .episode-body p {
+  color: #4b5563;
+}
+
+/* Pour que les boutons secondaires restent lisibles en mode jour */
+body.light-mode .primary-btn.secondary-variant {
+  background: #ffffff;
+  color: #111827;
+  border-color: #cbd5f5;
+}
+
+/* Fin mode jour */
 
 @media (min-width: 768px) {
   .hero {
