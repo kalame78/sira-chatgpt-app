@@ -269,7 +269,8 @@ body {
   display: flex;
   align-items: flex-end;
   padding: 1.5rem 1.25rem;
-  background-image: url("https://images.pexels.com/photos/1842623/pexels-photo-1842623.jpeg?auto=compress&cs=tinysrgb&w=1200");
+  /* 👉 Ton image réelle de Saison 1 */
+  background-image: url("images/hero/hero-saison1.jpg");
   background-size: cover;
   background-position: center;
   border-radius: 1.5rem;
@@ -345,14 +346,17 @@ body {
   background-position: center;
 }
 
-/* Test d'image réelle sur les épisodes (thumb-1 utilise icons/icon-192.png) */
+/* 👉 Vignettes : on associe 3 images réelles
+   (si tu as nommé différemment, on ajustera les chemins ensuite) */
 .thumb-1 {
-  background-image:
-    url("icons/icon-192.png"),
-    linear-gradient(135deg, #22c55e, #16a34a);
+  background-image: url("images/episodes/s1-e1.jpg");
 }
-.thumb-2 { background-image: linear-gradient(135deg, #0ea5e9, #1d4ed8); }
-.thumb-3 { background-image: linear-gradient(135deg, #f97316, #facc15); }
+.thumb-2 {
+  background-image: url("images/episodes/s1-e2.jpg");
+}
+.thumb-3 {
+  background-image: url("images/episodes/s1-e3.jpg");
+}
 
 .episode-body {
   padding: 0.7rem 0.75rem 0.85rem;
