@@ -400,21 +400,8 @@
         <h1 class="app-title">SIRA CORANIQUE</h1>
         <p class="app-subtitle">Choisis ton profil pour entrer dans le monde de la Sîra.</p>
 
-        <div class="profile-list">
-          <button class="profile-card" onclick="selectProfile('Nabil')">
-            <div class="avatar-circle">N</div>
-            <span>Nabil</span>
-          </button>
-
-          <button class="profile-card" onclick="selectProfile('Reda')">
-            <div class="avatar-circle">R</div>
-            <span>Reda</span>
-          </button>
-
-          <button class="profile-card profile-add" onclick="selectProfile('Invité')">
-            <div class="avatar-circle plus">+</div>
-            <span>Invité</span>
-          </button>
+        <div id="profile-list" class="profile-list">
+          <!-- Profils dynamiques générés en JS -->
         </div>
       </div>
     </div>
@@ -434,7 +421,7 @@
 
           <div class="user-badge">
             <div id="current-user-initial" class="user-initial">?</div>
-            <button class="logout-btn" onclick="logout()">Changer de profil</button>
+            <button class="logout-btn" onclick="logout()">← Retour aux profils</button>
           </div>
         </div>
       </header>
@@ -557,10 +544,89 @@
     const profileScreen = document.getElementById("profile-screen");
     const homeScreen = document.getElementById("home-screen");
     const currentUserInitial = document.getElementById("current-user-initial");
+    const profileListEl = document.getElementById("profile-list");
 
-    const savedUser = localStorage.getItem("siraUser");
-    if (savedUser) {
-      showHome(savedUser);
+    let profiles = [];
+
+    function loadProfiles() {
+      const stored = localStorage.getItem("siraProfiles");
+      if (stored) {
+        try {
+          profiles = JSON.parse(stored) || [];
+        } catch (e) {
+          profiles = [];
+        }
+      }
+      if (!Array.isArray(profiles)) {
+        profiles = [];
+      }
+
+      // S'il n'y a aucun profil, on crée un profil Invité par défaut
+      if (profiles.length === 0) {
+        profiles = [
+          { id: Date.now(), name: "Invité" }
+        ];
+        saveProfiles();
+      }
+
+      renderProfiles();
+    }
+
+    function saveProfiles() {
+      localStorage.setItem("siraProfiles", JSON.stringify(profiles));
+    }
+
+    function renderProfiles() {
+      if (!profileListEl) return;
+      profileListEl.innerHTML = "";
+
+      // Cartes pour chaque profil existant
+      profiles.forEach((profile) => {
+        const btn = document.createElement("button");
+        btn.className = "profile-card";
+        btn.addEventListener("click", () => selectProfile(profile.name));
+
+        const avatar = document.createElement("div");
+        avatar.className = "avatar-circle";
+        avatar.textContent = profile.name.charAt(0).toUpperCase();
+
+        const span = document.createElement("span");
+        span.textContent = profile.name;
+
+        btn.appendChild(avatar);
+        btn.appendChild(span);
+        profileListEl.appendChild(btn);
+      });
+
+      // Carte "Ajouter"
+      const addBtn = document.createElement("button");
+      addBtn.className = "profile-card profile-add";
+      addBtn.addEventListener("click", addProfilePrompt);
+
+      const plusAvatar = document.createElement("div");
+      plusAvatar.className = "avatar-circle plus";
+      plusAvatar.textContent = "+";
+
+      const span = document.createElement("span");
+      span.textContent = "Ajouter";
+
+      addBtn.appendChild(plusAvatar);
+      addBtn.appendChild(span);
+      profileListEl.appendChild(addBtn);
+    }
+
+    function addProfilePrompt() {
+      const name = window.prompt("Nom du nouveau profil ?");
+      if (!name) return;
+      const trimmed = name.trim();
+      if (!trimmed) return;
+
+      profiles.push({
+        id: Date.now(),
+        name: trimmed
+      });
+      saveProfiles();
+      renderProfiles();
     }
 
     function selectProfile(name) {
@@ -580,6 +646,13 @@
       localStorage.removeItem("siraUser");
       homeScreen.style.display = "none";
       profileScreen.style.display = "flex";
+    }
+
+    // Charger les profils et l'utilisateur au démarrage
+    loadProfiles();
+    const savedUser = localStorage.getItem("siraUser");
+    if (savedUser) {
+      showHome(savedUser);
     }
 
     // -------- 3. Fiche épisode ----------
@@ -661,7 +734,6 @@
 
     // ⚠️ IMPORTANT : on NE ferme PLUS la modale OCH au clic sur le fond.
     // On évite les fermetures accidentelles sur mobile.
-    // Donc pas de : ochModal.addEventListener("click", ...);
   </script>
 </body>
 </html>
