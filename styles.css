@@ -475,12 +475,20 @@ body {
   letter-spacing: 0.18em;
   color: #facc15;
 }
+
+/* 👉 Ligne titre + bouton "Retour" côte à côte */
+.och-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 .och-title {
   font-size: 1rem;
   font-weight: 700;
 }
 .och-return-btn {
-  margin-top: 0.1rem;
   border: 1px solid rgba(148, 163, 184, 0.6);
   background: rgba(15, 23, 42, 0.95);
   color: #e5e7eb;
