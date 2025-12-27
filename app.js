@@ -399,22 +399,101 @@ const episodeModal = document.getElementById("episode-modal");
 const modalTitle = document.getElementById("modal-title");
 const modalText = document.getElementById("modal-text");
 
+let currentEpisodeOchUrl = null;
+
+// Données détaillées de la Saison 1 (et on pourra étendre plus tard)
+const EPISODE_DATA = {
+  s1e1: {
+    title: "Épisode 1 – Le Duel des Titans",
+    text:
+      "Deux empires géants s’affrontent comme des bulldozers et écrasent tout sur leur passage. Découvre pourquoi l’Arabie, cachée au milieu, est le seul endroit protégé pour préparer l’arrivée du Prophète ﷺ.",
+    ochUrl:
+      "https://ihaveadeen.onlinecoursehost.com/courses/1kKuimvQmHaHfzQD4vWW/2/lessons/1"
+  },
+  s1e2: {
+    title: "Épisode 2 – Mission Désert et Ville",
+    text:
+      "Tu es plutôt « Team Ville » ou « Team Liberté » ? Explore la vie dangereuse du désert et comprends l’environnement difficile dans lequel le Prophète ﷺ allait devoir grandir et porter son message.",
+    ochUrl:
+      "https://ihaveadeen.onlinecoursehost.com/courses/1kKuimvQmHaHfzQD4vWW/3/lessons/1"
+  },
+  s1e3: {
+    title: "Épisode 3 – Code IBN ou BINT",
+    text:
+      "Ton nom est un code secret qui raconte ton histoire. Apprends à décoder les noms à rallonge (Ibn/Bint) et remonte l’arbre généalogique du Prophète ﷺ pour découvrir ses nobles origines jusqu’à Ismaïl.",
+    ochUrl:
+      "https://ihaveadeen.onlinecoursehost.com/courses/1kKuimvQmHaHfzQD4vWW/4/lessons/1"
+  },
+  s1e4: {
+    title: "Épisode 4 – 2 Voies",
+    text:
+      "À La Mecque, pour être le « boss », il faut être riche et ultra-généreux ! Plonge dans les règles du pouvoir tribal pour comprendre la différence entre un roi puissant et le Prophète ﷺ choisi par Allah.",
+    ochUrl:
+      "https://ihaveadeen.onlinecoursehost.com/courses/1kKuimvQmHaHfzQD4vWW/5/lessons/1"
+  },
+  s1e5: {
+    title: "Épisode 5 – La Mecque & les idoles",
+    text:
+      "La Maison d’Allah (la Kaaba) construite par Ibrâhîm est envahie par 360 statues ! Mène l’enquête pour identifier ces « intrus » avant que le Prophète ﷺ ne vienne rétablir la vérité des années plus tard.",
+    ochUrl:
+      "https://ihaveadeen.onlinecoursehost.com/courses/1kKuimvQmHaHfzQD4vWW/6/lessons/1"
+  },
+  s1e6: {
+    title: "Épisode 6 – L’Attaque du Géant",
+    text:
+      "Un immense éléphant nommé Mahmoud fonce sur la ville pour tout détruire ! Revis le miracle spectaculaire des oiseaux Abâbîl qui ont protégé la Kaaba l’année même de la naissance du Prophète ﷺ.",
+    ochUrl:
+      "https://ihaveadeen.onlinecoursehost.com/courses/1kKuimvQmHaHfzQD4vWW/7/lessons/1"
+  },
+  s1e7: {
+    title: "Épisode 7 – Orphelin",
+    text:
+      "Pourquoi le Prophète ﷺ a-t-il grandi loin de sa maman, en plein désert ? Pars vivre sous la tente de la nourrice Halîma et découvre le mystère des anges qui ont ouvert sa poitrine pour laver son cœur.",
+    ochUrl:
+      "https://ihaveadeen.onlinecoursehost.com/courses/1kKuimvQmHaHfzQD4vWW/8/lessons/1"
+  },
+  s1e8: {
+    title: "Épisode 8 – Al-Amîn & Khadija",
+    text:
+      "Comment un simple berger devient-il l’époux de la femme la plus riche et respectée de La Mecque ? Découvre comment l’honnêteté absolue du Prophète ﷺ (Al-Amîn) a conquis le cœur de Khadija (raa).",
+    ochUrl:
+      "https://ihaveadeen.onlinecoursehost.com/courses/1kKuimvQmHaHfzQD4vWW/9/lessons/1"
+  },
+  s1e9: {
+    title: "Épisode 9 – Hira",
+    text:
+      "Dans le noir complet d’une grotte, une présence puissante serre le Prophète ﷺ et lui ordonne : « Lis ! ». Assiste au moment précis où le monde changera à jamais.",
+    ochUrl:
+      "https://ihaveadeen.onlinecoursehost.com/courses/1kKuimvQmHaHfzQD4vWW/10/lessons/2"
+  }
+};
+
 function openEpisodeModal(id) {
-  if (id === "episode1") {
+  const data = EPISODE_DATA[id];
+
+  if (data) {
+    modalTitle.textContent = data.title;
+    modalText.textContent = data.text;
+    currentEpisodeOchUrl = data.ochUrl;
+  } else if (id === "episode1") {
     modalTitle.textContent = "Épisode 1 – Les Racines";
     modalText.textContent =
       "On découvre Ibrahim, Ismaël, la construction de la Kaaba et pourquoi cette maison est si importante pour tous les musulmans.";
+    currentEpisodeOchUrl = null;
   } else if (id === "episode2") {
     modalTitle.textContent = "Épisode 2 – L’Année de l’Éléphant";
     modalText.textContent =
       "Abraha veut détruire la Kaaba, mais Allah la protège avec des oiseaux spéciaux. Les enfants comprennent qu’Allah protège Sa Maison.";
+    currentEpisodeOchUrl = null;
   } else if (id === "episode3") {
     modalTitle.textContent = "Épisode 3 – Quraysh & les caravanes";
     modalText.textContent =
       "On suit les voyages d’hiver et d’été de Quraysh, et on voit comment le commerce est lié à la sécurité autour de la Kaaba (sourate Quraysh).";
+    currentEpisodeOchUrl = null;
   } else {
     modalTitle.textContent = "Épisode";
     modalText.textContent = "Détails de l’épisode.";
+    currentEpisodeOchUrl = null;
   }
 
   episodeModal.classList.add("show");
@@ -447,13 +526,20 @@ const ochModal = document.getElementById("och-modal");
 const ochIframe = document.getElementById("och-iframe");
 const ochCloseBtn = document.getElementById("och-close");
 
-function openOchModal() {
+function openEpisodeOch() {
+  // Ouvre soit l’URL spécifique de l’épisode, soit l’URL globale si pas définie
+  const url = currentEpisodeOchUrl || OCH_URL;
+  openOchModal(url);
+}
+
+function openOchModal(url) {
   if (!ochModal || !ochIframe) return;
 
   // 🔒 On ferme systématiquement la fiche épisode avant d'ouvrir OCH
   closeEpisodeModal();
 
-  ochIframe.src = OCH_URL;
+  const finalUrl = url || OCH_URL;
+  ochIframe.src = finalUrl;
   ochModal.classList.add("show");
   document.body.style.overflow = "hidden";
 
