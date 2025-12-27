@@ -66,20 +66,19 @@
         <section class="hero">
           <div class="hero-overlay"></div>
           <div class="hero-content">
-            <p class="hero-kicker">Programme enfants 8–10 ans</p>
-            <h1 class="hero-title">Saison 1 : L’Aube</h1>
+            <p class="hero-kicker">Saison 1 · L’Éveil</p>
+            <h1 class="hero-title">Le monde avant la Lumière</h1>
             <p class="hero-text">
-              On découvre comment Allah a préparé le cœur du Prophète ﷺ dans une Arabie pleine d’idoles, de commerce et de secrets.
+              Deux empires géants se disputent le monde, mais au milieu, une péninsule discrète est protégée par Allah pour préparer la venue du Prophète ﷺ.
             </p>
             <div class="hero-actions">
               <button class="primary-btn" onclick="scrollToSeasons()">
                 Voir les saisons
               </button>
-              <!-- 👉 Ouverture directe de la modale de l’Épisode 1 -->
               <button
                 id="hero-first-episode-btn"
                 class="primary-btn secondary-variant"
-                onclick="openEpisodeModal('episode1')"
+                onclick="openEpisodeModal('s1e1')"
               >
                 Voir le 1ᵉʳ épisode
               </button>
@@ -90,92 +89,143 @@
         <!-- SAISON 1 -->
         <section id="seasons-container" class="seasons-section">
           <div class="section-header">
-            <h2>Saison 1 – L’Aube</h2>
-            <p>Les débuts : Ibrahim, Ismaël, Kaaba, Quraysh et l’enfance du Prophète ﷺ.</p>
+            <h2>Saison 1 – L’Éveil</h2>
+            <p>Le monde avant la Révélation : empires, désert, Kaaba, miracles et premiers pas du Messager d’Allah ﷺ.</p>
           </div>
 
           <div class="episodes-row">
-            <!-- S1E1 : on réutilise l’ID "episode1" déjà géré dans app.js -->
+            <!-- S1E1 -->
             <article
               class="episode-card"
-              onclick="openEpisodeModal('episode1')"
+              onclick="openEpisodeModal('s1e1')"
             >
-              <div class="episode-thumb thumb-1"></div>
+              <div
+                class="episode-thumb"
+                style="background-image: url('images/episodes/S1-E1.jpg');"
+              ></div>
               <div class="episode-body">
-                <h3>Épisode 1 – Les Racines</h3>
-                <p>Ibrahim, Ismaël et la Kaaba : d’où vient cette Maison bénie ?</p>
+                <h3>Épisode 1 – Le Duel des Titans</h3>
+                <p>Byzance contre la Perse : deux géants s’affrontent pendant qu’Allah protège une terre au milieu… l’Arabie.</p>
               </div>
             </article>
 
             <!-- S1E2 -->
             <article
               class="episode-card"
-              onclick="openEpisodeModal('episode2')"
+              onclick="openEpisodeModal('s1e2')"
             >
-              <div class="episode-thumb thumb-2"></div>
+              <div
+                class="episode-thumb"
+                style="background-image: url('images/episodes/S1-E2.jpg');"
+              ></div>
               <div class="episode-body">
-                <h3>Épisode 2 – L’Année de l’Éléphant</h3>
-                <p>Abraha, Mahmoud l’éléphant et les oiseaux Abâbîl.</p>
+                <h3>Épisode 2 – Mission Désert et Ville</h3>
+                <p>Vie dure dans le désert, vie animée dans la ville : deux mondes pour préparer le cœur du futur Messager ﷺ.</p>
               </div>
             </article>
 
             <!-- S1E3 -->
             <article
               class="episode-card"
-              onclick="openEpisodeModal('episode3')"
+              onclick="openEpisodeModal('s1e3')"
             >
-              <div class="episode-thumb thumb-3"></div>
+              <div
+                class="episode-thumb"
+                style="background-image: url('images/episodes/S1-E3.jpg');"
+              ></div>
               <div class="episode-body">
-                <h3>Épisode 3 – Quraysh & les caravanes</h3>
-                <p>Les voyages de commerce et la sécurité autour de la Kaaba.</p>
+                <h3>Épisode 3 – Code IBN ou BINT</h3>
+                <p>Ton nom cache une histoire ! On remonte l’arbre généalogique du Prophète ﷺ jusqu’à Ismaïl.</p>
               </div>
             </article>
 
             <!-- S1E4 -->
             <article
               class="episode-card"
-              onclick="openEpisodeModal('episode4')"
+              onclick="openEpisodeModal('s1e4')"
             >
-              <div class="episode-thumb thumb-2"></div>
+              <div
+                class="episode-thumb"
+                style="background-image: url('images/episodes/S1-E4.jpg');"
+              ></div>
               <div class="episode-body">
-                <h3>Épisode 4 – Enfance du Prophète ﷺ</h3>
-                <p>Halîma, la campagne, l’orphelin protégé par Allah.</p>
+                <h3>Épisode 4 – 2 Voies</h3>
+                <p>À La Mecque, les chefs tribaux aiment le pouvoir et l’or… mais Allah prépare un Messager très différent.</p>
               </div>
             </article>
 
             <!-- S1E5 -->
             <article
               class="episode-card"
-              onclick="openEpisodeModal('episode5')"
+              onclick="openEpisodeModal('s1e5')"
             >
-              <div class="episode-thumb thumb-3"></div>
+              <div
+                class="episode-thumb"
+                style="background-image: url('images/episodes/S1-E5.jpg');"
+              ></div>
               <div class="episode-body">
-                <h3>Épisode 5 – Voyage en Syrie</h3>
-                <p>Un voyage lointain et un moine qui reconnaît des signes.</p>
+                <h3>Épisode 5 – La Mecque & les idoles</h3>
+                <p>La Kaaba d’Ibrâhîm est entourée de 360 statues. Comment en sont-ils arrivés là&nbsp;?</p>
               </div>
             </article>
 
             <!-- S1E6 -->
             <article
               class="episode-card"
-              onclick="openEpisodeModal('episode6')"
+              onclick="openEpisodeModal('s1e6')"
             >
-              <div class="episode-thumb thumb-1"></div>
+              <div
+                class="episode-thumb"
+                style="background-image: url('images/episodes/S1-E6.jpg');"
+              ></div>
               <div class="episode-body">
-                <h3>Épisode 6 – Mariage avec Khadîdja</h3>
-                <p>Une association dans le commerce qui devient un mariage béni.</p>
+                <h3>Épisode 6 – L’Attaque du Géant</h3>
+                <p>Un éléphant géant marche vers la Kaaba. Les oiseaux Abâbîl montrent qui protège vraiment cette Maison.</p>
               </div>
             </article>
 
             <!-- S1E7 -->
             <article
               class="episode-card"
-              onclick="openEpisodeModal('episode7')"
+              onclick="openEpisodeModal('s1e7')"
             >
-              <div class="episode-thumb thumb-2"></div>
+              <div
+                class="episode-thumb"
+                style="background-image: url('images/episodes/S1-E7.jpg');"
+              ></div>
               <div class="episode-body">
-                <h3>Épisode 7 – La grotte de Hirâ</h3>
-                <p>Une grotte, du silence, et un cœur qui se prépare.</p>
+                <h3>Épisode 7 – Orphelin</h3>
+                <p>Un enfant sans père ni mère, mais jamais abandonné par Allah : l’enfance du Prophète ﷺ chez Halîma.</p>
+              </div>
+            </article>
+
+            <!-- S1E8 -->
+            <article
+              class="episode-card"
+              onclick="openEpisodeModal('s1e8')"
+            >
+              <div
+                class="episode-thumb"
+                style="background-image: url('images/episodes/S1-E8.jpg');"
+              ></div>
+              <div class="episode-body">
+                <h3>Épisode 8 – Al-Amîn & Khadija</h3>
+                <p>Un berger honnête devient le mari de la femme la plus respectée de La Mecque : Khadija (raa).</p>
+              </div>
+            </article>
+
+            <!-- S1E9 -->
+            <article
+              class="episode-card"
+              onclick="openEpisodeModal('s1e9')"
+            >
+              <div
+                class="episode-thumb"
+                style="background-image: url('images/episodes/S1-E9.jpg');"
+              ></div>
+              <div class="episode-body">
+                <h3>Épisode 9 – Hira</h3>
+                <p>Dans le noir de la grotte de Hirâ, une voix puissante dit : « Lis ! »… et le monde ne sera plus jamais le même.</p>
               </div>
             </article>
           </div>
@@ -189,8 +239,6 @@
           </div>
 
           <div class="episodes-row">
-            <!-- Pour l’instant ces IDs utiliseront le texte par défaut de openEpisodeModal
-                 tant qu’on n’a pas complété tous les cas dans app.js -->
             <article
               class="episode-card"
               onclick="openEpisodeModal('s2e1')"
@@ -456,7 +504,7 @@
       </p>
 
       <div class="modal-actions">
-        <button class="primary-btn" onclick="openOchModal()">
+        <button class="primary-btn" onclick="openEpisodeOch()">
           Accéder aux cours
         </button>
         <button class="primary-btn secondary-variant" onclick="closeEpisodeModal()">
@@ -519,7 +567,6 @@
       <div class="modal-och-header">
         <div class="och-header-left">
           <p class="och-kicker">Espace cours</p>
-          <!-- 🏠 Bouton déplacé à côté du titre -->
           <div class="och-title-row">
             <h2 class="och-title">Sira Coranique</h2>
             <button class="och-return-btn" type="button" onclick="closeOchModal()">
