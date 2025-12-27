@@ -354,7 +354,7 @@ body {
   background-position: center;
 }
 
-/* 👉 Vignettes : on associe 3 images réelles */
+/* 👉 Vignettes : on associe 3 images réelles (utilisées pour les saisons 2–4) */
 .thumb-1 {
   background-image: url("images/episodes/s1-e1.jpg");
 }
@@ -609,15 +609,26 @@ body.light-mode .hero-overlay {
   );
 }
 
-/* 👉 Garde le titre "Saison ..." bien lisible en blanc en mode jour */
+/* 👉 Bloc SAISON contrasté en mode jour pour éviter le "clair sur clair" */
+body.light-mode .seasons-section {
+  background: radial-gradient(circle at top, #020617 0%, #020617 70%, #020617 100%);
+  border-radius: 1.5rem;
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+
+/* Titres de saison bien lisibles en blanc */
 body.light-mode .section-header h2 {
   color: #f9fafb;
+}
+
+/* Texte descriptif de saison en gris clair sur ce fond sombre */
+body.light-mode .section-header p {
+  color: #e5e7eb;
 }
 
 body.light-mode .hero-text {
   color: #e5e7eb;
 }
-body.light-mode .section-header p,
 body.light-mode .episode-body p {
   color: #4b5563;
 }
@@ -658,6 +669,17 @@ body.dys-mode .app-subtitle {
 body.dys-mode .modal-text,
 body.dys-mode .episode-body p {
   font-size: 0.95rem;
+}
+
+/* 👉 Sur écrans larges, on réduit un peu la taille DYS (sans toucher au mobile) */
+@media (min-width: 768px) {
+  body.dys-mode .modal-text,
+  body.dys-mode .episode-body p,
+  body.dys-mode .section-header p,
+  body.dys-mode .app-subtitle,
+  body.dys-mode .hero-text {
+    font-size: 0.9rem;
+  }
 }
 
 /* Fin mode DYS */
