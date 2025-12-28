@@ -269,7 +269,6 @@ body {
   display: flex;
   align-items: flex-end;
   padding: 1.5rem 1.25rem;
-  /* Image réelle de Saison 1 */
   background-image: url("images/hero/hero-eveil-saison-1.jpg?v=2");
   background-size: cover;
   background-position: center;
@@ -303,9 +302,10 @@ body {
   margin-bottom: 0.5rem;
 }
 .hero-title {
-  font-size: 1.6rem;
+  font-size: 1.8rem;      /* 🔎 un peu plus grand */
   font-weight: 800;
   margin-bottom: 0.35rem;
+  color: #f9fafb;          /* 🔎 toujours blanc, même en mode jour */
 }
 .hero-text {
   font-size: 0.9rem;
@@ -496,6 +496,12 @@ body {
   font-size: 1rem;
   font-weight: 700;
 }
+
+/* 🔎 Toujours lisible dans le bandeau OCH (même en mode jour) */
+.modal-och-header .brand-title {
+  color: #e5e7eb;
+}
+
 .och-return-btn {
   border: 1px solid rgba(148, 163, 184, 0.6);
   background: rgba(15, 23, 42, 0.95);
@@ -542,6 +548,11 @@ body.light-mode .main-header {
 body.light-mode .brand-title {
   color: #0f172a;
 }
+/* 🔎 Mais dans la modale OCH on garde du clair */
+body.light-mode .modal-och-header .brand-title {
+  color: #e5e7eb;
+}
+
 body.light-mode .user-name {
   color: #111827;
 }
@@ -591,7 +602,7 @@ body.light-mode .profile-input-group input {
   border-color: #cbd5f5;
 }
 
-/* 👉 Rails de saisons en mode jour : fond clair, plus de bloc sombre */
+/* Rails de saisons en mode jour : fond clair, plus de bloc sombre */
 body.light-mode .seasons-section {
   background: transparent;
   border-radius: 0;
@@ -676,6 +687,6 @@ body.dys-mode .episode-body p {
     min-height: 280px;
     margin-top: 1.5rem;
   }
-  .hero-title { font-size: 2rem; }
+  .hero-title { font-size: 2.1rem; }
   .episodes-row { gap: 1rem; }
 }
