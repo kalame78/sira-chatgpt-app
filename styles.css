@@ -269,8 +269,8 @@ body {
   display: flex;
   align-items: flex-end;
   padding: 1.5rem 1.25rem;
-  /* 👉 nouvelle image réelle de Saison 1 */
-  background-image: url("images/hero/hero-eveil-saison-1.jpg");
+  /* 👉 nouvelle image réelle de Saison 1 + cache-busting */
+  background-image: url("images/hero/hero-eveil-saison-1.jpg?v=2");
   background-size: cover;
   background-position: center;
   border-radius: 1.5rem;
@@ -354,7 +354,7 @@ body {
   background-position: center;
 }
 
-/* 👉 Vignettes : on associe 3 images réelles (utilisées pour les saisons 2–4) */
+/* Vignettes */
 .thumb-1 {
   background-image: url("images/episodes/s1-e1.jpg");
 }
@@ -449,7 +449,7 @@ body {
   box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.6);
 }
 
-/* MODALE OCH PLEIN ÉCRAN (spécifique) */
+/* MODALE OCH PLEIN ÉCRAN */
 .modal-och-root {
   padding: 0;
   align-items: stretch;
@@ -486,15 +486,12 @@ body {
   letter-spacing: 0.18em;
   color: #facc15;
 }
-
-/* 👉 Ligne titre + bouton "Retour" côte à côte */
 .och-title-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
 }
-
 .och-title {
   font-size: 1rem;
   font-weight: 700;
@@ -599,7 +596,7 @@ body.light-mode .episode-card {
   box-shadow: 0 12px 30px rgba(148, 163, 184, 0.7);
 }
 
-/* 🔆 Overlay plus léger aussi en mode jour */
+/* Overlay plus léger aussi en mode jour */
 body.light-mode .hero-overlay {
   background: radial-gradient(
     circle at top,
@@ -609,7 +606,7 @@ body.light-mode .hero-overlay {
   );
 }
 
-/* 👉 Bloc SAISON contrasté en mode jour pour éviter le "clair sur clair" */
+/* Bloc SAISON contrasté en mode jour */
 body.light-mode .seasons-section {
   background: radial-gradient(circle at top, #020617 0%, #020617 70%, #020617 100%);
   border-radius: 1.5rem;
@@ -671,7 +668,7 @@ body.dys-mode .episode-body p {
   font-size: 0.95rem;
 }
 
-/* 👉 Sur écrans larges, on réduit un peu la taille DYS (sans toucher au mobile) */
+/* Sur écrans larges, on réduit un peu la taille DYS (sans toucher au mobile) */
 @media (min-width: 768px) {
   body.dys-mode .modal-text,
   body.dys-mode .episode-body p,
