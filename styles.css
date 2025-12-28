@@ -269,7 +269,7 @@ body {
   display: flex;
   align-items: flex-end;
   padding: 1.5rem 1.25rem;
-  /* 👉 nouvelle image réelle de Saison 1 + cache-busting */
+  /* Image réelle de Saison 1 */
   background-image: url("images/hero/hero-eveil-saison-1.jpg?v=2");
   background-size: cover;
   background-position: center;
@@ -278,7 +278,7 @@ body {
   overflow: hidden;
 }
 
-/* 🔆 HERO OVERLAY : plus léger pour mieux voir l'image */
+/* HERO OVERLAY */
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -354,7 +354,7 @@ body {
   background-position: center;
 }
 
-/* Vignettes */
+/* THUMBS EXEMPLE (saisons suivantes) */
 .thumb-1 {
   background-image: url("images/episodes/s1-e1.jpg");
 }
@@ -590,37 +590,27 @@ body.light-mode .profile-input-group input {
   color: #0f172a;
   border-color: #cbd5f5;
 }
+
+/* 👉 Rails de saisons en mode jour : fond clair, plus de bloc sombre */
+body.light-mode .seasons-section {
+  background: transparent;
+  border-radius: 0;
+  padding: 1.5rem 1.25rem 0;
+}
+
+/* Titres & textes de saison lisibles sur fond clair */
+body.light-mode .section-header h2 {
+  color: #0f172a;
+}
+body.light-mode .section-header p {
+  color: #4b5563;
+}
+
+/* Cartes d'épisodes : léger gris + ombre douce */
 body.light-mode .episode-card {
   background: #f9fafb;
-  border-color: #cbd5f5;
-  box-shadow: 0 12px 30px rgba(148, 163, 184, 0.7);
-}
-
-/* Overlay plus léger aussi en mode jour */
-body.light-mode .hero-overlay {
-  background: radial-gradient(
-    circle at top,
-    rgba(15, 23, 42, 0.18) 0%,
-    rgba(15, 23, 42, 0.55) 65%,
-    rgba(15, 23, 42, 0.7) 100%
-  );
-}
-
-/* Bloc SAISON contrasté en mode jour */
-body.light-mode .seasons-section {
-  background: radial-gradient(circle at top, #020617 0%, #020617 70%, #020617 100%);
-  border-radius: 1.5rem;
-  padding: 1.25rem 1.25rem 1.5rem;
-}
-
-/* Titres de saison bien lisibles en blanc */
-body.light-mode .section-header h2 {
-  color: #f9fafb;
-}
-
-/* Texte descriptif de saison en gris clair sur ce fond sombre */
-body.light-mode .section-header p {
-  color: #e5e7eb;
+  border-color: #e5e7eb;
+  box-shadow: 0 10px 22px rgba(148, 163, 184, 0.6);
 }
 
 body.light-mode .hero-text {
