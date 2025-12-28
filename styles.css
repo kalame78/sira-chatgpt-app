@@ -269,8 +269,8 @@ body {
   display: flex;
   align-items: flex-end;
   padding: 1.5rem 1.25rem;
-  /* 👉 Ton image réelle de Saison 1 */
-  background-image: url("images/hero/hero-saison1.jpg");
+  /* 👉 nouvelle image réelle de Saison 1 */
+  background-image: url("images/hero/hero-eveil-saison-1.jpg");
   background-size: cover;
   background-position: center;
   border-radius: 1.5rem;
